@@ -1,10 +1,10 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.2-beta",
   "description": "An easy to use react component for the Web Speech API.",
-  "main": "react-text-to-speech.js",
+  "main": "./build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,16 @@
     "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
   },
   "homepage": "https://github.com/SahilAggarwal2004/react-text-to-speech#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.3.0",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

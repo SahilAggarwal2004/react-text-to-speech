@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react'
 
-export default function Speech({ id, text, style, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button> }) {
+export default function Speech({ id, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button> }) {
     const [speechIcon, setSpeechIcon] = useState(startBtn)
     const [speechId, setSpeechId] = useState()
 
