@@ -1,0 +1,29 @@
+{
+  "name": "react-text-to-speech",
+  "version": "0.1.0-beta.0",
+  "description": "An easy to use react component for the Web Speech API.",
+  "main": "react-text-to-speech.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SahilAggarwal2004/react-text-to-speech.git"
+  },
+  "keywords": [
+    "react",
+    "speech",
+    "component",
+    "webspeechapi"
+  ],
+  "author": "Sahil Aggarwal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
+  },
+  "homepage": "https://github.com/SahilAggarwal2004/react-text-to-speech#readme",
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
