@@ -11,7 +11,9 @@ function Speech({ id, text, style = {}, startBtn = <button>Start Speech</button>
     function newSpeech(clickId: any) {
         setSpeechId(clickId)
         setSpeechIcon(stopBtn)
-        const utterance = new SpeechSynthesisUtterance(text.replace(/\s/g, ' '))
+        // below is the method to speak:
+        // speechSynthesis.speak(new SpeechSynthesisUtterance(text to be spoken))
+        const utterance = new SpeechSynthesisUtterance(text?.replace(/\s/g, ' '))
         speechSynthesis.speak(utterance)
         utterance.onend = () => {
             setSpeechId(null)
@@ -20,7 +22,8 @@ function Speech({ id, text, style = {}, startBtn = <button>Start Speech</button>
     }
 
     function speech(clickId: any) {
-        const speaking = speechSynthesis.speaking;
+        // speechSynthesis is an API which enables to convert text into speech
+        const speaking = speechSynthesis.speaking; // speechSynthesis.speaking checks it speechSynthesis is speaking or not
         if (!speaking) return newSpeech(clickId)
         speechSynthesis.cancel()
         if (speechId !== clickId) return newSpeech(clickId)
