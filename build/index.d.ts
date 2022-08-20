@@ -1,7 +1,8 @@
 import { CSSProperties } from 'react';
+declare type Id = string | number | null;
 declare type Button = JSX.Element | string;
 declare type Props = {
-    id?: any;
+    id?: Id;
     text: string;
     style?: CSSProperties;
     startBtn?: Button;

@@ -17,13 +17,13 @@ To install react-text-to-speech
 
 ```bash
   npm install react-text-to-speech --save
-  OR
+  # or
   yarn add react-text-to-speech
 ```
 
 ## Usage
 
-<small>When you use the `<Speech>` component of `react-text-to-speech`, initially your user will see the `startBtn` and when the user clicks on it, the speech instance will start and the user will be able to see the `stopBtn` which will stop the speech instance if the user click on it.</small>
+When you use the `<Speech>` component of `react-text-to-speech`, initially your user will see the `startBtn` and when the user clicks on it, the speech instance will start and the user will be able to see the `stopBtn` which will stop the speech instance if the user click on it.
 
 #### Basic Usage
 ```javascript
@@ -37,9 +37,9 @@ function App() {
 
 #### Advanced Usage
 
-<small>This is the use case where `react-text-to-speech` outshines the other text-to-speech libraries.
+This is the use case where `react-text-to-speech` outshines the other text-to-speech libraries.
 
-Let's assume that you fetch news from any News API and the API returns 3 news in response as shown below. Now if the user clicks on `startBtn` of #1 news (assuming # as id) and then after some time, clicks on `startBtn` on #2 news before the speech instance of #1 news ends, then `react-text-to-speech` will not just stop the #1 news speech instance and start the #2 news speech instance, but will also convert the `stopBtn` of #1 news to `startBtn`, thus avoiding any error.</small>
+Let's assume that you fetch news from any News API and the API returns 3 news in response as shown below. Now if the user clicks on `startBtn` of #1 news (assuming # as id) and then after some time, clicks on `startBtn` on #2 news before the speech instance of #1 news ends, then `react-text-to-speech` will not just stop the #1 news speech instance and start the #2 news speech instance, but will also convert the `stopBtn` of #1 news to `startBtn`, thus avoiding any error.
 
 ```javascript
 import React from 'react'
@@ -75,9 +75,9 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 
 | Parameter  | Type                  | Required | Default                         | Description                                                                                                                                                                                                                                  |
 | -          | -                     | -        | -                               | -                                                                                                                                                                                                                                            |
-| `id`       | `string`              | No       | `null`                          | Required when there are multiple speech instances. When a speech instance is started, the already running speech instance will stop and the speech button will automatically be changed to the `startBtn` based on the `id` of the instance. |
+| `id`       | `string`              | No       | null                          | Required when there are multiple speech instances. When a speech instance is started, the already running speech instance will stop and the speech button will automatically be changed to the `startBtn` based on the `id` of the instance. |
 | `text`     | `string`              | Yes      | -                               | It contains the text to be spoken when `startBtn` is clicked.                                                                                                                                                                                |
-| `style`    | `React.CSSProperties` | No       | `{}`                            | The style attribute of `JSX.Element`.                                                                                                                                                                                                        |
+| `style`    | `React.CSSProperties` | No       | {}                              | The style attribute of `JSX.Element`.                                                                                                                                                                                                        |
 | `startBtn` | `JSX.Element`         | No       | `<button>Start Speech</button>` | Button to start the speech instance.                                                                                                                                                                                                         |
 | `stopBtn`  | `JSX.Element`         | No       | `<button>Stop Speech</button>`  | Button to stop the speech instance.                                                                                                                                                                                                          |
 

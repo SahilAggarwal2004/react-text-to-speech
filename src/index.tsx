@@ -1,15 +1,17 @@
 import React, { CSSProperties, useState } from 'react'
 
+type Id = string | number | null
+
 type Button = JSX.Element | string
 
-type Props = { id?: any, text: string, style?: CSSProperties, startBtn?: Button, stopBtn?: Button }
+type Props = { id?: Id, text: string, style?: CSSProperties, startBtn?: Button, stopBtn?: Button }
 
-function Speech({ id, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button > }: Props): JSX.Element {
+function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button > }: Props): JSX.Element {
     const [speechIcon, setSpeechIcon] = useState<Button>(startBtn)
-    const [speechId, setSpeechId] = useState<any>(null)
+    const [speechId, setSpeechId] = useState<Id>(null)
 
-    function newSpeech(clickId: any) {
-        setSpeechId(clickId)
+    function newSpeech() {
+        setSpeechId(id)
         setSpeechIcon(stopBtn)
         // below is the method to speak:
         // speechSynthesis.speak(new SpeechSynthesisUtterance(text to be spoken))
@@ -21,17 +23,17 @@ function Speech({ id, text, style = {}, startBtn = <button>Start Speech</button>
         }
     }
 
-    function speech(clickId: any) {
+    function speech() {
         // speechSynthesis is an API which enables to convert text into speech
         const speaking = speechSynthesis.speaking; // speechSynthesis.speaking checks it speechSynthesis is speaking or not
-        if (!speaking) return newSpeech(clickId)
+        if (!speaking) return newSpeech()
         speechSynthesis.cancel()
-        if (speechId !== clickId) return newSpeech(clickId)
+        if (speechId !== id) return newSpeech()
         setSpeechId(null)
         setSpeechIcon(startBtn)
     }
 
-    return <span role='button' style={style} onClick={() => speech(id)}>{speechIcon}</span>
+    return <span role='button' style={style} onClick={speech}>{speechIcon}</span>
 }
 
 export default Speech
