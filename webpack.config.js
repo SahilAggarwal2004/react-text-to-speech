@@ -9,13 +9,7 @@ module.exports = {
         libraryTarget: "commonjs2"
     },
     module: {
-        rules: [
-            { test: /\.tsx?$/, exclude: /node_modules/, loader: "ts-loader" },
-            // {
-            //     test: /\.css$/,
-            //     loader: "style-loader!css-loader"
-            // }
-        ]
+        rules: [{ test: /\.tsx?$/, exclude: /node_modules/, loader: "ts-loader" }]
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],

@@ -1,12 +1,12 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.1.5-beta",
+  "version": "0.1.6-beta",
   "description": "An easy to use react component for the Web Speech API.",
   "main": "./build/index.js",
   "scripts": {
-    "ts": "tsc --declaration",
+    "tsc": "tsc",
     "webpack": "webpack",
-    "build": "npm run ts && npm run webpack"
+    "build": "npm run tsc && npm run webpack"
   },
   "repository": {
     "type": "git",
