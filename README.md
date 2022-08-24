@@ -16,8 +16,10 @@ It is as easy as to import a React component!
 To install react-text-to-speech
 
 ```bash
+  # with npm:
   npm install react-text-to-speech --save
-  # or
+
+  # with yarn:
   yarn add react-text-to-speech
 ```
 
