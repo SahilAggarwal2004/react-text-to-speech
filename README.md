@@ -9,6 +9,7 @@ It is as easy as to import a React component!
 - Text-to-speech
 - Easy to use
 - Handles multiple speech instances easily. See [Advanced Usage](#Advanced-Usage)
+- Stops speech instance on page reload.
 
 
 ## Installation

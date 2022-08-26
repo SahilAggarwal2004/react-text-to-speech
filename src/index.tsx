@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 
 /** @defaultValue null */
 type Id = string | number | null
@@ -42,6 +42,8 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         setSpeechId(null)
         setSpeechIcon(startBtn)
     }
+
+    useEffect(() => { speechSynthesis.cancel() }, [])
 
     return <span role='button' style={style} onClick={speech}>{speechIcon}</span>
 }
