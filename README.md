@@ -67,10 +67,6 @@ function App() {
     </>
 }
 ```
-## Demo
-
-https://github.com/SahilAggarwal2004/cloudnotes/blob/master/src/components/NoteItem.js
-
 
 ## Speech Component API Reference
 
