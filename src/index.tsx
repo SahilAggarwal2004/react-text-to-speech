@@ -26,21 +26,24 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         utterance.pitch = pitch / 5
         utterance.rate = rate / 5
         utterance.volume = volume / 10
-        speechSynthesis.speak(utterance)
-        utterance.onend = () => {
-            setSpeechId(null)
-            setSpeechIcon(startBtn)
+        utterance.onpause = () => {
+            setSpeechId(null);
+            setSpeechIcon(startBtn);
         }
+        speechSynthesis.speak(utterance);
     }
 
     function speech() {
         // speechSynthesis is an API which enables to convert text into speech
         const speaking = speechSynthesis.speaking; // speechSynthesis.speaking checks it speechSynthesis is speaking or not
         if (!speaking) return newSpeech()
-        speechSynthesis.cancel()
-        if (speechId !== id) return newSpeech()
-        setSpeechId(null)
-        setSpeechIcon(startBtn)
+        speechSynthesis.pause();
+        setTimeout(() => {
+            speechSynthesis.cancel();
+            if (speechId !== id) return newSpeech();
+            setSpeechId(null);
+            setSpeechIcon(startBtn);
+        }, 1);
     }
 
     useEffect(() => { speechSynthesis.cancel() }, [])

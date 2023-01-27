@@ -9,21 +9,24 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
         utterance.pitch = pitch / 5;
         utterance.rate = rate / 5;
         utterance.volume = volume / 10;
-        speechSynthesis.speak(utterance);
-        utterance.onend = () => {
+        utterance.onpause = () => {
             setSpeechId(null);
             setSpeechIcon(startBtn);
         };
+        speechSynthesis.speak(utterance);
     }
     function speech() {
         const speaking = speechSynthesis.speaking;
         if (!speaking)
             return newSpeech();
-        speechSynthesis.cancel();
-        if (speechId !== id)
-            return newSpeech();
-        setSpeechId(null);
-        setSpeechIcon(startBtn);
+        speechSynthesis.pause();
+        setTimeout(() => {
+            speechSynthesis.cancel();
+            if (speechId !== id)
+                return newSpeech();
+            setSpeechId(null);
+            setSpeechIcon(startBtn);
+        }, 1);
     }
     useEffect(() => { speechSynthesis.cancel(); }, []);
     return React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
