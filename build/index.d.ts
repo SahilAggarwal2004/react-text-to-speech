@@ -1,9 +1,9 @@
 import { CSSProperties } from 'react';
-declare type Id = string | number | null;
-declare type Button = JSX.Element | string;
-declare type Number = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-declare type Volume = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-declare type Props = {
+type Id = string | number | null;
+type Button = JSX.Element | string;
+type Number = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type Volume = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type Props = {
     id: Id;
     text: string;
     style: CSSProperties;

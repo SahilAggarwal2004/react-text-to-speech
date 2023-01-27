@@ -3,9 +3,6 @@
     "target": "ES6",
     "module": "ES2022",
     "declaration": true,
-    "types": [
-      "node"
-    ],
     "noUnusedLocals": true,
     "removeComments": true,
     "esModuleInterop": true,
