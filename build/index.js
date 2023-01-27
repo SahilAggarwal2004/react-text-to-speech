@@ -28,7 +28,7 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
             setSpeechIcon(startBtn);
         }, 1);
     }
-    useEffect(() => { speechSynthesis.cancel(); }, []);
+    useEffect(() => speechSynthesis.cancel(), []);
     return React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
 }
 export default Speech;

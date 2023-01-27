@@ -46,7 +46,7 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         }, 1);
     }
 
-    useEffect(() => { speechSynthesis.cancel() }, [])
+    useEffect(() => speechSynthesis.cancel(), [])
 
     return <span role='button' style={style} onClick={speech}>{speechIcon}</span>
 }
