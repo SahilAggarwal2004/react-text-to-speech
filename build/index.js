@@ -5,7 +5,7 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
     function newSpeech() {
         setSpeechId(id);
         setSpeechIcon(stopBtn);
-        const utterance = new SpeechSynthesisUtterance(text === null || text === void 0 ? void 0 : text.replace(/\s/g, ' '));
+        const utterance = new window.SpeechSynthesisUtterance(text === null || text === void 0 ? void 0 : text.replace(/\s/g, ' '));
         utterance.pitch = pitch / 5;
         utterance.rate = rate / 5;
         utterance.volume = volume / 10;
@@ -13,22 +13,24 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
             setSpeechId(null);
             setSpeechIcon(startBtn);
         };
-        speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(utterance);
     }
     function speech() {
-        const speaking = speechSynthesis.speaking;
+        if (!window.speechSynthesis)
+            return alert('Browser not supported! Try some other browser');
+        const speaking = window.speechSynthesis.speaking;
         if (!speaking)
             return newSpeech();
-        speechSynthesis.pause();
+        window.speechSynthesis.pause();
         setTimeout(() => {
-            speechSynthesis.cancel();
+            window.speechSynthesis.cancel();
             if (speechId !== id)
                 return newSpeech();
             setSpeechId(null);
             setSpeechIcon(startBtn);
-        }, 1);
+        }, 100);
     }
-    useEffect(() => () => speechSynthesis === null || speechSynthesis === void 0 ? void 0 : speechSynthesis.cancel(), []);
-    return speechSynthesis && React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
+    useEffect(() => () => { var _a; return (_a = window.speechSynthesis) === null || _a === void 0 ? void 0 : _a.cancel(); }, []);
+    return React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
 }
 export default Speech;
