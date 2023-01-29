@@ -44,7 +44,7 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
             if (speechId !== id) return newSpeech();
             setSpeechId(null);
             setSpeechIcon(startBtn);
-        }, 100);
+        }, 1);
     }
 
     useEffect(() => () => window.speechSynthesis?.cancel(), [])
