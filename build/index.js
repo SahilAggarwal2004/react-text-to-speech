@@ -26,9 +26,9 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
                 return newSpeech();
             setSpeechId(null);
             setSpeechIcon(startBtn);
-        }, 50);
+        }, 1);
     }
-    useEffect(() => speechSynthesis === null || speechSynthesis === void 0 ? void 0 : speechSynthesis.cancel, []);
+    useEffect(() => () => speechSynthesis === null || speechSynthesis === void 0 ? void 0 : speechSynthesis.cancel(), []);
     return speechSynthesis && React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
 }
 export default Speech;
