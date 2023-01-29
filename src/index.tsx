@@ -21,8 +21,8 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         setSpeechId(id)
         setSpeechIcon(stopBtn)
         // below is the method to speak:
-        // speechSynthesis.speak(new SpeechSynthesisUtterance(text to be spoken))
-        const utterance = new SpeechSynthesisUtterance(text?.replace(/\s/g, ' '))
+        // window.speechSynthesis.speak(new window.speechSynthesisUtterance(text to be spoken))
+        const utterance = new window.SpeechSynthesisUtterance(text?.replace(/\s/g, ' '))
         utterance.pitch = pitch / 5
         utterance.rate = rate / 5
         utterance.volume = volume / 10
@@ -30,25 +30,26 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
             setSpeechId(null);
             setSpeechIcon(startBtn);
         }
-        speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(utterance);
     }
 
     function speech() {
-        // speechSynthesis is an API which enables to convert text into speech
-        const speaking = speechSynthesis.speaking; // speechSynthesis.speaking checks it speechSynthesis is speaking or not
+        if (!window.speechSynthesis) return alert('Browser not supported! Try some other browser')
+        // window.speechSynthesis is an API which enables to convert text into speech
+        const speaking = window.speechSynthesis.speaking; // window.speechSynthesis.speaking checks it window.speechSynthesis is speaking or not
         if (!speaking) return newSpeech()
-        speechSynthesis.pause();
+        window.speechSynthesis.pause();
         setTimeout(() => {
-            speechSynthesis.cancel();
+            window.speechSynthesis.cancel();
             if (speechId !== id) return newSpeech();
             setSpeechId(null);
             setSpeechIcon(startBtn);
-        }, 1);
+        }, 100);
     }
 
-    useEffect(() => () => speechSynthesis?.cancel(), [])
+    useEffect(() => () => window.speechSynthesis?.cancel(), [])
 
-    return speechSynthesis && <span role='button' style={style} onClick={speech}>{speechIcon}</span>
+    return <span role='button' style={style} onClick={speech}>{speechIcon}</span>
 }
 
 export default Speech
