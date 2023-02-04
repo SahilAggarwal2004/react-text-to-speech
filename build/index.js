@@ -30,7 +30,7 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
             setSpeechIcon(startBtn);
         }, 1);
     }
-    useEffect(() => () => { var _a; return (_a = window.speechSynthesis) === null || _a === void 0 ? void 0 : _a.cancel(); }, []);
+    useEffect(() => { var _a; (_a = window.speechSynthesis) === null || _a === void 0 ? void 0 : _a.cancel(); }, []);
     return React.createElement("span", { role: 'button', style: style, onClick: speech }, speechIcon);
 }
 export default Speech;
