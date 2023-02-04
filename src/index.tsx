@@ -17,6 +17,11 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
     const [speechIcon, setSpeechIcon] = useState<Button>(startBtn)
     const [speechId, setSpeechId] = useState<Id>(null)
 
+    function reset() {
+        setSpeechId(null)
+        setSpeechIcon(startBtn)
+    }
+
     function newSpeech() {
         setSpeechId(id)
         setSpeechIcon(stopBtn)
@@ -26,25 +31,17 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         utterance.pitch = pitch / 5
         utterance.rate = rate / 5
         utterance.volume = volume / 10
-        utterance.onpause = () => {
-            setSpeechId(null);
-            setSpeechIcon(startBtn);
-        }
+        utterance.onend = reset;
+        utterance.onerror = reset;
         window.speechSynthesis.speak(utterance);
     }
 
     function speech() {
         if (!window.speechSynthesis) return alert('Browser not supported! Try some other browser')
         // window.speechSynthesis is an API which enables to convert text into speech
-        const speaking = window.speechSynthesis.speaking; // window.speechSynthesis.speaking checks it window.speechSynthesis is speaking or not
-        if (!speaking) return newSpeech()
-        window.speechSynthesis.pause();
-        setTimeout(() => {
-            window.speechSynthesis.cancel();
-            if (speechId !== id) return newSpeech();
-            setSpeechId(null);
-            setSpeechIcon(startBtn);
-        }, 1);
+        if (!window.speechSynthesis.speaking) return newSpeech() // window.speechSynthesis.speaking checks it window.speechSynthesis is speaking or not
+        window.speechSynthesis.cancel();
+        speechId === id ? reset() : newSpeech()
     }
 
     useEffect(() => { window.speechSynthesis?.cancel() }, [])
