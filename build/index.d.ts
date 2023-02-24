@@ -12,6 +12,7 @@ type Props = {
     pitch: Number;
     rate: Number;
     volume: Volume;
+    lang: string;
 };
-declare function Speech({ id, text, style, startBtn, stopBtn, pitch, rate, volume }: Props): JSX.Element;
+declare function Speech({ id, text, style, startBtn, stopBtn, pitch, rate, volume, lang }: Props): JSX.Element;
 export default Speech;

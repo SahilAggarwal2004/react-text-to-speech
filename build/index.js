@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-function Speech({ id = null, text, style = {}, startBtn = React.createElement("button", null, "Start Speech"), stopBtn = React.createElement("button", null, "Stop Speech"), pitch = 5, rate = 5, volume = 10 }) {
+function Speech({ id = null, text, style = {}, startBtn = React.createElement("button", null, "Start Speech"), stopBtn = React.createElement("button", null, "Stop Speech"), pitch = 5, rate = 5, volume = 10, lang = '' }) {
     const [speechIcon, setSpeechIcon] = useState(startBtn);
     const [speechId, setSpeechId] = useState(null);
     function reset() {
@@ -13,6 +13,7 @@ function Speech({ id = null, text, style = {}, startBtn = React.createElement("b
         utterance.pitch = pitch / 5;
         utterance.rate = rate / 5;
         utterance.volume = volume / 10;
+        utterance.lang = lang;
         utterance.onend = reset;
         utterance.onerror = reset;
         window.speechSynthesis.speak(utterance);

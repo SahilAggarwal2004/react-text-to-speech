@@ -58,14 +58,15 @@ function App() {
 Here is the full API for the `<Speech>` component, these properties can be set on an instance of Speech:
 | Parameter | Type | Required | Default | Description |
 | - | - | - | - | - |
-| `id` | `string \| number` | No | null | Required when there are multiple speech instances. When a speech instance is started, the already running speech instance will stop and the speech button will automatically be changed to the `startBtn` based on the `id` of the instance. |
-| `text` | `string` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
+| `id` | `String \| Number` | No | null | Required when there are multiple speech instances. When a speech instance is started, the already running speech instance will stop and the speech button will automatically be changed to the `startBtn` based on the `id` of the instance. |
+| `text` | `String` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
 | `style` | `React.CSSProperties` | No | {} | The style attribute of `JSX.Element`. |
 | `startBtn` | `JSX.Element \| string` | No | `<button>Start Speech</button>` | Button to start the speech instance. |
 | `stopBtn` | `JSX.Element \| string` | No | `<button>Stop Speech</button>` | Button to stop the speech instance. |
-| `pitch` | `Number (0 to 10)` | No | 5 | The pitch at which the utterance will be spoken at. |
-| `rate` | `Number (0 to 10)` | No | 5 | The speed at which the utterance will be spoken at. |
-| `volume` | `Number (0 to 10)` | No | 10 | The volume at which the utterance will be spoken at. |
+| `pitch` | `Number (0 to 10)` | No | 5 | The pitch at which the utterance will be spoken. |
+| `rate` | `Number (0 to 10)` | No | 5 | The speed at which the utterance will be spoken. |
+| `volume` | `Number (0 to 10)` | No | 10 | The volume at which the utterance will be spoken. |
+| `lang` | `String` | No | - | The language in which the utterance will be spoken. |
 
 ## Used By
 - [NewsDose](https://newsdoseweb.netlify.app/)

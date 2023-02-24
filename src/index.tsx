@@ -11,9 +11,9 @@ type Number = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 /** @defaultValue 10 */
 type Volume = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
-type Props = { id: Id, text: string, style: CSSProperties, startBtn: Button, stopBtn: Button, pitch: Number, rate: Number, volume: Volume }
+type Props = { id: Id, text: string, style: CSSProperties, startBtn: Button, stopBtn: Button, pitch: Number, rate: Number, volume: Volume, lang: string }
 
-function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button >, pitch = 5, rate = 5, volume = 10 }: Props): JSX.Element {
+function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button >, pitch = 5, rate = 5, volume = 10, lang = '' }: Props): JSX.Element {
     const [speechIcon, setSpeechIcon] = useState<Button>(startBtn)
     const [speechId, setSpeechId] = useState<Id>(null)
 
@@ -31,6 +31,7 @@ function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</
         utterance.pitch = pitch / 5
         utterance.rate = rate / 5
         utterance.volume = volume / 10
+        utterance.lang = lang
         utterance.onend = reset;
         utterance.onerror = reset;
         window.speechSynthesis.speak(utterance);
