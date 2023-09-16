@@ -15,11 +15,17 @@ To install react-text-to-speech
 
   # with yarn:
   yarn add react-text-to-speech
+
+  # with pnpm:
+  pnpm add react-text-to-speech
+
+  # with bun:
+  bun add react-text-to-speech
 ```
 ## Usage
-When you use the `<Speech>` component of `react-text-to-speech`, initially your user will see the `startBtn` and when the user clicks on it, the speech instance will start and the user will be able to see the `stopBtn` which will stop the speech instance if the user click on it.
+When you use the `<Speech>` component of `react-text-to-speech`, initially the user will see the `startBtn` and when the user clicks on it, the speech instance will start and the user will be able to see the `stopBtn` which will stop the speech instance if the user click on it.
 #### Basic Usage
-```javascript
+```jsx
 import React from 'react'
 import Speech from 'react-text-to-speech'
 
@@ -31,7 +37,7 @@ function App() {
 This is the use case where `react-text-to-speech` outshines the other text-to-speech libraries.
 
 Let's assume that you fetch news from any News API and the API returns 3 news in response as shown below. Now if the user clicks on `startBtn` of #1 news (assuming # as id) and then after some time, clicks on `startBtn` on #2 news before the speech instance of #1 news ends, then `react-text-to-speech` will not just stop the #1 news speech instance and start the #2 news speech instance, but will also convert the `stopBtn` of #1 news to `startBtn`, thus avoiding any error.
-```javascript
+```jsx
 import React from 'react'
 import Speech from 'react-text-to-speech'
 

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "ES2022",
+    "module": "ESNext",
     "declaration": true,
     "noUnusedLocals": true,
     "removeComments": true,
