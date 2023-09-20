@@ -1,19 +1,29 @@
 import React, { CSSProperties, useEffect, useState } from 'react'
 
 /** @defaultValue null */
-type Id = string | number | null
+export type Id = string | number | null
 
-type Button = JSX.Element | string
+export type Button = JSX.Element | string
 
 /** @defaultValue 5 */
-type Number = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+export type Number = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 /** @defaultValue 10 */
-type Volume = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+export type Volume = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
-type Props = { id: Id, text: string, style: CSSProperties, startBtn: Button, stopBtn: Button, pitch: Number, rate: Number, volume: Volume, lang: string }
+export interface SpeechProps {
+    id: Id
+    text: string
+    style: CSSProperties
+    startBtn: Button
+    stopBtn: Button
+    pitch: Number
+    rate: Number
+    volume: Volume
+    lang: string
+}
 
-function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button>, pitch = 5, rate = 5, volume = 10, lang = '' }: Props): JSX.Element {
+function Speech({ id = null, text, style = {}, startBtn = <button>Start Speech</button>, stopBtn = <button>Stop Speech</button>, pitch = 5, rate = 5, volume = 10, lang = '' }: SpeechProps): JSX.Element {
     const [speechIcon, setSpeechIcon] = useState<Button>(startBtn)
     const [speechId, setSpeechId] = useState<Id>(null)
 
