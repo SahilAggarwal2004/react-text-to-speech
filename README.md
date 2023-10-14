@@ -6,8 +6,8 @@ It is as easy as to import a React component!
 - Text-to-speech
 - Easy to use
 - Stops speech instance on page reload.
-- Handles multiple speech instances easily. See [Advanced Usage](#Advanced-Usage)
-- Fully Customizable. See [usage with FoC](#Full-Customization)
+- Handles multiple speech instances easily. See [Advanced Usage](#advanced-usage)
+- Fully Customizable. See [usage with FoC](#full-customization)
 ## Installation
 To install react-text-to-speech
 ```bash
@@ -116,12 +116,12 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `rate` | `Number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
 | `volume` | `Number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
 | `lang` | `String` | No | - | The language in which the utterance will be spoken. |
-| `startBtn` | [`Button`](#Button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
-| `pauseBtn` | [`Button`](#Button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
-| `stopBtn` | [`Button`](#Button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
+| `startBtn` | [`Button`](#button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
+| `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
+| `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API` |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
-| `children` | [`Children`](#Children) | No | - | See [usage with FoC](#Full-Customization) |
+| `children` | [`Children`](#children) | No | - | See [usage with FoC](#full-customization) |
 ### Types
 #### Button
 ```typescript
