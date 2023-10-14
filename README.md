@@ -51,10 +51,10 @@ function App() {
     ]
 
     return <>
-        {news.map(({ id, title, desc }) => <div>
+        {news.map(({ id, title, desc }) => <div key={id}>
             <h4>{title}</h4>
             <div>{desc}</div>
-            <Speech key={id} text={`${title}. ${desc}`} />
+            <Speech text={`${title}. ${desc}`} />
         </div>)}
     </>
 }

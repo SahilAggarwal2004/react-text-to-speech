@@ -62,6 +62,7 @@ function Speech({
     }
 
     function stop(manual?: boolean) {
+        if (speechStatus === 'stopped') return
         setSpeechStatus('stopped')
         if (manual) window.speechSynthesis?.cancel();
     }
