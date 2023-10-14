@@ -11,7 +11,7 @@
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react",
-    "rootDir": "./src",
-    "outDir": "./build"
+    "rootDir": "src",
+    "outDir": "dist"
   }
 }
