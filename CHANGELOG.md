@@ -1,4 +1,6 @@
-# 0.5.1 (14-10-2023)
+# 0.5.2 (14-10-2023)
+- **fixed:** sync issues when using multiple `<Speech>` instances. See [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
+## 0.5.1 (14-10-2023)
 - **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
 ## 0.5.0 (14-10-2023)
 - **added:** `pauseBtn` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)

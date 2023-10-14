@@ -40,31 +40,27 @@ function Speech({
 }: SpeechProps) {
     const [speechStatus, setSpeechStatus] = useState<SpeechStatus>('stopped')
 
-    function pause() {
-        setSpeechStatus('paused')
-        window.speechSynthesis?.pause()
-    }
+    const stop = () => speechStatus !== 'stopped' && window.speechSynthesis?.cancel()
 
     function start() {
         const synth = window.speechSynthesis
         if (!synth) return onError()
         setSpeechStatus('started')
-        if (synth.paused) return synth.resume()
+        if (speechStatus === 'paused') return synth.resume()
         if (synth.speaking) synth.cancel()
         const utterance = new window.SpeechSynthesisUtterance(text?.replace(/\s/g, ' '))
         utterance.pitch = pitch
         utterance.rate = rate
         utterance.volume = volume
         utterance.lang = lang
-        utterance.onend = () => stop();
-        utterance.onerror = () => stop();
+        utterance.onend = () => setSpeechStatus('stopped');
+        utterance.onerror = () => setSpeechStatus('stopped');
         synth.speak(utterance);
     }
 
-    function stop(manual?: boolean) {
-        if (speechStatus === 'stopped') return
-        setSpeechStatus('stopped')
-        if (manual) window.speechSynthesis?.cancel();
+    function pause() {
+        setSpeechStatus('paused')
+        window.speechSynthesis?.pause()
     }
 
     function speech() {
@@ -76,7 +72,7 @@ function Speech({
 
     return typeof children === 'function' ? children({ speechStatus, start, pause, stop }) : <div style={{ display: 'flex', columnGap: '1rem' }} {...props}>
         <span role='button' onClick={speech}>{speechStatus === 'started' ? pauseBtn : startBtn}</span>
-        {stopBtn && <span role='button' onClick={() => stop(true)}>{stopBtn}</span>}
+        {stopBtn && <span role='button' onClick={stop}>{stopBtn}</span>}
     </div>
 }
 
