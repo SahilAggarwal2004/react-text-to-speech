@@ -119,7 +119,8 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `startBtn` | [`Button`](#button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
 | `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
 | `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
-| `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API` |
+| `useStopOverPause` | `Boolean` | No | `navigator.userAgentData.mobile` | Whether the controls should display `stopBtn` instead of `pauseBtn`. In Android devices, `SpeechSynthesis.pause()` behaves like `SpeechSynthesis.cancel()`. See [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause) |
+| `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
 | `children` | [`Children`](#children) | No | - | See [usage with FoC](#full-customization) |
 ### Types
@@ -133,9 +134,9 @@ import { ReactNode } from 'react';
 type SpeechStatus = 'started' | 'paused' | 'stopped'
 interface ChildrenOptions {
     speechStatus?: SpeechStatus
-    start?: () => void
-    pause?: () => void
-    stop?: () => void
+    start?: Function
+    pause?: Function
+    stop?: Function
 }
 type Children = (childrenOptions: ChildrenOptions) => ReactNode
 ```
