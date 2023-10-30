@@ -48,6 +48,7 @@ function Speech({
     function start() {
         const synth = window.speechSynthesis
         if (!synth) return onError()
+        setSpeechStatus('started')
         if (speechStatus === 'paused') return synth.resume()
         if (synth.speaking) synth.cancel()
         const utterance = new window.SpeechSynthesisUtterance(text?.replace(/\s/g, ' '))
@@ -55,19 +56,13 @@ function Speech({
         utterance.rate = rate
         utterance.volume = volume
         utterance.lang = lang
-        const setStarted = () => setSpeechStatus('started')
-        const setPaused = () => setSpeechStatus('paused')
         function setStopped() {
             setSpeechStatus('stopped')
-            utterance.onstart = null;
-            utterance.onresume = null;
             utterance.onpause = null;
             utterance.onend = null;
             utterance.onerror = null;
         }
-        utterance.onstart = setStarted;
-        utterance.onresume = setStarted;
-        utterance.onpause = setPaused;
+        utterance.onpause = () => setSpeechStatus('paused');
         utterance.onend = setStopped;
         utterance.onerror = setStopped;
         synth.speak(utterance);
