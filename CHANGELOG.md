@@ -1,4 +1,6 @@
-# 0.6.1 (30-10-2023)
+# 0.6.2 (31-10-2023)
+- **fixed:** a bug where speech won't start again if speech was paused just when it was about to end.
+## 0.6.1 (30-10-2023)
 - **fixed:** `speechStatus` reactivity when `startBtn` is clicked.
 ## 0.6.0 (30-10-2023)
 - **added:** `useStopOverPause` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
