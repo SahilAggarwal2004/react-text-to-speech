@@ -57,11 +57,11 @@ function Speech({
         utterance.volume = volume
         utterance.lang = lang
         function setStopped() {
+            setSpeechStatus('stopped')
             utterance.onpause = null;
             utterance.onend = null;
             utterance.onerror = null;
-            setSpeechStatus('stopped')
-            synth.cancel()
+            if (synth.paused) synth.cancel()
         }
         utterance.onpause = () => setSpeechStatus('paused');
         utterance.onend = setStopped;
