@@ -71,8 +71,8 @@ function Speech({
 
     function speech() {
         if (speechStatus !== 'started') start()
-        else if (useStop) stop()
-        else pause()
+        else if (useStop === false) pause()
+        else stop()
     }
 
     useEffect(() => {
@@ -81,10 +81,8 @@ function Speech({
     }, [])
 
     return typeof children === 'function' ? children({ speechStatus, start, pause, stop }) : <div style={{ display: 'flex', columnGap: '1rem' }} {...props}>
-        {useStop !== undefined && <>
-            <span role='button' onClick={speech}>{speechStatus !== 'started' ? startBtn : useStop ? stopBtn : pauseBtn}</span>
-            {!useStop && stopBtn && <span role='button' onClick={stop}>{stopBtn}</span>}
-        </>}
+        <span role='button' onClick={speech}>{speechStatus !== 'started' ? startBtn : useStop === false ? pauseBtn : stopBtn}</span>
+        {useStop === false && stopBtn && <span role='button' onClick={stop}>{stopBtn}</span>}
     </div>
 }
 

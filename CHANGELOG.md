@@ -1,4 +1,6 @@
-# 0.6.3 (31-10-2023)
+# 0.6.4 (13-11-2023)
+- **fixed:** button rendering method
+## 0.6.3 (31-10-2023)
 - **fixed:** a bug where speech won't start in multiple `<Speech>` instances occured due to patch in [`v0.6.2`](#0.6.2)
 ## 0.6.2 (31-10-2023)
 - **fixed:** a bug where speech won't start again if speech was paused just when it was about to end.
