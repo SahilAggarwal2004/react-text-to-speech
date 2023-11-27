@@ -7,7 +7,7 @@ It is as easy as to import a React component!
 - Easy to use
 - Stops speech instance on page reload.
 - Handles multiple speech instances easily. See [Advanced Usage](#advanced-usage)
-- Fully Customizable. See [usage with FoC](#full-customization)
+- Fully Customizable. See [usage with FaC](#full-customization)
 ## Installation
 To install react-text-to-speech
 ```bash
@@ -84,7 +84,7 @@ export default function App() {
 }
 ```
 #### Full Customization 
-Use Function as Children(FoC) to fully customize the `<Speech>` component.
+Use Function as Children(FaC) to fully customize the `<Speech>` component.
 ```jsx
 import React from 'react'
 import Speech from 'react-text-to-speech'
@@ -122,7 +122,7 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `useStopOverPause` | `Boolean` | No | `navigator.userAgentData.mobile` | Whether the controls should display `stopBtn` instead of `pauseBtn`. In Android devices, `SpeechSynthesis.pause()` behaves like `SpeechSynthesis.cancel()`. See [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause) |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
-| `children` | [`Children`](#children) | No | - | See [usage with FoC](#full-customization) |
+| `children` | [`Children`](#children) | No | - | See [usage with FaC](#full-customization) |
 ### Types
 #### Button
 ```typescript

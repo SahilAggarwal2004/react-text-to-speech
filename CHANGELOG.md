@@ -1,4 +1,6 @@
-# 0.6.4 (13-11-2023)
+# 0.6.5 (27-11-2023)
+- **fixed:** typo in docs
+## 0.6.4 (13-11-2023)
 - **fixed:** button rendering method
 ## 0.6.3 (31-10-2023)
 - **fixed:** a bug where speech won't start in multiple `<Speech>` instances occured due to patch in [`v0.6.2`](#0.6.2)
@@ -15,4 +17,4 @@
 - **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
 ## 0.5.0 (14-10-2023)
 - **added:** `pauseBtn` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
-- **added:** Full customization using FoC. See [usage with FoC](https://www.npmjs.com/package/react-text-to-speech#full-customization)
+- **added:** Full customization using FaC. See [usage with FaC](https://www.npmjs.com/package/react-text-to-speech#full-customization)
