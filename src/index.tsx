@@ -5,31 +5,13 @@ export type Button = JSX.Element | string | null
 
 export type SpeechStatus = 'started' | 'paused' | 'stopped'
 
-export interface ChildrenOptions {
-    speechStatus?: SpeechStatus
-    start?: Function
-    pause?: Function
-    stop?: Function
-}
+export type ChildrenOptions = { speechStatus?: SpeechStatus, start?: Function, pause?: Function, stop?: Function }
 
 export type Children = (childrenOptions: ChildrenOptions) => ReactNode
 
 export type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export interface SpeechProps {
-    text: string
-    pitch?: number
-    rate?: number
-    volume?: number
-    lang?: string
-    startBtn?: Button
-    pauseBtn?: Button
-    stopBtn?: Button
-    useStopOverPause?: boolean
-    onError?: Function
-    children?: Children
-    props?: Props
-}
+export type SpeechProps = { text: string, pitch?: number, rate?: number, volume?: number, lang?: string, startBtn?: Button, pauseBtn?: Button, stopBtn?: Button, useStopOverPause?: boolean, onError?: Function, children?: Children, props?: Props }
 
 export type { IconProps } from './icons.js'
 

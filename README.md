@@ -132,12 +132,7 @@ type Button = JSX.Element | string | null
 ```typescript
 import { ReactNode } from 'react';
 type SpeechStatus = 'started' | 'paused' | 'stopped'
-interface ChildrenOptions {
-    speechStatus?: SpeechStatus
-    start?: Function
-    pause?: Function
-    stop?: Function
-}
+type ChildrenOptions = { speechStatus?: SpeechStatus, start?: Function, pause?: Function, stop?: Function }
 type Children = (childrenOptions: ChildrenOptions) => ReactNode
 ```
 ## Author

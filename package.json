@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
@@ -16,11 +16,12 @@
     "react",
     "speech",
     "component",
-    "webspeechapi",
+    "webspeech-api",
     "text-to-speech",
     "tts",
     "react-text-to-speech",
-    "react-tts"
+    "react-tts",
+    "typescript"
   ],
   "author": "Sahil Aggarwal",
   "license": "MIT",
