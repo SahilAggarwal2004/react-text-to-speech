@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
@@ -34,6 +34,6 @@
     "react-dom": ">=16.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.38"
+    "@types/react": "^18.2.48"
   }
 }

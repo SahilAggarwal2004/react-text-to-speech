@@ -1,4 +1,6 @@
-# 0.6.5 (27-11-2023)
+# 0.6.6 (19-01-2023)
+- **improved:** default icons
+## 0.6.5 (27-11-2023)
 - **fixed:** typo in docs
 ## 0.6.4 (13-11-2023)
 - **fixed:** button rendering method
