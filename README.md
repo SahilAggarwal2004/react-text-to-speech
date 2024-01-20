@@ -30,7 +30,7 @@ When you use the `<Speech>` component of `react-text-to-speech`, initially the u
 import React from 'react'
 import Speech from 'react-text-to-speech'
 
-function App() {
+export default function App() {
     return <Speech text='This library is awesome!' />
 }
 ```
@@ -42,7 +42,7 @@ Let's assume that you fetch news from any News API and the API returns 3 news in
 import React from 'react'
 import Speech from 'react-text-to-speech'
 
-function App() {
+export default function App() {
     // 'news' holds response from some News API
     const news = [
         { id: '1', title: 'First random title', desc: 'First random description' },

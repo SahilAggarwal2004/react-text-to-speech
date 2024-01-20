@@ -15,7 +15,7 @@ export type SpeechProps = { text: string, pitch?: number, rate?: number, volume?
 
 export type { IconProps } from './icons.js'
 
-function Speech({
+export default function Speech({
     text, pitch = 1, rate = 1, volume = 1, lang = '',
     startBtn = <HiVolumeUp />, pauseBtn = <HiVolumeOff />, stopBtn = <HiMiniStop />, useStopOverPause,
     onError = () => alert('Browser not supported! Try some other browser.'),
@@ -67,5 +67,3 @@ function Speech({
         {useStop === false && stopBtn && <span role='button' onClick={stop}>{stopBtn}</span>}
     </div>
 }
-
-export default Speech

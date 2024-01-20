@@ -1,6 +1,6 @@
 node_modules
 src
-package-lock.json
-tsconfig.json
 .gitignore
 CHANGELOG.md
+pnpm-lock.yaml
+tsconfig.json
