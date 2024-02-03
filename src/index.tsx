@@ -31,7 +31,7 @@ export type SpeechProps = {
   rate?: number;
   volume?: number;
   lang?: string;
-  voice?: number;
+  voiceURI?: string;
   startBtn?: Button;
   pauseBtn?: Button;
   stopBtn?: Button;
@@ -48,7 +48,7 @@ export default function Speech({
   pitch = 1,
   rate = 1,
   volume = 1,
-  voice = 1,
+  voiceURI = "Microsoft Zira - English (United States)",
   lang = "",
   startBtn = <HiVolumeUp />,
   pauseBtn = <HiVolumeOff />,
@@ -79,7 +79,13 @@ export default function Speech({
     utterance.rate = rate;
     utterance.volume = volume;
     utterance.lang = lang;
-    utterance.voice = synth.getVoices()[voice];
+    const isVoicePresent = synth
+      .getVoices()
+      .find((voice) => voice.voiceURI === voiceURI);
+    const voice = isVoicePresent
+      ? synth.getVoices().find((voice) => voice.voiceURI === voiceURI)
+      : synth.getVoices()[0];
+    utterance.voice = voice ? voice : synth.getVoices()[0];
     function setStopped() {
       setSpeechStatus("stopped");
       utterance.onpause = null;

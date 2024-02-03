@@ -100,7 +100,7 @@ export default function App() {
       pitch={1.5}
       rate={2}
       volume={0.5}
-      voice={1}
+      voiceURI="Microsoft Heera - English (India)"
       startBtn={startBtn}
       pauseBtn={pauseBtn}
       stopBtn={stopBtn}
@@ -126,7 +126,7 @@ export default function App() {
       pitch={1.5}
       rate={2}
       volume={0.5}
-      voice={1}
+      voiceURI="Microsoft Heera - English (India)"
       onError={() => console.error("Browser not supported!")}
     >
       {({ speechStatus, start, pause, stop }) => (
@@ -160,7 +160,7 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `pitch` | `Number (0 to 2)` | No | 1 | The pitch at which the utterance will be spoken. |
 | `rate` | `Number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
 | `volume` | `Number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
-| `voice` | `Number (0 to 23)` | No | 1 | The voice using which the utterance will be spoken. See complete list [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
+| `voiceURI` | `String` | No | `Microsoft David - English (United States)` | The voice using which the utterance will be spoken. It should be one of [these](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
 | `lang` | `String` | No | - | The language in which the utterance will be spoken. |
 | `startBtn` | [`Button`](#button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
 | `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
