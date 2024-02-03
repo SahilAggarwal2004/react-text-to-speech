@@ -152,12 +152,12 @@ export default function App() {
 Here is the full API for the `<Speech>` component, these properties can be set on an instance of Speech:
 | Parameter | Type | Required | Default | Description |
 | - | - | - | - | - |
-| `text` | `String` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
-| `pitch` | `Number (0 to 2)` | No | 1 | The pitch at which the utterance will be spoken. |
-| `rate` | `Number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
-| `volume` | `Number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
-| `voiceURI` | `String` | No | `Microsoft David - English (United States)` | The voice using which the utterance will be spoken. It should be one of [these](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
-| `lang` | `String` | No | - | The language in which the utterance will be spoken. |
+| `text` | `string` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
+| `pitch` | `number (0 to 2)` | No | 1 | The pitch at which the utterance will be spoken. |
+| `rate` | `number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
+| `volume` | `number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
+| `lang` | `string` | No | - | The language in which the utterance will be spoken. |
+| `voiceURI` | `string \| string[]` | No | - | The voice using which the utterance will be spoken. If provided an array, further voices will be used as fallback if initial voices are not found. See possible values [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
 | `startBtn` | [`Button`](#button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
 | `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
 | `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
@@ -194,4 +194,4 @@ type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 
 ### Contributors
 
-[Akshay Srivastava](https://github.com/akshaypx)
+- [Akshay Srivastava](https://github.com/akshaypx)

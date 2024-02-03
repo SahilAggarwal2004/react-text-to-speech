@@ -14,10 +14,7 @@ export type ChildrenOptions = {
 
 export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 
-export type Props = DetailedHTMLProps<
-  HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
+export type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 export type SpeechProps = {
   text: string;
@@ -25,7 +22,7 @@ export type SpeechProps = {
   rate?: number;
   volume?: number;
   lang?: string;
-  voiceURI?: string;
+  voiceURI?: string | string[];
   startBtn?: Button;
   pauseBtn?: Button;
   stopBtn?: Button;
@@ -42,8 +39,8 @@ export default function Speech({
   pitch = 1,
   rate = 1,
   volume = 1,
-  voiceURI = "Microsoft Zira - English (United States)",
-  lang = "",
+  lang,
+  voiceURI,
   startBtn = <HiVolumeUp />,
   pauseBtn = <HiVolumeOff />,
   stopBtn = <HiMiniStop />,
@@ -55,10 +52,8 @@ export default function Speech({
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [useStop, setUseStop] = useState<boolean>();
 
-  const pause = () =>
-    speechStatus !== "paused" && window.speechSynthesis?.pause();
-  const stop = () =>
-    speechStatus !== "stopped" && window.speechSynthesis?.cancel();
+  const pause = () => speechStatus !== "paused" && window.speechSynthesis?.pause();
+  const stop = () => speechStatus !== "stopped" && window.speechSynthesis?.cancel();
 
   function start() {
     const synth = window.speechSynthesis;
@@ -66,20 +61,16 @@ export default function Speech({
     setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) synth.cancel();
-    const utterance = new window.SpeechSynthesisUtterance(
-      text?.replace(/\s/g, " ")
-    );
+    const utterance = new window.SpeechSynthesisUtterance(text?.replace(/\s/g, " "));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
-    utterance.lang = lang;
-    const isVoicePresent = synth
-      .getVoices()
-      .find((voice) => voice.voiceURI === voiceURI);
-    const voice = isVoicePresent
-      ? synth.getVoices().find((voice) => voice.voiceURI === voiceURI)
-      : synth.getVoices()[0];
-    utterance.voice = voice ? voice : synth.getVoices()[0];
+    if (lang) utterance.lang = lang;
+    if (voiceURI) {
+      if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
+      const voices = synth.getVoices();
+      utterance.voice = voiceURI.flatMap((uri) => voices.find((voice) => voice.voiceURI === uri) || [])[0] || null;
+    }
     function setStopped() {
       setSpeechStatus("stopped");
       utterance.onpause = null;
@@ -94,9 +85,7 @@ export default function Speech({
   }
 
   useEffect(() => {
-    setUseStop(
-      useStopOverPause ?? ((navigator as any).userAgentData?.mobile || false)
-    );
+    setUseStop(useStopOverPause ?? ((navigator as any).userAgentData?.mobile || false));
     window.speechSynthesis?.cancel();
   }, []);
 
@@ -104,17 +93,19 @@ export default function Speech({
     children({ speechStatus, start, pause, stop })
   ) : (
     <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-      {speechStatus !== "started"
-        ? <span role="button" onClick={start}>
+      {speechStatus !== "started" ? (
+        <span role="button" onClick={start}>
           {startBtn}
         </span>
-        : useStop === false
-        ? <span role="button" onClick={pause}>
+      ) : useStop === false ? (
+        <span role="button" onClick={pause}>
           {pauseBtn}
         </span>
-        : <span role="button" onClick={stop}>
+      ) : (
+        <span role="button" onClick={stop}>
           {stopBtn}
-        </span>}
+        </span>
+      )}
       {useStop === false && stopBtn && (
         <span role="button" onClick={stop}>
           {stopBtn}
