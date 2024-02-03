@@ -59,11 +59,7 @@ export default function App() {
   // 'news' holds response from some News API
   const news = [
     { id: "1", title: "First random title", desc: "First random description" },
-    {
-      id: "2",
-      title: "Second random title",
-      desc: "Second random description",
-    },
+    { id: "2", title: "Second random title", desc: "Second random description" },
     { id: "3", title: "Third random title", desc: "Third random description" },
   ];
 

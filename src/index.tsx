@@ -1,10 +1,4 @@
-import React, {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
+import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, useEffect, useState } from "react";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 
 export type Button = JSX.Element | string | null;
@@ -99,12 +93,6 @@ export default function Speech({
     synth.speak(utterance);
   }
 
-  function speech() {
-    if (speechStatus !== "started") start();
-    else if (useStop === false) pause();
-    else stop();
-  }
-
   useEffect(() => {
     setUseStop(
       useStopOverPause ?? ((navigator as any).userAgentData?.mobile || false)
@@ -116,13 +104,17 @@ export default function Speech({
     children({ speechStatus, start, pause, stop })
   ) : (
     <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-      <span role="button" onClick={speech}>
-        {speechStatus !== "started"
-          ? startBtn
-          : useStop === false
-          ? pauseBtn
-          : stopBtn}
-      </span>
+      {speechStatus !== "started"
+        ? <span role="button" onClick={start}>
+          {startBtn}
+        </span>
+        : useStop === false
+        ? <span role="button" onClick={pause}>
+          {pauseBtn}
+        </span>
+        : <span role="button" onClick={stop}>
+          {stopBtn}
+        </span>}
       {useStop === false && stopBtn && (
         <span role="button" onClick={stop}>
           {stopBtn}
