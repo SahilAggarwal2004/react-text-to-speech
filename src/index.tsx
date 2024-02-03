@@ -28,8 +28,8 @@ export type SpeechProps = {
   stopBtn?: Button;
   useStopOverPause?: boolean;
   onError?: Function;
-  children?: Children;
   props?: Props;
+  children?: Children;
 };
 
 export type { IconProps } from "./icons.js";
@@ -46,8 +46,8 @@ export default function Speech({
   stopBtn = <HiMiniStop />,
   useStopOverPause,
   onError = () => alert("Browser not supported! Try some other browser."),
-  children,
   props = {},
+  children,
 }: SpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [useStop, setUseStop] = useState<boolean>();
@@ -69,7 +69,14 @@ export default function Speech({
     if (voiceURI) {
       if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
       const voices = synth.getVoices();
-      utterance.voice = voiceURI.flatMap((uri) => voices.find((voice) => voice.voiceURI === uri) || [])[0] || null;
+      for (let i = 0; i < voiceURI.length; i++) {
+        const uri = voiceURI[i];
+        const voice = voices.find((voice) => voice.voiceURI === uri);
+        if (voice) {
+          utterance.voice = voice;
+          break;
+        }
+      }
     }
     function setStopped() {
       setSpeechStatus("stopped");
