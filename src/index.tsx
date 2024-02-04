@@ -1,4 +1,5 @@
-import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, useEffect, useState } from "react";
+import React, { DetailedHTMLProps, Fragment, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 
 export type Button = JSX.Element | string | null;
@@ -14,10 +15,13 @@ export type ChildrenOptions = {
 
 export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 
-export type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 export type SpeechProps = {
   text: string;
+  id?: string;
   pitch?: number;
   rate?: number;
   volume?: number;
@@ -27,15 +31,47 @@ export type SpeechProps = {
   pauseBtn?: Button;
   stopBtn?: Button;
   useStopOverPause?: boolean;
+  highlightText?: boolean;
+  highlightProps?: SpanProps;
   onError?: Function;
-  props?: Props;
+  props?: DivProps;
   children?: Children;
 };
 
 export type { IconProps } from "./icons.js";
 
+function JSXToText(element: ReactNode): ReactNode[] {
+  if (isValidElement(element)) {
+    const { children } = element.props;
+    if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToText(child));
+    return JSXToText(children);
+  }
+  if (typeof element === "string") return element.split(" ");
+  if (typeof element === "number") return [element.toString()];
+  return [];
+}
+
+function findWordIndex(words: string[], index: number) {
+  let currentIndex = 0;
+  function recursiveSearch(subArray: ReactNode[], parentIndex: number | null): string | null {
+    for (let i = 0; i < subArray.length; i++) {
+      const element = subArray[i];
+      if (Array.isArray(element)) {
+        const result = recursiveSearch(element, i);
+        if (result !== null) return `${parentIndex === null ? "" : parentIndex + "-"}${result}`;
+      } else if (element) {
+        currentIndex += (element as string).length + 1; // +1 for space between words
+        if (currentIndex > index) return `${parentIndex === null ? "" : parentIndex + "-"}${i}`;
+      }
+    }
+    return null;
+  }
+  return recursiveSearch(words, null);
+}
+
 export default function Speech({
   text,
+  id,
   pitch = 1,
   rate = 1,
   volume = 1,
@@ -45,12 +81,17 @@ export default function Speech({
   pauseBtn = <HiVolumeOff />,
   stopBtn = <HiMiniStop />,
   useStopOverPause,
+  highlightText = false,
+  highlightProps = { style: { fontWeight: "bold" } },
   onError = () => alert("Browser not supported! Try some other browser."),
   props = {},
   children,
 }: SpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [useStop, setUseStop] = useState<boolean>();
+  const words = useMemo(() => JSXToText(text) as string[], [text]);
+  const [highlightedIndex, setHighlightedIndex] = useState<string | null>(null);
+  const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   const pause = () => speechStatus !== "paused" && window.speechSynthesis?.pause();
   const stop = () => speechStatus !== "stopped" && window.speechSynthesis?.cancel();
@@ -61,7 +102,7 @@ export default function Speech({
     setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) synth.cancel();
-    const utterance = new window.SpeechSynthesisUtterance(text?.replace(/\s/g, " "));
+    const utterance = new window.SpeechSynthesisUtterance(words.join(" ").replace(/\s|,/g, " "));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -80,21 +121,47 @@ export default function Speech({
     }
     function setStopped() {
       setSpeechStatus("stopped");
+      setHighlightedIndex(null);
       utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
+      utterance.onboundary = null;
       if (synth.paused) synth.cancel();
     }
     utterance.onpause = () => setSpeechStatus("paused");
     utterance.onend = setStopped;
     utterance.onerror = setStopped;
+    if (highlightText) utterance.onboundary = (event) => setHighlightedIndex(findWordIndex(words, event.charIndex));
     synth.speak(utterance);
+  }
+
+  function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
+    if (!highlightedIndex?.startsWith(parentIndex)) return element;
+    if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, parentIndex === "" ? `${index}` : `${parentIndex}-${index}`));
+    if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random().toString() }, highlightedText(element.props.children, parentIndex));
+    if (typeof element === "string" || typeof element === "number") {
+      const words = String(element).split(" ");
+      const index = +(highlightedIndex as any).split("-").at(-1);
+      return (
+        <Fragment key={highlightedIndex}>
+          {words.slice(0, index).join(" ") + " "}
+          <span {...highlightProps}>{words[index]}</span>
+          {" " + words.slice(index + 1).join(" ")}
+        </Fragment>
+      );
+    }
+    return element;
   }
 
   useEffect(() => {
     setUseStop(useStopOverPause ?? ((navigator as any).userAgentData?.mobile || false));
     window.speechSynthesis?.cancel();
   }, []);
+
+  useEffect(() => {
+    if (highlightText) setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement);
+    else setHighlightContainer(null);
+  }, [highlightText]);
 
   return typeof children === "function" ? (
     children({ speechStatus, start, pause, stop })
@@ -118,6 +185,11 @@ export default function Speech({
           {stopBtn}
         </span>
       )}
+      {highlightContainer && createPortal(highlightedText(text), highlightContainer)}
     </div>
   );
+}
+
+export function HighlightedText({ id, ...props }: DivProps) {
+  return <div id={`rtts-${id}`} {...props} />;
 }

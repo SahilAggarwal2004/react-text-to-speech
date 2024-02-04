@@ -1,4 +1,12 @@
-# 0.7.0 (03-02-2024)
+# 0.8.0 (04-02-2024)
+
+- **added:** `highlightText` and `highlightProps` props in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+
+- **added:** `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text)
+
+- **improved:** `text` prop in `<Speech>` component can now be `JSX`. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+
+## 0.7.0 (03-02-2024)
 
 - **added:** `voiceURI` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference). Thanks [@akshaypx](https://github.com/akshaypx)!
 

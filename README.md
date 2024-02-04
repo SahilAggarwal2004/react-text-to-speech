@@ -9,6 +9,7 @@ It is as easy as to import a React component!
 - Text-to-speech
 - Easy to use
 - Stops speech instance on page reload.
+- Highlights words as they are read.
 - Handles multiple speech instances easily. See [Advanced Usage](#advanced-usage)
 - Fully Customizable. See [usage with FaC](#full-customization)
 
@@ -47,9 +48,7 @@ export default function App() {
 
 #### Advanced Usage
 
-This is the use case where `react-text-to-speech` outshines the other text-to-speech libraries.
-
-Let's assume that you fetch news from any News API and the API returns 3 news in response as shown below. Now if the user clicks on `startBtn` of #1 news (assuming # as id) and then clicks on `startBtn` on #2 news before the speech instance of #1 news ends, then `react-text-to-speech` will not just stop the #1 news speech instance and start the #2 news speech instance, but will also convert the `pauseBtn` of #1 news to `startBtn`, thus avoiding any confusion.
+Let's assume that you fetch news from any News API and the API returns 3 news in response as shown below. Now if the user clicks on `startBtn` of #1 news (assuming # as id) and then clicks on `startBtn` on #2 news before the speech instance of #1 news ends, then `react-text-to-speech` will not just stop the #1 news speech instance and start the #2 news speech instance, but will also convert the `pauseBtn` of #1 news to `startBtn`, thus avoiding any inconsistency.
 
 ```jsx
 import React from "react";
@@ -72,6 +71,47 @@ export default function App() {
           <Speech text={`${title}. ${desc}`} />
         </div>
       ))}
+    </>
+  );
+}
+```
+
+#### Highlight Text
+
+If `highlightText` prop to `true`, the words in the text will be highlighted as they are spoken. `<HighlightedText>` component exported by `react-text-to-speech` can be used to accomplish this purpose.
+
+NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together.
+
+```jsx
+import React from "react";
+import Speech, { HighlightedText } from "react-text-to-speech";
+
+export default function App() {
+  return (
+    <>
+      <Speech
+        id="unique-id"
+        highlightText={true}
+        highlightProps={{ style: { color: "white", backgroundColor: "blue" } }}
+        text={
+          <div>
+            <span>This library is awesome!</span>
+            <div>
+              <div>
+                <span>It can also read and highlight </span>
+                <span>nested text... </span>
+                <span>
+                  <span>upto </span>
+                  <span>
+                    <span>any level.</span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+      />
+      <HighlightedText id="unique-id" />
     </>
   );
 }
@@ -152,7 +192,7 @@ export default function App() {
 Here is the full API for the `<Speech>` component, these properties can be set on an instance of Speech:
 | Parameter | Type | Required | Default | Description |
 | - | - | - | - | - |
-| `text` | `string` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
+| `text` | `string \| JSX.Element` | Yes | - | It contains the text to be spoken when `startBtn` is clicked. |
 | `pitch` | `number (0 to 2)` | No | 1 | The pitch at which the utterance will be spoken. |
 | `rate` | `number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
 | `volume` | `number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
@@ -162,6 +202,8 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
 | `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
 | `useStopOverPause` | `boolean` | No | `navigator.userAgentData.mobile` | Whether the controls should display `stopBtn` instead of `pauseBtn`. In Android devices, `SpeechSynthesis.pause()` behaves like `SpeechSynthesis.cancel()`. See [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause) |
+| `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
+| `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { fontWeight: "bold" } }` | Props to customise the highlighted word. |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
 | `children` | [`Children`](#children) | No | - | See [usage with FaC](#full-customization) |
