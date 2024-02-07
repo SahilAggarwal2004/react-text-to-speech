@@ -1,4 +1,8 @@
-# 0.8.0 (04-02-2024)
+# 0.8.1 (07-02-2024)
+
+- **added:** `children` in `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text)
+
+## 0.8.0 (04-02-2024)
 
 - **added:** `highlightText` and `highlightProps` props in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
 

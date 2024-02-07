@@ -80,38 +80,35 @@ export default function App() {
 
 If `highlightText` prop to `true`, the words in the text will be highlighted as they are spoken. `<HighlightedText>` component exported by `react-text-to-speech` can be used to accomplish this purpose.
 
-NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together.
+NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
 
 ```jsx
 import React from "react";
 import Speech, { HighlightedText } from "react-text-to-speech";
 
 export default function App() {
+  const text = (
+    <div>
+      <span>This library is awesome!</span>
+      <div>
+        <div>
+          <span>It can also read and highlight </span>
+          <span>nested text... </span>
+          <span>
+            <span>upto </span>
+            <span>
+              <span>any level.</span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
-      <Speech
-        id="unique-id"
-        highlightText={true}
-        highlightProps={{ style: { color: "white", backgroundColor: "blue" } }}
-        text={
-          <div>
-            <span>This library is awesome!</span>
-            <div>
-              <div>
-                <span>It can also read and highlight </span>
-                <span>nested text... </span>
-                <span>
-                  <span>upto </span>
-                  <span>
-                    <span>any level.</span>
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        }
-      />
-      <HighlightedText id="unique-id" />
+      <Speech id="unique-id" text={text} highlightText={true} highlightProps={{ style: { color: "white", backgroundColor: "blue" } }} />
+      <HighlightedText id="unique-id">{text}</HighlightedText>
     </>
   );
 }

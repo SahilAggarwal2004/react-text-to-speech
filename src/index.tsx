@@ -20,7 +20,7 @@ export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLS
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 export type SpeechProps = {
-  text: string;
+  text: string | JSX.Element;
   id?: string;
   pitch?: number;
   rate?: number;
@@ -190,6 +190,16 @@ export default function Speech({
   );
 }
 
-export function HighlightedText({ id, ...props }: DivProps) {
-  return <div id={`rtts-${id}`} {...props} />;
+export function HighlightedText({ id, children, ...props }: DivProps) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  return (
+    <div id={`rtts-${id}`} {...props}>
+      {loading && children}
+    </div>
+  );
 }
