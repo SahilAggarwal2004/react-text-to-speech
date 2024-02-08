@@ -46,27 +46,29 @@ function JSXToText(element: ReactNode): ReactNode[] {
     if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToText(child));
     return JSXToText(children);
   }
-  if (typeof element === "string") return element.split(" ");
+  if (typeof element === "string") return element.split(/\s/);
   if (typeof element === "number") return [element.toString()];
   return [];
 }
 
 function findWordIndex(words: string[], index: number) {
   let currentIndex = 0;
-  function recursiveSearch(subArray: ReactNode[], parentIndex: number | null): string | null {
-    for (let i = 0; i < subArray.length; i++) {
-      const element = subArray[i];
-      if (Array.isArray(element)) {
-        const result = recursiveSearch(element, i);
-        if (result !== null) return `${parentIndex === null ? "" : parentIndex + "-"}${result}`;
-      } else if (element) {
-        currentIndex += (element as string).length + 1; // +1 for space between words
-        if (currentIndex > index) return `${parentIndex === null ? "" : parentIndex + "-"}${i}`;
+  function recursiveSearch(subArray: string[], parentIndex?: number): string | null {
+    if (subArray.length)
+      for (let i = 0; i < subArray.length; i++) {
+        const element = subArray[i];
+        if (Array.isArray(element)) {
+          const result = recursiveSearch(element, i);
+          if (result !== null) return `${parentIndex === undefined ? "" : parentIndex + "-"}${result}`;
+        } else {
+          currentIndex += element.length + 1; // +1 for whitespace between words
+          if (currentIndex > index) return `${parentIndex === undefined ? "" : parentIndex + "-"}${i}`;
+        }
       }
-    }
+    else currentIndex++;
     return null;
   }
-  return recursiveSearch(words, null);
+  return recursiveSearch(words);
 }
 
 export default function Speech({
@@ -102,7 +104,7 @@ export default function Speech({
     setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) synth.cancel();
-    const utterance = new window.SpeechSynthesisUtterance(words.join(" ").replace(/\s|,/g, " "));
+    const utterance = new window.SpeechSynthesisUtterance(words.join(" ").replace(",", " "));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -140,13 +142,16 @@ export default function Speech({
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, parentIndex === "" ? `${index}` : `${parentIndex}-${index}`));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random().toString() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
-      const words = String(element).split(" ");
+      element = element.toString();
+      const words = (element as string).split(/\s/);
       const index = +(highlightedIndex as any).split("-").at(-1);
+      const before = index ? words.slice(0, index).join(" ").length : -1;
+      const highlightedWord = words[index];
       return (
         <Fragment key={highlightedIndex}>
-          {words.slice(0, index).join(" ") + " "}
-          <span {...highlightProps}>{words[index]}</span>
-          {" " + words.slice(index + 1).join(" ")}
+          {(element as string).slice(0, before + 1)}
+          <span {...highlightProps}>{highlightedWord}</span>
+          {(element as string).slice(before + 1 + highlightedWord.length)}
         </Fragment>
       );
     }
