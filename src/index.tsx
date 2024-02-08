@@ -108,8 +108,7 @@ export default function Speech({
       words
         .join(" ")
         .replace(/([.!?\\-]),/g, "$1 ")
-        .replace(/(\d),([A-z])/g, "$1 $2")
-        .replace(/([A-z]),(\d)/g, "$1 $2")
+        .replace(/([\w\d]),([\w\d])/g, "$1 $2")
     );
     utterance.pitch = pitch;
     utterance.rate = rate;
