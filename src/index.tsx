@@ -163,30 +163,34 @@ export default function Speech({
     else setHighlightContainer(null);
   }, [highlightText]);
 
-  return typeof children === "function" ? (
-    children({ speechStatus, start, pause, stop })
-  ) : (
-    <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-      {speechStatus !== "started" ? (
-        <span role="button" onClick={start}>
-          {startBtn}
-        </span>
-      ) : useStop === false ? (
-        <span role="button" onClick={pause}>
-          {pauseBtn}
-        </span>
+  return (
+    <>
+      {typeof children === "function" ? (
+        children({ speechStatus, start, pause, stop })
       ) : (
-        <span role="button" onClick={stop}>
-          {stopBtn}
-        </span>
-      )}
-      {useStop === false && stopBtn && (
-        <span role="button" onClick={stop}>
-          {stopBtn}
-        </span>
+        <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
+          {speechStatus !== "started" ? (
+            <span role="button" onClick={start}>
+              {startBtn}
+            </span>
+          ) : useStop === false ? (
+            <span role="button" onClick={pause}>
+              {pauseBtn}
+            </span>
+          ) : (
+            <span role="button" onClick={stop}>
+              {stopBtn}
+            </span>
+          )}
+          {useStop === false && stopBtn && (
+            <span role="button" onClick={stop}>
+              {stopBtn}
+            </span>
+          )}
+        </div>
       )}
       {highlightContainer && createPortal(highlightedText(text), highlightContainer)}
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,8 @@
-# 0.8.1 (07-02-2024)
+# 0.8.2 (08-02-2024)
+
+- **fixed:** a bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text) and [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
+
+## 0.8.1 (07-02-2024)
 
 - **added:** `children` in `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text)
 
