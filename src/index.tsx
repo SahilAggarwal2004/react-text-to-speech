@@ -104,7 +104,13 @@ export default function Speech({
     setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) synth.cancel();
-    const utterance = new window.SpeechSynthesisUtterance(words.join(" ").replace(/([.!?\\-]),/g, "$1 "));
+    const utterance = new window.SpeechSynthesisUtterance(
+      words
+        .join(" ")
+        .replace(/([.!?\\-]),/g, "$1 ")
+        .replace(/(\d),([A-z])/g, "$1 $2")
+        .replace(/([A-z]),(\d)/g, "$1 $2")
+    );
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
