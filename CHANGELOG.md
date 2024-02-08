@@ -1,4 +1,8 @@
-# 0.8.5 (08-02-2024)
+# 0.8.7 (08-02-2024)
+
+- **fixed:** a bug where punctuation marks weren't considered while speaking.
+
+## 0.8.5 (08-02-2024)
 
 - **fixed:** a bug where speech was stopping at mount instead of unmount of `<Speech>` component.
 
