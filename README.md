@@ -8,7 +8,7 @@ It is as easy as to import a React component!
 
 - Text-to-speech
 - Easy to use
-- Stops speech instance on page reload.
+- Stops speech instance on component unmount.
 - Highlights words as they are read.
 - Handles multiple speech instances easily. See [Advanced Usage](#advanced-usage)
 - Fully Customizable. See [usage with FaC](#full-customization)

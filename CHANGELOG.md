@@ -1,4 +1,8 @@
-# 0.8.2 (08-02-2024)
+# 0.8.5 (08-02-2024)
+
+- **fixed:** a bug where speech was stopping at mount instead of unmount of `<Speech>` component.
+
+## 0.8.2 (08-02-2024)
 
 - **fixed:** a bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text) and [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
 

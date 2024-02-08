@@ -160,7 +160,7 @@ export default function Speech({
 
   useEffect(() => {
     setUseStop(useStopOverPause ?? ((navigator as any).userAgentData?.mobile || false));
-    window.speechSynthesis?.cancel();
+    return window.speechSynthesis?.cancel();
   }, []);
 
   useEffect(() => {
