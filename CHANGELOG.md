@@ -1,4 +1,4 @@
-# 0.8.10 (09-02-2024)
+# 0.8.11 (09-02-2024)
 
 - **changed:** default value of `highlightProps` prop of `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
 
