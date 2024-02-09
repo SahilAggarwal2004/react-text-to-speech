@@ -1,5 +1,6 @@
 import React, { DetailedHTMLProps, Fragment, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { JSXToArray, JSXToText, findWordIndex, splitElement } from "./utils.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 
 export type Button = JSX.Element | string | null;
@@ -38,38 +39,9 @@ export type SpeechProps = {
   children?: Children;
 };
 
+export type { StringArray } from "./utils.js";
+
 export type { IconProps } from "./icons.js";
-
-function JSXToText(element: ReactNode): ReactNode[] {
-  if (isValidElement(element)) {
-    const { children } = element.props;
-    if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToText(child));
-    return JSXToText(children);
-  }
-  if (typeof element === "string") return element.split(/\s/);
-  if (typeof element === "number") return [element.toString()];
-  return [];
-}
-
-function findWordIndex(words: string[], index: number) {
-  let currentIndex = 0;
-  function recursiveSearch(subArray: string[], parentIndex?: number): string | null {
-    if (subArray.length)
-      for (let i = 0; i < subArray.length; i++) {
-        const element = subArray[i];
-        if (Array.isArray(element)) {
-          const result = recursiveSearch(element, i);
-          if (result !== null) return `${parentIndex === undefined ? "" : parentIndex + "-"}${result}`;
-        } else {
-          currentIndex += element.length + 1; // +1 for whitespace between words
-          if (currentIndex > index) return `${parentIndex === undefined ? "" : parentIndex + "-"}${i}`;
-        }
-      }
-    else currentIndex++;
-    return null;
-  }
-  return recursiveSearch(words);
-}
 
 export default function Speech({
   text,
@@ -84,16 +56,17 @@ export default function Speech({
   stopBtn = <HiMiniStop />,
   useStopOverPause,
   highlightText = false,
-  highlightProps = { style: { fontWeight: "bold" } },
+  highlightProps = { style: { backgroundColor: "yellow" } },
   onError = () => alert("Browser not supported! Try some other browser."),
   props = {},
   children,
 }: SpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [useStop, setUseStop] = useState<boolean>();
-  const words = useMemo(() => JSXToText(text) as string[], [text]);
   const [highlightedIndex, setHighlightedIndex] = useState<string | null>(null);
+  const [highlightedLength, setHighlightedLength] = useState(0);
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
+  const words = useMemo(() => JSXToArray(text), [text]);
 
   const pause = () => speechStatus !== "paused" && window.speechSynthesis?.pause();
   const stop = () => speechStatus !== "stopped" && window.speechSynthesis?.cancel();
@@ -104,12 +77,7 @@ export default function Speech({
     setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) synth.cancel();
-    const utterance = new window.SpeechSynthesisUtterance(
-      words
-        .join(" ")
-        .replace(/([.!?\\-]),/g, "$1 ")
-        .replace(/([\w\d]),([\w\d])/g, "$1 $2")
-    );
+    const utterance = new window.SpeechSynthesisUtterance(JSXToText(text));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -129,6 +97,7 @@ export default function Speech({
     function setStopped() {
       setSpeechStatus("stopped");
       setHighlightedIndex(null);
+      setHighlightedLength(0);
       utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
@@ -138,7 +107,11 @@ export default function Speech({
     utterance.onpause = () => setSpeechStatus("paused");
     utterance.onend = setStopped;
     utterance.onerror = setStopped;
-    if (highlightText) utterance.onboundary = (event) => setHighlightedIndex(findWordIndex(words, event.charIndex));
+    if (highlightText)
+      utterance.onboundary = ({ charIndex, charLength }) => {
+        setHighlightedIndex(findWordIndex(words, charIndex));
+        setHighlightedLength(charLength);
+      };
     synth.speak(utterance);
   }
 
@@ -148,15 +121,17 @@ export default function Speech({
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random().toString() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
       element = element.toString();
-      const words = (element as string).split(/\s/);
       const index = +(highlightedIndex as any).split("-").at(-1);
-      const before = index ? words.slice(0, index).join(" ").length : -1;
-      const highlightedWord = words[index];
+      const before = index
+        ? splitElement(element as string)
+            .slice(0, index)
+            .join("").length
+        : 0;
       return (
         <Fragment key={highlightedIndex}>
-          {(element as string).slice(0, before + 1)}
-          <span {...highlightProps}>{highlightedWord}</span>
-          {(element as string).slice(before + 1 + highlightedWord.length)}
+          {(element as string).slice(0, before)}
+          <span {...highlightProps}>{(element as string).slice(before, before + highlightedLength)}</span>
+          {(element as string).slice(before + highlightedLength)}
         </Fragment>
       );
     }
