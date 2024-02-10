@@ -63,8 +63,7 @@ export default function Speech({
 }: SpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [useStop, setUseStop] = useState<boolean>();
-  const [highlightedIndex, setHighlightedIndex] = useState<string | null>(null);
-  const [highlightedLength, setHighlightedLength] = useState(0);
+  const [speakingWord, setSpeakingWord] = useState<{ index: string | null; length: number }>();
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
   const words = useMemo(() => JSXToArray(text), [text]);
 
@@ -96,8 +95,7 @@ export default function Speech({
     }
     function setStopped() {
       setSpeechStatus("stopped");
-      setHighlightedIndex(null);
-      setHighlightedLength(0);
+      setSpeakingWord(undefined);
       utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
@@ -107,31 +105,27 @@ export default function Speech({
     utterance.onpause = () => setSpeechStatus("paused");
     utterance.onend = setStopped;
     utterance.onerror = setStopped;
-    if (highlightText)
-      utterance.onboundary = ({ charIndex, charLength }) => {
-        setHighlightedIndex(findWordIndex(words, charIndex));
-        setHighlightedLength(charLength);
-      };
+    if (highlightText) utterance.onboundary = ({ charIndex, charLength }) => setSpeakingWord({ index: findWordIndex(words, charIndex), length: charLength });
     synth.speak(utterance);
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
-    if (!highlightedIndex?.startsWith(parentIndex)) return element;
+    if (!speakingWord?.index?.startsWith(parentIndex)) return element;
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, parentIndex === "" ? `${index}` : `${parentIndex}-${index}`));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random().toString() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
       element = element.toString();
-      const index = +(highlightedIndex as any).split("-").at(-1);
+      const index = +(speakingWord.index as any).split("-").at(-1);
       const before = index
         ? splitElement(element as string)
             .slice(0, index)
             .join("").length
         : 0;
       return (
-        <Fragment key={highlightedIndex}>
+        <Fragment key={speakingWord.index}>
           {(element as string).slice(0, before)}
-          <span {...highlightProps}>{(element as string).slice(before, before + highlightedLength)}</span>
-          {(element as string).slice(before + highlightedLength)}
+          <span {...highlightProps}>{(element as string).slice(before, before + speakingWord.length)}</span>
+          {(element as string).slice(before + speakingWord.length)}
         </Fragment>
       );
     }
