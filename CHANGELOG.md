@@ -1,4 +1,7 @@
-# 0.8.11 (09-02-2024)
+# 0.8.14 (12-02-2024)
+- **fixed:** minor bugs in algorithm used to highlight words.
+
+## 0.8.11 (09-02-2024)
 
 - **changed:** default value of `highlightProps` prop of `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
 - **fixed:** minor bugs in algorithm used to highlight words.

@@ -2,7 +2,7 @@ import { ReactNode, isValidElement } from "react";
 
 export type StringArray = string[] | StringArray[];
 
-export const splitElement = (element: string) => element.split(/(\b|[^\w\s])/).filter(Boolean);
+export const splitElement = (element: string) => element.split("");
 
 export function JSXToText(element: ReactNode): string {
   if (isValidElement(element)) {
