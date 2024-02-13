@@ -1,6 +1,6 @@
 import React, { DetailedHTMLProps, Fragment, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { JSXToArray, JSXToText, findWordIndex, splitElement } from "./utils.js";
+import { JSXToArray, JSXToText, findWordIndex, getIndex } from "./utils.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 
 export type Button = JSX.Element | string | null;
@@ -111,16 +111,12 @@ export default function Speech({
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
     if (!speakingWord?.index?.startsWith(parentIndex)) return element;
-    if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, parentIndex === "" ? `${index}` : `${parentIndex}-${index}`));
-    if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random().toString() }, highlightedText(element.props.children, parentIndex));
+    if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
+    if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
       element = element.toString();
       const index = +(speakingWord.index as any).split("-").at(-1);
-      const before = index
-        ? splitElement(element as string)
-            .slice(0, index)
-            .join("").length
-        : 0;
+      const before = index ? (element as string).slice(0, index).length : 0;
       return (
         <Fragment key={speakingWord.index}>
           {(element as string).slice(0, before)}

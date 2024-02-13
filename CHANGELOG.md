@@ -1,4 +1,9 @@
+# 0.8.15 (14-02-2024)
+
+- **improved:** minor performance optimisation.
+
 # 0.8.14 (12-02-2024)
+
 - **fixed:** minor bugs in algorithm used to highlight words.
 
 ## 0.8.11 (09-02-2024)

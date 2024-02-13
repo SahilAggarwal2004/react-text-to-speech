@@ -1,8 +1,10 @@
 import { ReactNode, isValidElement } from "react";
 
+export type Index = string | number;
+
 export type StringArray = string[] | StringArray[];
 
-export const splitElement = (element: string) => element.split("");
+export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 
 export function JSXToText(element: ReactNode): string {
   if (isValidElement(element)) {
@@ -19,21 +21,21 @@ export function JSXToArray(element: ReactNode): StringArray {
     if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToArray(child));
     return JSXToArray(children);
   }
-  return typeof element === "string" ? splitElement(element) : typeof element === "number" ? [element.toString()] : [];
+  return typeof element === "string" ? element.split("") : typeof element === "number" ? [element.toString()] : [];
 }
 
 export function findWordIndex(words: StringArray, index: number) {
   let currentIndex = 0;
-  function recursiveSearch(array: StringArray, parentIndex?: number): string | null {
+  function recursiveSearch(array: StringArray, parentIndex: Index = ""): string | null {
     if (array.length)
       for (let i = 0; i < array.length; i++) {
         const element = array[i];
         if (Array.isArray(element)) {
           const result = recursiveSearch(element, i);
-          if (result !== null) return `${parentIndex === undefined ? "" : parentIndex + "-"}${result}`;
+          if (result !== null) return getIndex(parentIndex, result);
         } else {
-          currentIndex += element.length;
-          if (currentIndex > index) return `${parentIndex === undefined ? "" : parentIndex + "-"}${i}`;
+          currentIndex++;
+          if (currentIndex > index) return getIndex(parentIndex, i);
         }
       }
     currentIndex++;
