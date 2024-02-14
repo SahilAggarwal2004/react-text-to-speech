@@ -1,4 +1,10 @@
-# 0.8.15 (14-02-2024)
+# 0.9.0 (14-02-2024)
+
+- **added:** `useSpeech` hook. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+- **changed:** default value of `useStopOverPause` prop. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-1)
+- **docs:** restructed and refined
+
+## 0.8.15 (14-02-2024)
 
 - **improved:** minor performance optimisation.
 
@@ -8,7 +14,7 @@
 
 ## 0.8.11 (09-02-2024)
 
-- **changed:** default value of `highlightProps` prop of `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+- **changed:** default value of `highlightProps` prop of `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
 - **fixed:** minor bugs in algorithm used to highlight words.
 
 ## 0.8.5 (08-02-2024)
@@ -17,21 +23,21 @@
 
 ## 0.8.2 (08-02-2024)
 
-- **fixed:** a bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text) and [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
+- **fixed:** a bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text) and [usage with FaC](https://www.npmjs.com/package/react-text-to-speech#full-customization)
 
 ## 0.8.1 (07-02-2024)
 
-- **added:** `children` in `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text)
+- **added:** `children` in `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text-1)
 
 ## 0.8.0 (04-02-2024)
 
-- **added:** `highlightText` and `highlightProps` props in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
-- **added:** `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text)
-- **improved:** `text` prop in `<Speech>` component can now be `JSX`. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+- **added:** `highlightText` and `highlightProps` props in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+- **added:** `<HighlightedText>` component. See [Highlight Text Usage](https://www.npmjs.com/package/react-text-to-speech#highlight-text-1)
+- **improved:** `text` prop in `<Speech>` component can now be `JSX`. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
 
 ## 0.7.0 (03-02-2024)
 
-- **added:** `voiceURI` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference). Thanks [@akshaypx](https://github.com/akshaypx)!
+- **added:** `voiceURI` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1). Thanks [@akshaypx](https://github.com/akshaypx)!
 
 ## 0.6.6 (19-01-2024)
 
@@ -47,7 +53,7 @@
 
 ## 0.6.3 (31-10-2023)
 
-- **fixed:** a bug where speech won't start in multiple `<Speech>` instances occured due to patch in [`v0.6.2`](#0.6.2)
+- **fixed:** a bug where speech won't start in multiple `<Speech>` instances occured due to patch in [`v0.6.2`]
 
 ## 0.6.2 (31-10-2023)
 
@@ -59,18 +65,18 @@
 
 ## 0.6.0 (30-10-2023)
 
-- **added:** `useStopOverPause` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+- **added:** `useStopOverPause` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-1)
 - **fixed:** `pauseBtn` behaving as `stopBtn` in android devices (see [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause)) with the help of `useStopOverPause` prop
 
 ## 0.5.2 (14-10-2023)
 
-- **fixed:** sync issues when using multiple `<Speech>` instances. See [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
+- **fixed:** sync issues when using multiple `<Speech>` instances. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage)
 
 ## 0.5.1 (14-10-2023)
 
-- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Advanced Usage](https://www.npmjs.com/package/react-text-to-speech#advanced-usage)
+- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage)
 
 ## 0.5.0 (14-10-2023)
 
-- **added:** `pauseBtn` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-api-reference)
+- **added:** `pauseBtn` prop in `<Speech>` component. See [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#speech-component-1)
 - **added:** Full customization using FaC. See [usage with FaC](https://www.npmjs.com/package/react-text-to-speech#full-customization)

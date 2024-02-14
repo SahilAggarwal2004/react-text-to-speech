@@ -24,22 +24,21 @@ export function JSXToArray(element: ReactNode): StringArray {
   return typeof element === "string" ? element.split("") : typeof element === "number" ? [element.toString()] : [];
 }
 
-export function findWordIndex(words: StringArray, index: number) {
+export function findCharIndex(characters: StringArray, index: number) {
   let currentIndex = 0;
   function recursiveSearch(array: StringArray, parentIndex: Index = ""): string | null {
-    if (array.length)
-      for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        if (Array.isArray(element)) {
-          const result = recursiveSearch(element, i);
-          if (result !== null) return getIndex(parentIndex, result);
-        } else {
-          currentIndex++;
-          if (currentIndex > index) return getIndex(parentIndex, i);
-        }
+    for (let i = 0; i < array.length; i++) {
+      const element = array[i];
+      if (Array.isArray(element)) {
+        const result = recursiveSearch(element, i);
+        if (result !== null) return getIndex(parentIndex, result);
+      } else {
+        currentIndex++;
+        if (currentIndex > index) return getIndex(parentIndex, i);
       }
+    }
     currentIndex++;
     return null;
   }
-  return recursiveSearch(words);
+  return recursiveSearch(characters);
 }
