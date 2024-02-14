@@ -99,5 +99,5 @@ export function useSpeech({
     return cancel;
   }, []);
 
-  return { speechStatus, start, pause, stop, Text: () => highlightedText(text) };
+  return { Text: () => highlightedText(text), speechStatus, start, pause, stop };
 }

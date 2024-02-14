@@ -202,21 +202,10 @@ export default function App() {
       onError={() => console.error("Browser not supported!")}
     >
       {({ speechStatus, start, pause, stop }) => (
-        <YourCustomComponent>
-          {speechStatus !== "started" && (
-            <button className="my-start-btn" onClick={start}>
-              Start Speech
-            </button>
-          )}
-          {speechStatus === "started" && (
-            <button className="my-pause-btn" onClick={pause}>
-              Pause Speech
-            </button>
-          )}
-          <button className="my-stop-btn" onClick={stop}>
-            Stop Speech
-          </button>
-        </YourCustomComponent>
+        <div style={{ display: "flex", columnGap: "0.5rem" }}>
+          {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
+          <button onClick={stop}>Stop</button>
+        </div>
       )}
     </Speech>
   );
