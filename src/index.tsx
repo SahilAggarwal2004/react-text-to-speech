@@ -89,7 +89,7 @@ export function HighlightedText({ id, children, ...props }: DivProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
+    setTimeout(() => setLoading(false), 1);
   }, []);
 
   return (
