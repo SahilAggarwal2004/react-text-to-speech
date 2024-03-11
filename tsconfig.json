@@ -9,10 +9,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
+    "lib": ["DOM", "ESNext"],
     "skipLibCheck": true,
     "jsx": "react",
     "rootDir": "src",

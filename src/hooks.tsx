@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
-import { JSXToArray, JSXToText, findCharIndex, getIndex } from "./utils.js";
+import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent } from "./utils.js";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
@@ -29,7 +29,7 @@ export function useSpeech({
   onError = () => alert("Browser not supported! Try some other browser."),
 }: useSpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
-  const [speakingWord, setSpeakingWord] = useState<{ index: string | null; length: number }>();
+  const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
   const characters = useMemo(() => JSXToArray(text), [text]);
 
   const cancel = () => window.speechSynthesis?.cancel();
@@ -76,18 +76,18 @@ export function useSpeech({
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
-    if (!speakingWord?.index?.startsWith(parentIndex)) return element;
+    if (!isParent(speakingWord?.index, parentIndex)) return element;
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
       element = element.toString();
-      const index = +(speakingWord.index as any).split("-").at(-1);
-      const before = index ? (element as string).slice(0, index).length : 0;
+      const { index, length } = speakingWord!;
+      const before = (element as string).slice(0, +index.split("-").at(-1)!).length;
       return (
-        <span key={speakingWord.index}>
+        <span key={index}>
           {(element as string).slice(0, before)}
-          <span {...highlightProps}>{(element as string).slice(before, before + speakingWord.length)}</span>
-          {(element as string).slice(before + speakingWord.length)}
+          <span {...highlightProps}>{(element as string).slice(before, before + length)}</span>
+          {(element as string).slice(before + length)}
         </span>
       );
     }
