@@ -1,3 +1,7 @@
+# 0.9.2 (11-03-2024)
+
+- **fixed:** a bug where highlight text feature won't work if `<HighlightedText>` is placed after `<Speech>`.
+
 # 0.9.0 (14-02-2024)
 
 - **added:** `useSpeech` hook. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)

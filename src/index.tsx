@@ -50,7 +50,7 @@ export default function Speech({
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (hookProps.highlightText) setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement);
+    if (hookProps.highlightText) setTimeout(() => setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement), 1);
     else setHighlightContainer(null);
   }, [hookProps.highlightText]);
 
