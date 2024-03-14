@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
-import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent } from "./utils.js";
+import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
@@ -46,7 +46,7 @@ export function useSpeech({
     if (!synth) return onError();
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) cancel();
-    const utterance = new window.SpeechSynthesisUtterance(JSXToText(text));
+    const utterance = new window.SpeechSynthesisUtterance(sanitize(JSXToText(text)));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
