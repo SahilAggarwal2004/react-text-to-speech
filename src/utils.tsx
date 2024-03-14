@@ -7,10 +7,10 @@ export type StringArray = string[] | StringArray[];
 export function sanitize(text: string) {
   return text.replace(/[;<>]/g, (match) => {
     switch (match) {
-      case ";":
-        return "(";
+      case ">":
+        return ")";
       default:
-        return " ";
+        return "(";
     }
   });
 }
