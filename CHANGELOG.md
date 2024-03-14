@@ -1,4 +1,9 @@
-# 0.9.4 (11-03-2024)
+# 0.9.5 (14-03-2024)
+
+- **fixed:** a bug where `stop` function of `useSpeech` hook did not work if start was called multiple times.
+- **fixed:** a bug where html tags and entities were ignored by `Web Speech API`.
+
+## 0.9.4 (11-03-2024)
 
 - **fixed:** a bug where multiple highlight boxes appeared in case of 10 or more children.
 

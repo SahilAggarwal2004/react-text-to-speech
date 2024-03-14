@@ -17,6 +17,11 @@ export type useSpeechProps = {
 
 export type SpeechStatus = "started" | "paused" | "stopped";
 
+function useSpeechStatus() {
+  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
+  return [speechStatus, () => setSpeechStatus("started"), () => setSpeechStatus("paused"), () => setSpeechStatus("stopped")] as const;
+}
+
 export function useSpeech({
   text,
   pitch = 1,
@@ -28,7 +33,7 @@ export function useSpeech({
   highlightProps = { style: { backgroundColor: "yellow" } },
   onError = () => alert("Browser not supported! Try some other browser."),
 }: useSpeechProps) {
-  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
+  const [speechStatus, setStarted, setPaused, setStopped] = useSpeechStatus();
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
   const characters = useMemo(() => JSXToArray(text), [text]);
 
@@ -39,7 +44,6 @@ export function useSpeech({
   function start() {
     const synth = window.speechSynthesis;
     if (!synth) return onError();
-    setSpeechStatus("started");
     if (speechStatus === "paused") return synth.resume();
     if (synth.speaking) cancel();
     const utterance = new window.SpeechSynthesisUtterance(JSXToText(text));
@@ -59,18 +63,22 @@ export function useSpeech({
         }
       }
     }
-    function setStopped() {
-      setSpeechStatus("stopped");
+    function onStop() {
+      setStopped();
       setSpeakingWord(undefined);
+      utterance.onstart = null;
+      utterance.onresume = null;
       utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
       if (synth.paused) synth.cancel();
     }
-    utterance.onpause = () => setSpeechStatus("paused");
-    utterance.onend = setStopped;
-    utterance.onerror = setStopped;
+    utterance.onstart = setStarted;
+    utterance.onresume = setStarted;
+    utterance.onpause = setPaused;
+    utterance.onend = onStop;
+    utterance.onerror = onStop;
     if (highlightText) utterance.onboundary = ({ charIndex, charLength }) => setSpeakingWord({ index: findCharIndex(characters, charIndex), length: charLength });
     synth.speak(utterance);
   }

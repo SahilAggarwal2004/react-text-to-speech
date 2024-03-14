@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
@@ -21,6 +21,7 @@
     "tts",
     "react-text-to-speech",
     "react-tts",
+    "tts-react",
     "typescript"
   ],
   "author": "Sahil Aggarwal",
@@ -34,7 +35,7 @@
     "react-dom": ">=17.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21"
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.22"
   }
 }
