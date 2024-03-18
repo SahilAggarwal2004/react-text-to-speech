@@ -1,4 +1,8 @@
-# 0.9.5 (14-03-2024)
+# 0.10.0 (18-03-2024)
+
+- **added:** `preserveUtteranceQueue` prop in `useSpeech` hook. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+
+## 0.9.5 (14-03-2024)
 
 - **fixed:** a bug where `stop` function of `useSpeech` hook did not work if start was called multiple times.
 - **fixed:** a bug where html tags and entities were ignored by `Web Speech API`.

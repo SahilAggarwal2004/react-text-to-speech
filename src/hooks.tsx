@@ -1,5 +1,5 @@
-import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useState } from "react";
-import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
+import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
+import { ExtendedSpeechSynthesis, JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
@@ -10,17 +10,13 @@ export type useSpeechProps = {
   volume?: number;
   lang?: string;
   voiceURI?: string | string[];
+  preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
   highlightProps?: SpanProps;
   onError?: Function;
 };
 
-export type SpeechStatus = "started" | "paused" | "stopped";
-
-function useSpeechStatus() {
-  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
-  return [speechStatus, () => setSpeechStatus("started"), () => setSpeechStatus("paused"), () => setSpeechStatus("stopped")] as const;
-}
+export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
 export function useSpeech({
   text,
@@ -29,24 +25,24 @@ export function useSpeech({
   volume = 1,
   lang,
   voiceURI,
+  preserveUtteranceQueue = false,
   highlightText = false,
   highlightProps = { style: { backgroundColor: "yellow" } },
   onError = () => alert("Browser not supported! Try some other browser."),
 }: useSpeechProps) {
-  const [speechStatus, setStarted, setPaused, setStopped] = useSpeechStatus();
+  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
+  const utteranceRef = useRef<SpeechSynthesisUtterance>();
   const characters = useMemo(() => JSXToArray(text), [text]);
 
   const cancel = () => window.speechSynthesis?.cancel();
   const pause = () => speechStatus !== "paused" && window.speechSynthesis?.pause();
-  const stop = () => speechStatus !== "stopped" && cancel();
 
   function start() {
     const synth = window.speechSynthesis;
     if (!synth) return onError();
     if (speechStatus === "paused") return synth.resume();
-    if (synth.speaking) cancel();
-    const utterance = new window.SpeechSynthesisUtterance(sanitize(JSXToText(text)));
+    const utterance = (utteranceRef.current = new SpeechSynthesisUtterance(sanitize(JSXToText(text))));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -64,7 +60,7 @@ export function useSpeech({
       }
     }
     function onStop() {
-      setStopped();
+      setSpeechStatus("stopped");
       setSpeakingWord(undefined);
       utterance.onstart = null;
       utterance.onresume = null;
@@ -72,15 +68,30 @@ export function useSpeech({
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      if (synth.paused) synth.cancel();
+      if (synth.paused) cancel();
+      ExtendedSpeechSynthesis.removeFromQueue();
+      ExtendedSpeechSynthesis.speakFromQueue();
     }
-    utterance.onstart = setStarted;
-    utterance.onresume = setStarted;
-    utterance.onpause = setPaused;
+    utterance.onstart = () => setSpeechStatus("started");
+    utterance.onresume = () => setSpeechStatus("started");
+    utterance.onpause = () => setSpeechStatus("paused");
     utterance.onend = onStop;
     utterance.onerror = onStop;
     if (highlightText) utterance.onboundary = ({ charIndex, charLength }) => setSpeakingWord({ index: findCharIndex(characters, charIndex), length: charLength });
-    synth.speak(utterance);
+    if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
+    ExtendedSpeechSynthesis.addToQueue(utterance);
+    if (synth.speaking) {
+      if (preserveUtteranceQueue) return setSpeechStatus("queued");
+      cancel();
+    }
+    ExtendedSpeechSynthesis.speakFromQueue();
+  }
+
+  function stop() {
+    if (speechStatus === "stopped") return;
+    if (speechStatus !== "queued") return cancel();
+    setSpeechStatus("stopped");
+    ExtendedSpeechSynthesis.removeFromQueue(utteranceRef.current);
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {

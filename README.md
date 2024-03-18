@@ -33,6 +33,8 @@ To install react-text-to-speech
 
 ## Usage
 
+The `react-text-to-speech` package offers two main ways to integrate text-to-speech functionality into your React applications through the `useSpeech` hook and the `<Speech>` component.
+
 ### useSpeech Hook
 
 #### Basic Usage
@@ -110,6 +112,47 @@ export default function App() {
 }
 ```
 
+#### Multiple Instance Usage
+
+The `preserveUtteranceQueue` prop, available in both `useSpeech` and `<Speech>` components, facilitates handling multiple speech instances simultaneously.
+
+If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
+
+If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
+
+```jsx
+import React from "react";
+import Speech from "react-text-to-speech";
+
+export default function App() {
+  // 'news' holds response from some News API
+  const news = [
+    { id: "1", title: "First random title.", desc: "First random description." },
+    { id: "2", title: "Second random title.", desc: "Second random description." },
+    { id: "3", title: "Third random title.", desc: "Third random description." },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+      {news.map(({ id, title, desc }) => {
+        const text = (
+          <>
+            <h4 style={{ margin: 0 }}>{title}</h4>
+            <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
+          </>
+        );
+        return (
+          <div key={id}>
+            {text}
+            <Speech text={text} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+```
+
 #### Highlight Text
 
 If `highlightText` prop is set to `true`, the words in the text will be highlighted as they are spoken. `<HighlightedText>` component exported by `react-text-to-speech` can be used to accomplish this purpose.
@@ -144,41 +187,6 @@ export default function App() {
       <Speech id="unique-id" text={text} highlightText={true} />
       <HighlightedText id="unique-id">{text}</HighlightedText>
     </>
-  );
-}
-```
-
-#### Multiple Instance Usage
-
-```jsx
-import React from "react";
-import Speech from "react-text-to-speech";
-
-export default function App() {
-  // 'news' holds response from some News API
-  const news = [
-    { id: "1", title: "First random title.", desc: "First random description." },
-    { id: "2", title: "Second random title.", desc: "Second random description." },
-    { id: "3", title: "Third random title.", desc: "Third random description." },
-  ];
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
-      {news.map(({ id, title, desc }) => {
-        const text = (
-          <>
-            <h4 style={{ margin: 0 }}>{title}</h4>
-            <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
-          </>
-        );
-        return (
-          <div key={id}>
-            {text}
-            <Speech text={text} />
-          </div>
-        );
-      })}
-    </div>
   );
 }
 ```
@@ -225,6 +233,7 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `volume` | `number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
 | `lang` | `string` | No | - | The language in which the utterance will be spoken. |
 | `voiceURI` | `string \| string[]` | No | - | The voice using which the utterance will be spoken. If provided an array, further voices will be used as fallback if initial voices are not found. See possible values [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
+| `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
 | `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { backgroundColor: "yellow" } }` | Props to customise the highlighted word. |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
@@ -253,7 +262,7 @@ type Button = JSX.Element | string | null;
 
 ```typescript
 import { ReactNode } from "react";
-type SpeechStatus = "started" | "paused" | "stopped";
+type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 type ChildrenOptions = {
   speechStatus?: SpeechStatus;
   start?: Function;

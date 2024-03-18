@@ -34,7 +34,7 @@ export type { SpanProps } from "./hooks.js";
 
 export type { IconProps } from "./icons.js";
 
-export type { Index, StringArray } from "./utils.js";
+export type { Index, SpeechUtterancesQueue, StringArray } from "./utils.js";
 
 export default function Speech({
   id,
@@ -46,7 +46,8 @@ export default function Speech({
   children,
   ...hookProps
 }: SpeechProps) {
-  const { Text, speechStatus, start, pause, stop } = useSpeech(hookProps);
+  const { Text, ...childrenOptions } = useSpeech(hookProps);
+  const { speechStatus, start, pause, stop } = childrenOptions;
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -57,10 +58,10 @@ export default function Speech({
   return (
     <>
       {typeof children === "function" ? (
-        children({ speechStatus, start, pause, stop })
+        children(childrenOptions)
       ) : (
         <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-          {speechStatus !== "started" ? (
+          {speechStatus !== "started" && speechStatus !== "queued" ? (
             <span role="button" onClick={start}>
               {startBtn}
             </span>
