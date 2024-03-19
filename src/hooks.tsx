@@ -3,6 +3,8 @@ import { ExtendedSpeechSynthesis, JSXToArray, JSXToText, findCharIndex, getIndex
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
+export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
+
 export type useSpeechProps = {
   text: string | JSX.Element;
   pitch?: number;
@@ -14,6 +16,10 @@ export type useSpeechProps = {
   highlightText?: boolean;
   highlightProps?: SpanProps;
   onError?: Function;
+  onStart?: SpeechSynthesisEventHandler;
+  onResume?: SpeechSynthesisEventHandler;
+  onPause?: SpeechSynthesisEventHandler;
+  onStop?: SpeechSynthesisEventHandler;
 };
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
@@ -29,6 +35,10 @@ export function useSpeech({
   highlightText = false,
   highlightProps = { style: { backgroundColor: "yellow" } },
   onError = () => alert("Browser not supported! Try some other browser."),
+  onStart,
+  onResume,
+  onPause,
+  onStop,
 }: useSpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
@@ -36,12 +46,12 @@ export function useSpeech({
   const characters = useMemo(() => JSXToArray(text), [text]);
 
   const cancel = () => window.speechSynthesis?.cancel();
-  const pause = () => speechStatus !== "paused" && window.speechSynthesis?.pause();
 
   function start() {
     const synth = window.speechSynthesis;
     if (!synth) return onError();
     if (speechStatus === "paused") return synth.resume();
+    if (speechStatus === "queued") return;
     const utterance = (utteranceRef.current = new SpeechSynthesisUtterance(sanitize(JSXToText(text))));
     utterance.pitch = pitch;
     utterance.rate = rate;
@@ -59,7 +69,7 @@ export function useSpeech({
         }
       }
     }
-    function onStop() {
+    const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
       setSpeechStatus("stopped");
       setSpeakingWord(undefined);
       utterance.onstart = null;
@@ -71,20 +81,38 @@ export function useSpeech({
       if (synth.paused) cancel();
       ExtendedSpeechSynthesis.removeFromQueue();
       ExtendedSpeechSynthesis.speakFromQueue();
-    }
-    utterance.onstart = () => setSpeechStatus("started");
-    utterance.onresume = () => setSpeechStatus("started");
-    utterance.onpause = () => setSpeechStatus("paused");
-    utterance.onend = onStop;
-    utterance.onerror = onStop;
+      onStop?.(event);
+    };
+    utterance.onstart = (event) => {
+      setSpeechStatus("started");
+      onStart?.(event);
+    };
+    utterance.onresume = (event) => {
+      setSpeechStatus("started");
+      onResume?.(event);
+    };
+    utterance.onpause = (event) => {
+      setSpeechStatus("paused");
+      onPause?.(event);
+    };
+    utterance.onend = stopEventHandler;
+    utterance.onerror = stopEventHandler;
     if (highlightText) utterance.onboundary = ({ charIndex, charLength }) => setSpeakingWord({ index: findCharIndex(characters, charIndex), length: charLength });
     if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
     ExtendedSpeechSynthesis.addToQueue(utterance);
     if (synth.speaking) {
-      if (preserveUtteranceQueue) return setSpeechStatus("queued");
+      if (preserveUtteranceQueue) {
+        if (speechStatus !== "started") return setSpeechStatus("queued");
+        ExtendedSpeechSynthesis.removeFromQueue();
+      }
       cancel();
     }
     ExtendedSpeechSynthesis.speakFromQueue();
+  }
+
+  function pause() {
+    if (speechStatus === "started") return window.speechSynthesis?.pause();
+    if (speechStatus === "queued") stop();
   }
 
   function stop() {
@@ -118,5 +146,12 @@ export function useSpeech({
     return cancel;
   }, []);
 
-  return { Text: () => highlightedText(text), speechStatus, start, pause, stop };
+  return {
+    Text: () => highlightedText(text),
+    speechStatus,
+    start,
+    pause,
+    stop,
+    isInQueue: speechStatus === "started" || speechStatus === "queued",
+  };
 }

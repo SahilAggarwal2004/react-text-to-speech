@@ -47,7 +47,7 @@ export default function Speech({
   ...hookProps
 }: SpeechProps) {
   const { Text, ...childrenOptions } = useSpeech(hookProps);
-  const { speechStatus, start, pause, stop } = childrenOptions;
+  const { start, pause, stop, isInQueue } = childrenOptions;
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function Speech({
         children(childrenOptions)
       ) : (
         <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-          {speechStatus !== "started" && speechStatus !== "queued" ? (
+          {!isInQueue ? (
             <span role="button" onClick={start}>
               {startBtn}
             </span>

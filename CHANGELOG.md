@@ -1,6 +1,11 @@
-# 0.10.0 (18-03-2024)
+# 0.11.0 (19-03-2024)
 
-- **added:** `preserveUtteranceQueue` prop in `useSpeech` hook. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+- **added:** `onStart`, `onResume`, `onPause` and `onStop` props in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1) and [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+- **added:** `isInQueue` state value returned by `useSpeech` hook.
+
+## 0.10.0 (18-03-2024)
+
+- **added:** `preserveUtteranceQueue` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1) and [Speech Component API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
 
 ## 0.9.5 (14-03-2024)
 
@@ -87,11 +92,11 @@
 
 ## 0.5.2 (14-10-2023)
 
-- **fixed:** sync issues when using multiple `<Speech>` instances. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage)
+- **fixed:** sync issues when using multiple `<Speech>` instances. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage-1)
 
 ## 0.5.1 (14-10-2023)
 
-- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage)
+- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Multiple Instance Usage](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage-1)
 
 ## 0.5.0 (14-10-2023)
 

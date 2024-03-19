@@ -9,7 +9,7 @@ It is as easy as to import a React component!
 - Text-to-speech
 - Easy to use
 - Highlights words as they are read. See highlighting text using [useSpeech Hook](#highlight-text) and [Speech Component](#highlight-text-1)
-- Handles multiple speech instances easily. See [Multiple Instance Usage](#multiple-instance-usage)
+- Handles multiple speech instances easily. See handling using [useSpeech Hook](#multiple-instance-usage) and [Speech Component](#multiple-instance-usage-1)
 - Fully Customizable. See [useSpeech Hook Usage](#usespeech-hook) and [usage with FaC](#full-customization)
 - Stops speech instance on component unmount.
 
@@ -58,6 +58,53 @@ export default function App() {
 }
 ```
 
+#### Multiple Instance Usage
+
+The `preserveUtteranceQueue` prop, available in both `useSpeech` and `<Speech>` components, facilitates handling multiple speech instances simultaneously.
+
+If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
+
+If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
+
+```jsx
+import React from "react";
+import { useSpeech } from "../components/dist";
+
+function NewsItem({ title, desc }) {
+  const text = (
+    <>
+      <h4 style={{ margin: 0 }}>{title}</h4>
+      <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
+    </>
+  );
+  const { Text, speechStatus, start, stop, isInQueue } = useSpeech({ text, preserveUtteranceQueue: true });
+
+  return (
+    <div>
+      <Text />
+      <div style={{ display: "flex", columnGap: "0.5rem" }}>{!isInQueue ? <button onClick={start}>Start</button> : <button onClick={stop}>Stop</button>}</div>
+    </div>
+  );
+}
+
+export default function App() {
+  // 'news' holds response from some News API
+  const news = [
+    { id: "1", title: "First random title.", desc: "First random description." },
+    { id: "2", title: "Second random title.", desc: "Second random description." },
+    { id: "3", title: "Third random title.", desc: "Third random description." },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+      {news.map(({ id, title, desc }) => (
+        <NewsItem key={id} title={title} desc={desc} />
+      ))}
+    </div>
+  );
+}
+```
+
 #### Highlight Text
 
 ```jsx
@@ -65,7 +112,7 @@ import React from "react";
 import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
-  const { Text, speechStatus, start, pause, stop } = useSpeech({
+  const { Text, speechStatus, start, pause, stop, isInQueue } = useSpeech({
     text: (
       <div>
         <span>This library is awesome!</span>
@@ -76,7 +123,8 @@ export default function App() {
             <span>
               <span>upto </span>
               <span>
-                <span>any level.</span>
+                any
+                <span> level.</span>
               </span>
             </span>
           </div>
@@ -113,12 +161,6 @@ export default function App() {
 ```
 
 #### Multiple Instance Usage
-
-The `preserveUtteranceQueue` prop, available in both `useSpeech` and `<Speech>` components, facilitates handling multiple speech instances simultaneously.
-
-If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
-
-If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
 
 ```jsx
 import React from "react";
@@ -209,7 +251,7 @@ export default function App() {
       voiceURI="Microsoft Heera - English (India)"
       onError={() => console.error("Browser not supported!")}
     >
-      {({ speechStatus, start, pause, stop }) => (
+      {({ speechStatus, start, pause, stop, isInQueue }) => (
         <div style={{ display: "flex", columnGap: "0.5rem" }}>
           {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
           <button onClick={stop}>Stop</button>
@@ -237,6 +279,10 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
 | `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { backgroundColor: "yellow" } }` | Props to customise the highlighted word. |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
+| `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
+| `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |
+| `onPause` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is paused. |
+| `onStop` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is stopped. |
 
 ### Speech Component
 
@@ -251,6 +297,12 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `children` | [`Children`](#children) | No | - | See [usage with FaC](#full-customization) |
 
 ### Types
+
+#### SpeechSynthesisEventHandler
+
+```typescript
+type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
+```
 
 #### Button
 
@@ -268,6 +320,7 @@ type ChildrenOptions = {
   start?: Function;
   pause?: Function;
   stop?: Function;
+  isInQueue?: boolean;
 };
 type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 ```
