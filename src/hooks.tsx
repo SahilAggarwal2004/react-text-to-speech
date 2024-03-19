@@ -20,6 +20,7 @@ export type useSpeechProps = {
   onResume?: SpeechSynthesisEventHandler;
   onPause?: SpeechSynthesisEventHandler;
   onStop?: SpeechSynthesisEventHandler;
+  onBoundary?: SpeechSynthesisEventHandler;
 };
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
@@ -39,6 +40,7 @@ export function useSpeech({
   onResume,
   onPause,
   onStop,
+  onBoundary,
 }: useSpeechProps) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
@@ -97,7 +99,10 @@ export function useSpeech({
     };
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
-    if (highlightText) utterance.onboundary = ({ charIndex, charLength }) => setSpeakingWord({ index: findCharIndex(characters, charIndex), length: charLength });
+    utterance.onboundary = (event) => {
+      if (highlightText) setSpeakingWord({ index: findCharIndex(characters, event.charIndex), length: event.charLength });
+      onBoundary?.(event);
+    };
     if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
     ExtendedSpeechSynthesis.addToQueue(utterance);
     if (synth.speaking) {

@@ -8,8 +8,9 @@ It is as easy as to import a React component!
 
 - Text-to-speech
 - Easy to use
-- Highlights words as they are read. See highlighting text using [useSpeech Hook](#highlight-text) and [Speech Component](#highlight-text-1)
 - Handles multiple speech instances easily. See handling using [useSpeech Hook](#multiple-instance-usage) and [Speech Component](#multiple-instance-usage-1)
+- Highlights words as they are read. See highlighting text using [useSpeech Hook](#highlight-text) and [Speech Component](#highlight-text-1)
+- Provides API to handle speech events. See [Handling Events](#handling-events)
 - Fully Customizable. See [useSpeech Hook Usage](#usespeech-hook) and [usage with FaC](#full-customization)
 - Stops speech instance on component unmount.
 
@@ -133,6 +134,42 @@ export default function App() {
     ),
     highlightText: true,
     highlightProps: { style: { color: "white", backgroundColor: "blue" } },
+  });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+      <Text />
+      <div style={{ display: "flex", columnGap: "0.5rem" }}>
+        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
+        <button onClick={stop}>Stop</button>
+      </div>
+    </div>
+  );
+}
+```
+
+#### Handling Events
+
+```jsx
+import React from "react";
+import { useSpeech } from "react-text-to-speech";
+
+export default function App() {
+  const { Text, speechStatus, start, pause, stop } = useSpeech({
+    text: "This library can handle different speech events!",
+    onStart: (event) => {
+      console.log("Speech Started:", event);
+    },
+    onResume: (event) => {
+      console.log("Speech Resumed:", event);
+    },
+    onPause: (event) => {
+      console.log("Speech Paused:", event);
+    },
+    onStop: (event) => {
+      console.log("Speech Stopped:", event);
+    },
+    onBoundary: console.log,
   });
 
   return (
@@ -283,6 +320,7 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |
 | `onPause` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is paused. |
 | `onStop` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is stopped. |
+| `onBoundary` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed at specified boundaries during speech synthesis. |
 
 ### Speech Component
 
