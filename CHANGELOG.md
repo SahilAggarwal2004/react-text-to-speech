@@ -1,4 +1,8 @@
-# 0.12.0 (19-03-2024)
+# 0.12.1 (22-03-2024)
+
+- **fixed:** speech stops automatically when `text` prop changes
+
+## 0.12.0 (19-03-2024)
 
 - **added:** `onBoundary` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
 

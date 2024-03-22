@@ -45,9 +45,13 @@ export function useSpeech({
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
-  const characters = useMemo(() => JSXToArray(text), [text]);
 
   const cancel = () => window.speechSynthesis?.cancel();
+
+  const characters = useMemo(() => {
+    if (speechStatus === "started") cancel();
+    return JSXToArray(text);
+  }, [text]);
 
   function start() {
     const synth = window.speechSynthesis;

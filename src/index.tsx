@@ -51,7 +51,7 @@ export default function Speech({
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (hookProps.highlightText) setTimeout(() => setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement), 1);
+    if (hookProps.highlightText) setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement);
     else setHighlightContainer(null);
   }, [hookProps.highlightText]);
 
@@ -90,12 +90,12 @@ export function HighlightedText({ id, children, ...props }: DivProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1);
+    setLoading(false);
   }, []);
 
   return (
     <div id={`rtts-${id}`} {...props}>
-      {loading && children}
+      {loading && (typeof children === "string" ? <span>{children}</span> : children)}
     </div>
   );
 }
