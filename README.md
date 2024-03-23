@@ -45,7 +45,14 @@ import React from "react";
 import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: "This library is awesome!" });
+  const {
+    Text, // Component that returns the modified text property
+    speechStatus, // String that stores current speech status
+    start, // Function to start the speech or put it in queue
+    pause, // Function to pause the speech
+    stop, // Function to stop the speech or remove it from queue
+    isInQueue, // Boolean that stores whether a speech utterance is either being spoken or present in queue
+  } = useSpeech({ text: "This library is awesome!" });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>

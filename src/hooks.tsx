@@ -45,6 +45,7 @@ export function useSpeech({
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
+  const statusRef = useRef(speechStatus);
 
   const cancel = () => window.speechSynthesis?.cancel();
 
@@ -126,9 +127,9 @@ export function useSpeech({
     if (speechStatus === "queued") stop();
   }
 
-  function stop() {
-    if (speechStatus === "stopped") return;
-    if (speechStatus !== "queued") return cancel();
+  function stop(status = speechStatus) {
+    if (status === "stopped") return;
+    if (status !== "queued") return cancel();
     setSpeechStatus("stopped");
     ExtendedSpeechSynthesis.removeFromQueue(utteranceRef.current);
   }
@@ -152,14 +153,20 @@ export function useSpeech({
     return element;
   }
 
-  useEffect(() => cancel, [stringifiedCharacters]);
+  useEffect(() => {
+    statusRef.current = speechStatus;
+  }, [speechStatus]);
+
+  useEffect(() => {
+    return () => stop(statusRef.current);
+  }, [stringifiedCharacters]);
 
   return {
     Text: () => highlightedText(text),
     speechStatus,
     start,
     pause,
-    stop,
+    stop: () => stop(),
     isInQueue: speechStatus === "started" || speechStatus === "queued",
   };
 }

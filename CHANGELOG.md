@@ -1,4 +1,8 @@
-# 0.12.1 (22-03-2024)
+## 0.12.4 (23-03-2024)
+
+- **fixed:** a bug where unmount of one `<Speech>` instance used to stop the speech utterance of other instance.
+
+## 0.12.1 (22-03-2024)
 
 - **fixed:** speech stops automatically when `text` prop changes
 
