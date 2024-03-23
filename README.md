@@ -8,8 +8,8 @@ It is as easy as to import a React component!
 
 - Text-to-speech
 - Easy to use
-- Handles multiple speech instances easily. See handling using [useSpeech Hook](#multiple-instance-usage) and [Speech Component](#multiple-instance-usage-1)
 - Highlights words as they are read. See highlighting text using [useSpeech Hook](#highlight-text) and [Speech Component](#highlight-text-1)
+- Handles multiple speech instances easily. See handling using [useSpeech Hook](#multiple-instance-usage) and [Speech Component](#multiple-instance-usage-1)
 - Provides API to handle speech events. See [Handling Events](#handling-events)
 - Fully Customizable. See [useSpeech Hook Usage](#usespeech-hook) and [usage with FaC](#full-customization)
 - Stops speech instance on component unmount.
@@ -59,24 +59,79 @@ export default function App() {
 }
 ```
 
+#### Highlight Text
+
+The `highlightText` & `highlightProps` props, available in both `useSpeech` hook and `<Speech>` component, can be used to highlight text and modify its styling.
+
+Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and `react-text-to-speech` supports it!
+
+NOTE: It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
+
+```jsx
+import React, { useMemo } from "react";
+import { useSpeech } from "react-text-to-speech";
+
+export default function App() {
+  const text = useMemo(
+    () => (
+      <div>
+        <span>This library is awesome!</span>
+        <div>
+          <div>
+            <span>It can also read and highlight </span>
+            <span>nested text... </span>
+            <span>
+              <span>upto </span>
+              <span>
+                any
+                <span> level.</span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+    []
+  );
+  const { Text, speechStatus, start, pause, stop, isInQueue } = useSpeech({
+    text,
+    highlightText: true,
+    highlightProps: { style: { color: "white", backgroundColor: "blue" } },
+  });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+      <Text />
+      <div style={{ display: "flex", columnGap: "0.5rem" }}>
+        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
+        <button onClick={stop}>Stop</button>
+      </div>
+    </div>
+  );
+}
+```
+
 #### Multiple Instance Usage
 
-The `preserveUtteranceQueue` prop, available in both `useSpeech` and `<Speech>` components, facilitates handling multiple speech instances simultaneously.
+The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Speech>` component, facilitates handling multiple speech instances simultaneously.
 
 If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
 
 If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
 
 ```jsx
-import React from "react";
-import { useSpeech } from "../components/dist";
+import React, { useMemo } from "react";
+import { useSpeech } from "react-text-to-speech";
 
 function NewsItem({ title, desc }) {
-  const text = (
-    <>
-      <h4 style={{ margin: 0 }}>{title}</h4>
-      <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
-    </>
+  const text = useMemo(
+    () => (
+      <>
+        <h4 style={{ margin: 0 }}>{title}</h4>
+        <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
+      </>
+    ),
+    [title, desc]
   );
   const { Text, speechStatus, start, stop, isInQueue } = useSpeech({ text, preserveUtteranceQueue: true });
 
@@ -101,48 +156,6 @@ export default function App() {
       {news.map(({ id, title, desc }) => (
         <NewsItem key={id} title={title} desc={desc} />
       ))}
-    </div>
-  );
-}
-```
-
-#### Highlight Text
-
-```jsx
-import React from "react";
-import { useSpeech } from "react-text-to-speech";
-
-export default function App() {
-  const { Text, speechStatus, start, pause, stop, isInQueue } = useSpeech({
-    text: (
-      <div>
-        <span>This library is awesome!</span>
-        <div>
-          <div>
-            <span>It can also read and highlight </span>
-            <span>nested text... </span>
-            <span>
-              <span>upto </span>
-              <span>
-                any
-                <span> level.</span>
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
-    ),
-    highlightText: true,
-    highlightProps: { style: { color: "white", backgroundColor: "blue" } },
-  });
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
-      <Text />
-      <div style={{ display: "flex", columnGap: "0.5rem" }}>
-        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
-        <button onClick={stop}>Stop</button>
-      </div>
     </div>
   );
 }
@@ -197,11 +210,70 @@ export default function App() {
 }
 ```
 
+#### Highlight Text
+
+For `<Speech>` component, `<HighlightedText>` component exported by `react-text-to-speech` can be used to display the highlighted text.
+
+NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
+
+```jsx
+import React, { useMemo } from "react";
+import Speech, { HighlightedText } from "react-text-to-speech";
+
+export default function App() {
+  const text = useMemo(
+    () => (
+      <div>
+        <span>This library is awesome!</span>
+        <div>
+          <div>
+            <span>It can also read and highlight </span>
+            <span>nested text... </span>
+            <span>
+              <span>upto </span>
+              <span>
+                <span>any level.</span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+    []
+  );
+
+  return (
+    <>
+      <Speech id="unique-id" text={text} highlightText={true} />
+      <HighlightedText id="unique-id">{text}</HighlightedText>
+    </>
+  );
+}
+```
+
 #### Multiple Instance Usage
 
 ```jsx
-import React from "react";
+import React, { useMemo } from "react";
 import Speech from "react-text-to-speech";
+
+function NewsItem({ title, desc }) {
+  const text = useMemo(
+    () => (
+      <>
+        <h4 style={{ margin: 0 }}>{title}</h4>
+        <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
+      </>
+    ),
+    [title, desc],
+  );
+  return (
+    <div>
+      {text}
+      <Speech text={text} />
+    </div>
+  );
+}
 
 export default function App() {
   // 'news' holds response from some News API
@@ -213,59 +285,10 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
-      {news.map(({ id, title, desc }) => {
-        const text = (
-          <>
-            <h4 style={{ margin: 0 }}>{title}</h4>
-            <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
-          </>
-        );
-        return (
-          <div key={id}>
-            {text}
-            <Speech text={text} />
-          </div>
-        );
-      })}
+      {news.map(({ id, title, desc }) => (
+        <NewsItem key={id} title={title} desc={desc} />
+      ))}
     </div>
-  );
-}
-```
-
-#### Highlight Text
-
-If `highlightText` prop is set to `true`, the words in the text will be highlighted as they are spoken. `<HighlightedText>` component exported by `react-text-to-speech` can be used to accomplish this purpose.
-
-NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
-
-```jsx
-import React from "react";
-import Speech, { HighlightedText } from "react-text-to-speech";
-
-export default function App() {
-  const text = (
-    <div>
-      <span>This library is awesome!</span>
-      <div>
-        <div>
-          <span>It can also read and highlight </span>
-          <span>nested text... </span>
-          <span>
-            <span>upto </span>
-            <span>
-              <span>any level.</span>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      <Speech id="unique-id" text={text} highlightText={true} />
-      <HighlightedText id="unique-id">{text}</HighlightedText>
-    </>
   );
 }
 ```
@@ -312,9 +335,9 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `volume` | `number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
 | `lang` | `string` | No | - | The language in which the utterance will be spoken. |
 | `voiceURI` | `string \| string[]` | No | - | The voice using which the utterance will be spoken. If provided an array, further voices will be used as fallback if initial voices are not found. See possible values [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
-| `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
 | `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { backgroundColor: "yellow" } }` | Props to customise the highlighted word. |
+| `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
 | `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
 | `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |

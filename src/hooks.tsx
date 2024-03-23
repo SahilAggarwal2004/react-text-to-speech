@@ -12,9 +12,9 @@ export type useSpeechProps = {
   volume?: number;
   lang?: string;
   voiceURI?: string | string[];
-  preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
   highlightProps?: SpanProps;
+  preserveUtteranceQueue?: boolean;
   onError?: Function;
   onStart?: SpeechSynthesisEventHandler;
   onResume?: SpeechSynthesisEventHandler;
@@ -32,9 +32,9 @@ export function useSpeech({
   volume = 1,
   lang,
   voiceURI,
-  preserveUtteranceQueue = false,
   highlightText = false,
   highlightProps = { style: { backgroundColor: "yellow" } },
+  preserveUtteranceQueue = false,
   onError = () => alert("Browser not supported! Try some other browser."),
   onStart,
   onResume,
@@ -48,9 +48,9 @@ export function useSpeech({
 
   const cancel = () => window.speechSynthesis?.cancel();
 
-  const characters = useMemo(() => {
-    if (speechStatus === "started") cancel();
-    return JSXToArray(text);
+  const [characters, stringifiedCharacters] = useMemo(() => {
+    const characters = JSXToArray(text);
+    return [characters, JSON.stringify(characters)];
   }, [text]);
 
   function start() {
@@ -152,7 +152,7 @@ export function useSpeech({
     return element;
   }
 
-  useEffect(() => cancel, []);
+  useEffect(() => cancel, [stringifiedCharacters]);
 
   return {
     Text: () => highlightedText(text),
