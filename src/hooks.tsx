@@ -76,6 +76,7 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
+      window.removeEventListener("beforeunload", cancel);
       setSpeechStatus("stopped");
       setSpeakingWord(undefined);
       utterance.onstart = null;
@@ -90,6 +91,7 @@ export function useSpeech({
       onStop?.(event);
     };
     utterance.onstart = (event) => {
+      window.addEventListener("beforeunload", cancel);
       setSpeechStatus("started");
       onStart?.(event);
     };
@@ -150,10 +152,7 @@ export function useSpeech({
     return element;
   }
 
-  useEffect(() => {
-    cancel();
-    return cancel;
-  }, []);
+  useEffect(() => cancel, []);
 
   return {
     Text: () => highlightedText(text),
