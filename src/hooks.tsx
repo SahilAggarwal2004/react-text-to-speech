@@ -86,7 +86,6 @@ export function useSpeech({
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      if (synth.paused) cancel();
       ExtendedSpeechSynthesis.removeFromQueue();
       ExtendedSpeechSynthesis.speakFromQueue();
       onStop?.(event);
