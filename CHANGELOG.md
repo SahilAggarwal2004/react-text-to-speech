@@ -1,4 +1,4 @@
-# 0.12.6 (26-03-2024)
+# 0.12.8 (26-03-2024)
 
 - **fixed:** a bug where speech doesn't stop when start function of `useSpeech` hook was called but component was unmounted before speech actually starts.
 

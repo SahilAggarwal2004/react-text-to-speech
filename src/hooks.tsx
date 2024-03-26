@@ -111,14 +111,14 @@ export function useSpeech({
     };
     if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
     ExtendedSpeechSynthesis.addToQueue(utterance);
-    setSpeechStatus("queued");
     if (synth.speaking) {
       if (preserveUtteranceQueue) {
-        if (speechStatus !== "started") return;
+        if (speechStatus !== "started") return setSpeechStatus("queued");
         ExtendedSpeechSynthesis.removeFromQueue();
       }
       cancel();
     }
+    setSpeechStatus("started");
     ExtendedSpeechSynthesis.speakFromQueue();
   }
 
