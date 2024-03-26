@@ -1,3 +1,7 @@
+# 0.12.6 (26-03-2024)
+
+- **fixed:** a bug where speech doesn't stop when start function of `useSpeech` hook was called but component was unmounted before speech actually starts.
+
 ## 0.12.4 (23-03-2024)
 
 - **fixed:** a bug where unmount of one `<Speech>` instance used to stop the speech utterance of other instance.

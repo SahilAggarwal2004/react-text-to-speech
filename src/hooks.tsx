@@ -59,6 +59,7 @@ export function useSpeech({
     if (!synth) return onError();
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
+    setSpeechStatus("queued");
     const utterance = (utteranceRef.current = new SpeechSynthesisUtterance(sanitize(JSXToText(text))));
     utterance.pitch = pitch;
     utterance.rate = rate;
@@ -113,7 +114,7 @@ export function useSpeech({
     ExtendedSpeechSynthesis.addToQueue(utterance);
     if (synth.speaking) {
       if (preserveUtteranceQueue) {
-        if (speechStatus !== "started") return setSpeechStatus("queued");
+        if (speechStatus !== "started") return;
         ExtendedSpeechSynthesis.removeFromQueue();
       }
       cancel();
