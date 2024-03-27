@@ -48,10 +48,10 @@ export default function App() {
   const {
     Text, // Component that returns the modified text property
     speechStatus, // String that stores current speech status
+    isInQueue, // Boolean that stores whether a speech utterance is either being spoken or present in queue
     start, // Function to start the speech or put it in queue
     pause, // Function to pause the speech
     stop, // Function to stop the speech or remove it from queue
-    isInQueue, // Boolean that stores whether a speech utterance is either being spoken or present in queue
   } = useSpeech({ text: "This library is awesome!" });
 
   return (
@@ -100,7 +100,7 @@ export default function App() {
     ),
     []
   );
-  const { Text, speechStatus, start, pause, stop, isInQueue } = useSpeech({
+  const { Text, speechStatus, isInQueue, start, pause, stop } = useSpeech({
     text,
     highlightText: true,
     highlightProps: { style: { color: "white", backgroundColor: "blue" } },
@@ -140,7 +140,7 @@ function NewsItem({ title, desc }) {
     ),
     [title, desc]
   );
-  const { Text, speechStatus, start, stop, isInQueue } = useSpeech({ text, preserveUtteranceQueue: true });
+  const { Text, speechStatus, isInQueue, start, stop } = useSpeech({ text, preserveUtteranceQueue: true });
 
   return (
     <div>
@@ -272,7 +272,7 @@ function NewsItem({ title, desc }) {
         <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
       </>
     ),
-    [title, desc],
+    [title, desc]
   );
   return (
     <div>
@@ -318,7 +318,7 @@ export default function App() {
       voiceURI="Microsoft Heera - English (India)"
       onError={() => console.error("Browser not supported!")}
     >
-      {({ speechStatus, start, pause, stop, isInQueue }) => (
+      {({ speechStatus, isInQueue, start, pause, stop }) => (
         <div style={{ display: "flex", columnGap: "0.5rem" }}>
           {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
           <button onClick={stop}>Stop</button>
@@ -385,10 +385,10 @@ import { ReactNode } from "react";
 type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 type ChildrenOptions = {
   speechStatus?: SpeechStatus;
+  isInQueue?: boolean;
   start?: Function;
   pause?: Function;
   stop?: Function;
-  isInQueue?: boolean;
 };
 type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 ```

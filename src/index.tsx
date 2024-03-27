@@ -13,6 +13,7 @@ export type { SpeechStatus };
 
 export type ChildrenOptions = {
   speechStatus?: SpeechStatus;
+  isInQueue?: boolean;
   start?: Function;
   pause?: Function;
   stop?: Function;
@@ -47,7 +48,7 @@ export default function Speech({
   ...hookProps
 }: SpeechProps) {
   const { Text, ...childrenOptions } = useSpeech(hookProps);
-  const { start, pause, stop, isInQueue } = childrenOptions;
+  const { isInQueue, start, pause, stop } = childrenOptions;
   const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {

@@ -25,6 +25,18 @@ export type useSpeechProps = {
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
+function useStateRef<T>(init: T) {
+  const [state, setState] = useState(init);
+  const ref = useRef(init);
+
+  function setStateRef(value: T) {
+    ref.current = value;
+    setState(value);
+  }
+
+  return [state, ref, setStateRef] as const;
+}
+
 export function useSpeech({
   text,
   pitch = 1,
@@ -42,10 +54,9 @@ export function useSpeech({
   onStop,
   onBoundary,
 }: useSpeechProps) {
-  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>("stopped");
+  const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
-  const statusRef = useRef(speechStatus);
 
   const cancel = () => window.speechSynthesis?.cancel();
 
@@ -112,14 +123,12 @@ export function useSpeech({
     if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
     ExtendedSpeechSynthesis.addToQueue(utterance);
     if (synth.speaking) {
-      if (preserveUtteranceQueue) {
-        if (speechStatus !== "started") return setSpeechStatus("queued");
-        ExtendedSpeechSynthesis.removeFromQueue();
-      }
-      cancel();
+      if (preserveUtteranceQueue && speechStatus !== "started") setSpeechStatus("queued");
+      else cancel();
+      if (preserveUtteranceQueue) return;
     }
-    setSpeechStatus("started");
     ExtendedSpeechSynthesis.speakFromQueue();
+    setSpeechStatus("started");
   }
 
   function pause() {
@@ -130,8 +139,8 @@ export function useSpeech({
   function stop(status = speechStatus) {
     if (status === "stopped") return;
     if (status !== "queued") return cancel();
-    setSpeechStatus("stopped");
     ExtendedSpeechSynthesis.removeFromQueue(utteranceRef.current);
+    setSpeechStatus("stopped");
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
@@ -154,19 +163,15 @@ export function useSpeech({
   }
 
   useEffect(() => {
-    statusRef.current = speechStatus;
-  }, [speechStatus]);
-
-  useEffect(() => {
-    return () => stop(statusRef.current);
+    return () => stop(speechStatusRef.current);
   }, [stringifiedCharacters]);
 
   return {
     Text: () => highlightedText(text),
     speechStatus,
+    isInQueue: speechStatus === "started" || speechStatus === "queued",
     start,
     pause,
     stop: () => stop(),
-    isInQueue: speechStatus === "started" || speechStatus === "queued",
   };
 }
