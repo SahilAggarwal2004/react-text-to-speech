@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
     "target": "ES6",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react",
     "declaration": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "lib": ["DOM", "ESNext"],
     "skipLibCheck": true,
-    "jsx": "react",
-    "rootDir": "src",
-    "outDir": "dist"
+    "noImplicitAny": true
   }
 }
