@@ -1,28 +1,8 @@
 import { ReactNode, isValidElement } from "react";
 
-export type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
-
 export type Index = string | number;
 
 export type StringArray = string[] | StringArray[];
-
-export class ExtendedSpeechSynthesis {
-  static queue: SpeechUtterancesQueue = [];
-  static addToQueue(utterance: SpeechSynthesisUtterance) {
-    this.queue.push(utterance);
-  }
-  static removeFromQueue(utterance?: SpeechSynthesisUtterance) {
-    if (!utterance) return this.queue.shift();
-    this.queue = this.queue.filter((queuedUtterance) => queuedUtterance !== utterance);
-  }
-  static clearQueue() {
-    this.queue = [];
-  }
-  static speakFromQueue() {
-    const utterance = this.queue[0];
-    if (utterance) speechSynthesis.speak(utterance);
-  }
-}
 
 export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 

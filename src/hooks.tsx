@@ -1,7 +1,10 @@
 import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
-import { ExtendedSpeechSynthesis, JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
+import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
+import { QueueChangeEventHandler, addToQueue, clearQueue, removeFromQueue, speakFromQueue } from "./queue.js";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+export type SpeechSynthesisErrorHandler = (error: Error) => any;
 
 export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 
@@ -15,12 +18,13 @@ export type useSpeechProps = {
   highlightText?: boolean;
   highlightProps?: SpanProps;
   preserveUtteranceQueue?: boolean;
-  onError?: Function;
+  onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;
   onResume?: SpeechSynthesisEventHandler;
   onPause?: SpeechSynthesisEventHandler;
   onStop?: SpeechSynthesisEventHandler;
   onBoundary?: SpeechSynthesisEventHandler;
+  onQueueChange?: QueueChangeEventHandler;
 };
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
@@ -47,12 +51,13 @@ export function useSpeech({
   highlightText = false,
   highlightProps = { style: { backgroundColor: "yellow" } },
   preserveUtteranceQueue = false,
-  onError = () => alert("Browser not supported! Try some other browser."),
+  onError = console.error,
   onStart,
   onResume,
   onPause,
   onStop,
   onBoundary,
+  onQueueChange,
 }: useSpeechProps) {
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
@@ -67,7 +72,7 @@ export function useSpeech({
 
   function start() {
     const synth = window.speechSynthesis;
-    if (!synth) return onError();
+    if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
     const utterance = (utteranceRef.current = new SpeechSynthesisUtterance(sanitize(JSXToText(text))));
@@ -97,8 +102,8 @@ export function useSpeech({
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      ExtendedSpeechSynthesis.removeFromQueue();
-      ExtendedSpeechSynthesis.speakFromQueue();
+      removeFromQueue(onQueueChange);
+      speakFromQueue();
       onStop?.(event);
     };
     utterance.onstart = (event) => {
@@ -120,14 +125,14 @@ export function useSpeech({
       if (highlightText) setSpeakingWord({ index: findCharIndex(characters, event.charIndex), length: event.charLength });
       onBoundary?.(event);
     };
-    if (!preserveUtteranceQueue) ExtendedSpeechSynthesis.clearQueue();
-    ExtendedSpeechSynthesis.addToQueue(utterance);
+    if (!preserveUtteranceQueue) clearQueue(onQueueChange);
+    addToQueue(onQueueChange, utterance);
     if (synth.speaking) {
       if (preserveUtteranceQueue && speechStatus !== "started") setSpeechStatus("queued");
       else cancel();
       if (preserveUtteranceQueue) return;
     }
-    ExtendedSpeechSynthesis.speakFromQueue();
+    speakFromQueue();
     setSpeechStatus("started");
   }
 
@@ -139,7 +144,7 @@ export function useSpeech({
   function stop(status = speechStatus) {
     if (status === "stopped") return;
     if (status !== "queued") return cancel();
-    ExtendedSpeechSynthesis.removeFromQueue(utteranceRef.current);
+    removeFromQueue(onQueueChange, utteranceRef.current);
     setSpeechStatus("stopped");
   }
 

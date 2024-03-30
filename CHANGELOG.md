@@ -1,4 +1,8 @@
-# 0.12.8 (26-03-2024)
+# 0.13.0 (31-03-2024)
+
+- **added:** `onQueueChange` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
+
+## 0.12.8 (26-03-2024)
 
 - **fixed:** a bug where speech doesn't stop when start function of `useSpeech` hook was called but component was unmounted before speech actually starts.
 

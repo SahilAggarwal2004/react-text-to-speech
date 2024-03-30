@@ -3,13 +3,9 @@ import { createPortal } from "react-dom";
 import { SpeechStatus, useSpeech, useSpeechProps } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 
-export { useSpeechProps };
-
 export type Button = JSX.Element | string | null;
 
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-
-export type { SpeechStatus };
 
 export type ChildrenOptions = {
   speechStatus?: SpeechStatus;
@@ -31,11 +27,7 @@ export type SpeechProps = useSpeechProps & {
   children?: Children;
 };
 
-export type { SpanProps } from "./hooks.js";
-
-export type { IconProps } from "./icons.js";
-
-export type { Index, SpeechUtterancesQueue, StringArray } from "./utils.js";
+export { useSpeech };
 
 export default function Speech({
   id,
@@ -100,5 +92,3 @@ export function HighlightedText({ id, children, ...props }: DivProps) {
     </div>
   );
 }
-
-export { useSpeech };

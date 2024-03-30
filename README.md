@@ -9,8 +9,8 @@ It is as easy as to import a React component!
 - Text-to-speech
 - Easy to use
 - Highlights words as they are read. See highlighting text using [useSpeech Hook](#highlight-text) and [Speech Component](#highlight-text-1)
+- Provides API to handle errors and events. See [Handling Errors and Events](#handling-errors-and-events)
 - Handles multiple speech instances easily. See handling using [useSpeech Hook](#multiple-instance-usage) and [Speech Component](#multiple-instance-usage-1)
-- Provides API to handle speech events. See [Handling Events](#handling-events)
 - Fully Customizable. See [useSpeech Hook Usage](#usespeech-hook) and [usage with FaC](#full-customization)
 - Stops speech instance on component unmount.
 
@@ -72,7 +72,7 @@ The `highlightText` & `highlightProps` props, available in both `useSpeech` hook
 
 Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and `react-text-to-speech` supports it!
 
-NOTE: It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
+`NOTE`: It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
 
 ```jsx
 import React, { useMemo } from "react";
@@ -100,10 +100,54 @@ export default function App() {
     ),
     []
   );
-  const { Text, speechStatus, isInQueue, start, pause, stop } = useSpeech({
+  const { Text, speechStatus, start, pause, stop } = useSpeech({
     text,
     highlightText: true,
     highlightProps: { style: { color: "white", backgroundColor: "blue" } },
+  });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+      <Text />
+      <div style={{ display: "flex", columnGap: "0.5rem" }}>
+        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
+        <button onClick={stop}>Stop</button>
+      </div>
+    </div>
+  );
+}
+```
+
+#### Handling Errors and Events
+
+```jsx
+import React from "react";
+import { useSpeech } from "react-text-to-speech";
+
+export default function App() {
+  const { Text, speechStatus, start, pause, stop } = useSpeech({
+    text: "This library can handle different speech events!",
+    onError: (error) => {
+      alert(error.message);
+    },
+    onStart: (event) => {
+      console.log("Speech Started:", event);
+    },
+    onResume: (event) => {
+      console.log("Speech Resumed:", event);
+    },
+    onPause: (event) => {
+      console.log("Speech Paused:", event);
+    },
+    onStop: (event) => {
+      console.log("Speech Stopped:", event);
+    },
+    onBoundary: (event) => {
+      console.log("Boundary:", event);
+    },
+    onQueueChange: (queue) => {
+      console.log("Queue updated:", queue);
+    },
   });
 
   return (
@@ -125,6 +169,8 @@ The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Spee
 If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
 
 If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
+
+`TIP`: The `onQueueChange` event handler used [above](#handling-errors-and-events) runs whenever queue updates.
 
 ```jsx
 import React, { useMemo } from "react";
@@ -168,42 +214,6 @@ export default function App() {
 }
 ```
 
-#### Handling Events
-
-```jsx
-import React from "react";
-import { useSpeech } from "react-text-to-speech";
-
-export default function App() {
-  const { Text, speechStatus, start, pause, stop } = useSpeech({
-    text: "This library can handle different speech events!",
-    onStart: (event) => {
-      console.log("Speech Started:", event);
-    },
-    onResume: (event) => {
-      console.log("Speech Resumed:", event);
-    },
-    onPause: (event) => {
-      console.log("Speech Paused:", event);
-    },
-    onStop: (event) => {
-      console.log("Speech Stopped:", event);
-    },
-    onBoundary: console.log,
-  });
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
-      <Text />
-      <div style={{ display: "flex", columnGap: "0.5rem" }}>
-        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
-        <button onClick={stop}>Stop</button>
-      </div>
-    </div>
-  );
-}
-```
-
 ### Speech Component
 
 #### Basic Usage
@@ -221,7 +231,7 @@ export default function App() {
 
 For `<Speech>` component, `<HighlightedText>` component exported by `react-text-to-speech` can be used to display the highlighted text.
 
-NOTE: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
+`NOTE`: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
 
 ```jsx
 import React, { useMemo } from "react";
@@ -310,14 +320,7 @@ import Speech from "react-text-to-speech";
 
 export default function App() {
   return (
-    <Speech
-      text="This is a fully customized speech component."
-      pitch={1.5}
-      rate={2}
-      volume={0.5}
-      voiceURI="Microsoft Heera - English (India)"
-      onError={() => console.error("Browser not supported!")}
-    >
+    <Speech text="This is a fully customized speech component." pitch={1.5} rate={2} volume={0.5} voiceURI="Microsoft Heera - English (India)">
       {({ speechStatus, isInQueue, start, pause, stop }) => (
         <div style={{ display: "flex", columnGap: "0.5rem" }}>
           {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
@@ -345,12 +348,13 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
 | `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { backgroundColor: "yellow" } }` | Props to customise the highlighted word. |
 | `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
-| `onError` | `Function` | No | `() => alert('Browser not supported! Try some other browser.')` | Function to be executed if browser doesn't support `Web Speech API`. |
+| `onError` | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No | `console.error` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
 | `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |
 | `onPause` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is paused. |
 | `onStop` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is stopped. |
 | `onBoundary` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed at specified boundaries during speech synthesis. |
+| `onQueueChange` | [`QueueChangeEventHandler`](#queuechangeeventhandler) | No | - | Function to be executed whenever `queue` changes. |
 
 ### Speech Component
 
@@ -366,10 +370,23 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 
 ### Types
 
+#### SpeechSynthesisErrorHandler
+
+```typescript
+type SpeechSynthesisErrorHandler = (error: Error) => any;
+```
+
 #### SpeechSynthesisEventHandler
 
 ```typescript
 type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
+```
+
+#### QueueChangeEventHandler
+
+```typescript
+type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
+type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 ```
 
 #### Button
