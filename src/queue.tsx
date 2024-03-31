@@ -9,9 +9,10 @@ export function addToQueue(utterance: SpeechSynthesisUtterance, callback?: Queue
   callback?.(queue);
 }
 
-export function removeFromQueue(utterance?: SpeechSynthesisUtterance | null, callback?: QueueChangeEventHandler) {
-  if (!utterance) queue.shift();
-  else queue = queue.filter((queuedUtterance) => queuedUtterance !== utterance);
+export function removeFromQueue(utterance: SpeechSynthesisUtterance, callback?: QueueChangeEventHandler) {
+  const index = queue.indexOf(utterance);
+  if (index === -1) return;
+  queue.splice(index, 1);
   callback?.(queue);
 }
 

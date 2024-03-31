@@ -102,7 +102,7 @@ export function useSpeech({
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      removeFromQueue(null, onQueueChange);
+      removeFromQueue(utteranceRef.current!, onQueueChange);
       speakFromQueue();
       onStop?.(event);
     };
@@ -128,11 +128,9 @@ export function useSpeech({
     if (!preserveUtteranceQueue) clearQueue();
     addToQueue(utterance, onQueueChange);
     if (synth.speaking) {
-      if (preserveUtteranceQueue && speechStatus !== "started") setSpeechStatus("queued");
+      if (preserveUtteranceQueue && speechStatus !== "started") return setSpeechStatus("queued");
       else cancel();
-      if (preserveUtteranceQueue) return;
-    }
-    speakFromQueue();
+    } else speakFromQueue();
     setSpeechStatus("started");
   }
 
@@ -144,7 +142,7 @@ export function useSpeech({
   function stop(status = speechStatus) {
     if (status === "stopped") return;
     if (status !== "queued") return cancel();
-    removeFromQueue(utteranceRef.current, onQueueChange);
+    removeFromQueue(utteranceRef.current!, onQueueChange);
     setSpeechStatus("stopped");
   }
 
