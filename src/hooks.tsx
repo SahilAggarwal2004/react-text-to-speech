@@ -60,7 +60,7 @@ export function useSpeech({
   onQueueChange,
 }: useSpeechProps) {
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
-  const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number }>();
+  const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number } | null>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
 
   const cancel = () => window.speechSynthesis?.cancel();
@@ -95,14 +95,14 @@ export function useSpeech({
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
       window.removeEventListener("beforeunload", cancel);
       setSpeechStatus("stopped");
-      setSpeakingWord(undefined);
+      setSpeakingWord(null);
       utterance.onstart = null;
       utterance.onresume = null;
       utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      removeFromQueue(onQueueChange);
+      removeFromQueue(null, onQueueChange);
       speakFromQueue();
       onStop?.(event);
     };
@@ -125,8 +125,8 @@ export function useSpeech({
       if (highlightText) setSpeakingWord({ index: findCharIndex(characters, event.charIndex), length: event.charLength });
       onBoundary?.(event);
     };
-    if (!preserveUtteranceQueue) clearQueue(onQueueChange);
-    addToQueue(onQueueChange, utterance);
+    if (!preserveUtteranceQueue) clearQueue();
+    addToQueue(utterance, onQueueChange);
     if (synth.speaking) {
       if (preserveUtteranceQueue && speechStatus !== "started") setSpeechStatus("queued");
       else cancel();
@@ -144,12 +144,12 @@ export function useSpeech({
   function stop(status = speechStatus) {
     if (status === "stopped") return;
     if (status !== "queued") return cancel();
-    removeFromQueue(onQueueChange, utteranceRef.current);
+    removeFromQueue(utteranceRef.current, onQueueChange);
     setSpeechStatus("stopped");
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
-    if (!isParent(speakingWord?.index, parentIndex)) return element;
+    if (!isParent(parentIndex, speakingWord?.index)) return element;
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {

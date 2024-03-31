@@ -45,7 +45,7 @@ export function findCharIndex(characters: StringArray, index: number) {
   return recursiveSearch(characters);
 }
 
-export function isParent(index: string | undefined, parentIndex: string) {
+export function isParent(parentIndex: string, index?: string) {
   if (!index?.startsWith(parentIndex)) return false;
   if (parentIndex) {
     const indexParts = index.split("-");
