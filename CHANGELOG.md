@@ -1,4 +1,8 @@
-# 0.13.3 (02-04-2024)
+# 0.13.4 (02-04-2024)
+
+- **improved:** major performance optimisation.
+
+## 0.13.3 (02-04-2024)
 
 - **changed:** switched from [pnpm](https://pnpm.io/) to [bun](https://bun.sh/)
 

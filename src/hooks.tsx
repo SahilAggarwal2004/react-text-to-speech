@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
-import { JSXToArray, JSXToText, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
+import { ArrayToText, JSXToArray, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
 import { QueueChangeEventHandler, addToQueue, clearQueue, removeFromQueue, speakFromQueue } from "./queue.js";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
@@ -65,9 +65,9 @@ export function useSpeech({
 
   const cancel = () => window.speechSynthesis?.cancel();
 
-  const [characters, stringifiedCharacters] = useMemo(() => {
-    const characters = JSXToArray(text);
-    return [characters, JSON.stringify(characters)];
+  const [words, stringifiedWords] = useMemo(() => {
+    const words = JSXToArray(text);
+    return [words, JSON.stringify(words)];
   }, [text]);
 
   function start() {
@@ -75,7 +75,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const utterance = new SpeechSynthesisUtterance(sanitize(JSXToText(text)));
+    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words)));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -122,7 +122,7 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      if (highlightText) setSpeakingWord({ index: findCharIndex(characters, event.charIndex), length: event.charLength });
+      if (highlightText) setSpeakingWord({ index: findCharIndex(words, event.charIndex), length: event.charLength });
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
@@ -153,7 +153,7 @@ export function useSpeech({
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {
-      element = element.toString();
+      element = String(element);
       const { index, length } = speakingWord!;
       const before = (element as string).slice(0, +index.split("-").at(-1)!).length;
       return (
@@ -169,7 +169,7 @@ export function useSpeech({
 
   useEffect(() => {
     return () => stop(speechStatusRef.current);
-  }, [stringifiedCharacters]);
+  }, [stringifiedWords]);
 
   return {
     Text: () => highlightedText(text),

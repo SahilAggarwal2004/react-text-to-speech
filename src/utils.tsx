@@ -2,7 +2,7 @@ import { ReactNode, isValidElement } from "react";
 
 export type Index = string | number;
 
-export type StringArray = string[] | StringArray[];
+export type StringArray = string | StringArray[];
 
 export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 
@@ -11,38 +11,33 @@ export const sanitize = (text: string) => text.replace(/[;<>]/g, (match) => (mat
 export function JSXToArray(element: ReactNode): StringArray {
   if (isValidElement(element)) {
     const { children } = element.props;
-    if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToArray(child));
+    if (Array.isArray(children)) return (children as ReactNode[]).map(JSXToArray);
     return JSXToArray(children);
   }
-  return typeof element === "string" ? element.split("") : typeof element === "number" ? [element.toString()] : [];
+  return typeof element === "string" ? element : typeof element === "number" ? String(element) : "";
 }
 
-export function JSXToText(element: ReactNode): string {
-  if (isValidElement(element)) {
-    const { children } = element.props;
-    if (Array.isArray(children)) return (children as ReactNode[]).map((child) => JSXToText(child)).join(" ") + " ";
-    return JSXToText(children);
-  }
-  return typeof element === "string" ? element : typeof element === "number" ? element.toString() : "";
+export function ArrayToText(element: StringArray): string {
+  if (typeof element === "string") return element;
+  return element.map(ArrayToText).join(" ") + " ";
 }
 
-export function findCharIndex(characters: StringArray, index: number) {
+export function findCharIndex(words: StringArray, index: number) {
   let currentIndex = 0;
-  function recursiveSearch(array: StringArray, parentIndex: Index = ""): string {
-    for (let i = 0; i < array.length; i++) {
-      const element = array[i];
-      if (Array.isArray(element)) {
-        const result = recursiveSearch(element, i);
-        if (result) return getIndex(parentIndex, result);
-      } else {
-        currentIndex++;
-        if (currentIndex > index) return getIndex(parentIndex, i);
-      }
+  function recursiveSearch(stringArray: StringArray, parentIndex: Index = ""): string {
+    if (typeof stringArray === "string") {
+      const elementIndex = index - currentIndex;
+      return (currentIndex += stringArray.length) + 1 > index ? getIndex(parentIndex, elementIndex) : "";
+    }
+    for (let i = 0; i < stringArray.length; i++) {
+      const element = stringArray[i];
+      const result = recursiveSearch(element, i);
+      if (result) return getIndex(parentIndex, result);
     }
     currentIndex++;
     return "";
   }
-  return recursiveSearch(characters);
+  return recursiveSearch(words);
 }
 
 export function isParent(parentIndex: string, index?: string) {
