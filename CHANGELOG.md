@@ -1,4 +1,8 @@
-# 0.13.0 (31-03-2024)
+# 0.13.3 (02-04-2024)
+
+- **changed:** switched from [pnpm](https://pnpm.io/) to [bun](https://bun.sh/)
+
+## 0.13.0 (31-03-2024)
 
 - **added:** `onQueueChange` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://www.npmjs.com/package/react-text-to-speech#usespeech-hook-1)
 

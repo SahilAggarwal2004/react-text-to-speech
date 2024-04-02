@@ -1,12 +1,12 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "pnpm i && tsc"
+    "build": "bun i && tsc"
   },
   "repository": {
     "type": "git",

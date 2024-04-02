@@ -3,5 +3,5 @@ node_modules
 src
 .gitignore
 CHANGELOG.md
-pnpm-lock.yaml
+bun.lockb
 tsconfig.json

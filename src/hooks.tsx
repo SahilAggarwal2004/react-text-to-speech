@@ -75,7 +75,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const utterance = (utteranceRef.current = new SpeechSynthesisUtterance(sanitize(JSXToText(text))));
+    const utterance = new SpeechSynthesisUtterance(sanitize(JSXToText(text)));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -102,7 +102,7 @@ export function useSpeech({
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
-      removeFromQueue(utteranceRef.current!, onQueueChange);
+      removeFromQueue(utterance, onQueueChange);
       speakFromQueue();
       onStop?.(event);
     };
@@ -128,8 +128,10 @@ export function useSpeech({
     if (!preserveUtteranceQueue) clearQueue();
     addToQueue(utterance, onQueueChange);
     if (synth.speaking) {
-      if (preserveUtteranceQueue && speechStatus !== "started") return setSpeechStatus("queued");
-      else cancel();
+      if (preserveUtteranceQueue && speechStatus !== "started") {
+        utteranceRef.current = utterance;
+        return setSpeechStatus("queued");
+      } else cancel();
     } else speakFromQueue();
     setSpeechStatus("started");
   }
