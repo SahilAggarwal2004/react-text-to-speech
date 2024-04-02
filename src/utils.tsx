@@ -27,7 +27,7 @@ export function findCharIndex(words: StringArray, index: number) {
   function recursiveSearch(stringArray: StringArray, parentIndex: Index = ""): string {
     if (typeof stringArray === "string") {
       const elementIndex = index - currentIndex;
-      return (currentIndex += stringArray.length) + 1 > index ? getIndex(parentIndex, elementIndex) : "";
+      return (currentIndex += stringArray.length + 1) > index ? getIndex(parentIndex, elementIndex) : "";
     }
     for (let i = 0; i < stringArray.length; i++) {
       const element = stringArray[i];
