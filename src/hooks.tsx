@@ -6,7 +6,7 @@ import { ArrayToText, JSXToArray, cancel, findCharIndex, getIndex, isParent, san
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
 
-  useEffect(() => subscribe((queue) => setQueue([...queue])), []);
+  useEffect(() => subscribe(setQueue), []);
 
   return { queue, dequeue, clearQueue: clearQueueHook };
 }
