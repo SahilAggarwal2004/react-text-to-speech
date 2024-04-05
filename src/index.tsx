@@ -1,33 +1,22 @@
-import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { SpeechStatus, useSpeech, useSpeechProps } from "./hooks.js";
+import { useSpeech, useQueue } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
+import { DivProps, SpeechProps } from "./types.js";
 
-export type Button = JSX.Element | string | null;
+export function HighlightedText({ id, children, ...props }: DivProps) {
+  const [loading, setLoading] = useState(true);
 
-export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
-export type ChildrenOptions = {
-  speechStatus?: SpeechStatus;
-  isInQueue?: boolean;
-  start?: Function;
-  pause?: Function;
-  stop?: Function;
-};
-
-export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
-
-export type SpeechProps = useSpeechProps & {
-  id?: string;
-  startBtn?: Button;
-  pauseBtn?: Button;
-  stopBtn?: Button;
-  useStopOverPause?: boolean;
-  props?: DivProps;
-  children?: Children;
-};
-
-export { useSpeech };
+  return (
+    <div id={`rtts-${id}`} {...props}>
+      {loading && (typeof children === "string" ? <span>{children}</span> : children)}
+    </div>
+  );
+}
 
 export default function Speech({
   id,
@@ -79,16 +68,4 @@ export default function Speech({
   );
 }
 
-export function HighlightedText({ id, children, ...props }: DivProps) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  return (
-    <div id={`rtts-${id}`} {...props}>
-      {loading && (typeof children === "string" ? <span>{children}</span> : children)}
-    </div>
-  );
-}
+export { useSpeech, useQueue };

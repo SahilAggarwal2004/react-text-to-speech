@@ -1,44 +1,14 @@
-import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
-import { ArrayToText, JSXToArray, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
-import { QueueChangeEventHandler, addToQueue, clearQueue, removeFromQueue, speakFromQueue } from "./queue.js";
+import React, { ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
+import { addToQueue, removeFromQueue, speakFromQueue, subscribe, dequeue, clearQueueHook, clearQueueUnload, clearQueue } from "./queue.js";
+import { SpeechStatus, SpeechSynthesisEventHandler, useSpeechProps, SpeechUtterancesQueue } from "./types.js";
+import { ArrayToText, JSXToArray, cancel, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
 
-export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+export function useQueue() {
+  const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
 
-export type SpeechSynthesisErrorHandler = (error: Error) => any;
+  useEffect(() => subscribe((queue) => setQueue([...queue])), []);
 
-export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
-
-export type useSpeechProps = {
-  text: string | JSX.Element;
-  pitch?: number;
-  rate?: number;
-  volume?: number;
-  lang?: string;
-  voiceURI?: string | string[];
-  highlightText?: boolean;
-  highlightProps?: SpanProps;
-  preserveUtteranceQueue?: boolean;
-  onError?: SpeechSynthesisErrorHandler;
-  onStart?: SpeechSynthesisEventHandler;
-  onResume?: SpeechSynthesisEventHandler;
-  onPause?: SpeechSynthesisEventHandler;
-  onStop?: SpeechSynthesisEventHandler;
-  onBoundary?: SpeechSynthesisEventHandler;
-  onQueueChange?: QueueChangeEventHandler;
-};
-
-export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
-
-function useStateRef<T>(init: T) {
-  const [state, setState] = useState(init);
-  const ref = useRef(init);
-
-  function setStateRef(value: T) {
-    ref.current = value;
-    setState(value);
-  }
-
-  return [state, ref, setStateRef] as const;
+  return { queue, dequeue, clearQueue: clearQueueHook };
 }
 
 export function useSpeech({
@@ -62,8 +32,6 @@ export function useSpeech({
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number } | null>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
-
-  const cancel = () => window.speechSynthesis?.cancel();
 
   const [words, stringifiedWords] = useMemo(() => {
     const words = JSXToArray(text);
@@ -93,7 +61,7 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
-      window.removeEventListener("beforeunload", cancel);
+      window.removeEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("stopped");
       setSpeakingWord(null);
       utterance.onstart = null;
@@ -107,7 +75,7 @@ export function useSpeech({
       onStop?.(event);
     };
     utterance.onstart = (event) => {
-      window.addEventListener("beforeunload", cancel);
+      window.addEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("started");
       onStart?.(event);
     };
@@ -126,7 +94,7 @@ export function useSpeech({
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
-    addToQueue(utterance, onQueueChange);
+    addToQueue({ utterance, setSpeechStatus }, onQueueChange);
     if (synth.speaking) {
       if (preserveUtteranceQueue && speechStatus !== "started") {
         utteranceRef.current = utterance;
@@ -179,4 +147,16 @@ export function useSpeech({
     pause,
     stop: () => stop(),
   };
+}
+
+function useStateRef<T>(init: T) {
+  const [state, setState] = useState(init);
+  const ref = useRef(init);
+
+  function setStateRef(value: T) {
+    ref.current = value;
+    setState(value);
+  }
+
+  return [state, ref, setStateRef] as const;
 }

@@ -164,17 +164,15 @@ export default function App() {
 
 #### Multiple Instance Usage
 
-The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Speech>` component, facilitates handling multiple speech instances simultaneously.
-
-If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.
-
+The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Speech>` component, facilitates handling multiple speech instances simultaneously.\
+If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.\
 If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
 
-`TIP`: The `onQueueChange` event handler used [above](#handling-errors-and-events) runs whenever queue updates.
+The `useQueue` hook can be used to keep track of the queue as well as change the queue as shown below. The `onQueueChange` event handler used [above](#handling-errors-and-events) can also be used to keep track of queue updates.
 
 ```jsx
 import React, { useMemo } from "react";
-import { useSpeech } from "react-text-to-speech";
+import { useQueue, useSpeech } from "../components/dist";
 
 function NewsItem({ title, desc }) {
   const text = useMemo(
@@ -203,12 +201,32 @@ export default function App() {
     { id: "2", title: "Second random title.", desc: "Second random description." },
     { id: "3", title: "Third random title.", desc: "Third random description." },
   ];
+  const {
+    queue, // Queue that stores all the speech utterances
+    clearQueue, // Function to clear the queue
+    dequeue, // Function to remove a speech utterance from the queue at a specific index
+  } = useQueue();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
-      {news.map(({ id, title, desc }) => (
-        <NewsItem key={id} title={title} desc={desc} />
-      ))}
+    <div>
+      <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
+        {news.map(({ id, title, desc }) => (
+          <NewsItem key={id} title={title} desc={desc} />
+        ))}
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem", marginBlock: "2rem" }}>
+        {queue.length ? (
+          queue.map(({ text }, i) => (
+            <div key={i}>
+              <button onClick={() => dequeue(i)}>Dequeue</button>
+              <span style={{ marginLeft: "1rem" }}>{text}</span>
+            </div>
+          ))
+        ) : (
+          <div>Queue is Empty</div>
+        )}
+      </div>
+      <button onClick={clearQueue}>Clear Queue</button>
     </div>
   );
 }

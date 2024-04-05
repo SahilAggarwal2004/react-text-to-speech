@@ -1,4 +1,8 @@
-# 0.13.5 (02-04-2024)
+# 0.14.0 (05-04-2024)
+
+- **added:** `useQueue` hook. See usage [here](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage-1)
+
+## 0.13.5 (02-04-2024)
 
 - **improved:** major performance optimisation.
 

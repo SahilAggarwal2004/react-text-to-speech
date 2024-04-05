@@ -1,12 +1,10 @@
 import { ReactNode, isValidElement } from "react";
+import { Index, StringArray } from "./types.js";
 
-export type Index = string | number;
-
-export type StringArray = string | StringArray[];
-
-export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
-
-export const sanitize = (text: string) => text.replace(/[;<>]/g, (match) => (match === ">" ? ")" : "("));
+export function ArrayToText(element: StringArray): string {
+  if (typeof element === "string") return element;
+  return element.map(ArrayToText).join(" ") + " ";
+}
 
 export function JSXToArray(element: ReactNode): StringArray {
   if (isValidElement(element)) {
@@ -17,9 +15,8 @@ export function JSXToArray(element: ReactNode): StringArray {
   return typeof element === "string" ? element : typeof element === "number" ? String(element) : "";
 }
 
-export function ArrayToText(element: StringArray): string {
-  if (typeof element === "string") return element;
-  return element.map(ArrayToText).join(" ") + " ";
+export function cancel() {
+  if (typeof window !== "undefined") window.speechSynthesis?.cancel();
 }
 
 export function findCharIndex(words: StringArray, index: number) {
@@ -40,6 +37,10 @@ export function findCharIndex(words: StringArray, index: number) {
   return recursiveSearch(words);
 }
 
+export function getIndex(parentIndex: Index, index: Index) {
+  return `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
+}
+
 export function isParent(parentIndex: string, index?: string) {
   if (!index?.startsWith(parentIndex)) return false;
   if (parentIndex) {
@@ -51,3 +52,5 @@ export function isParent(parentIndex: string, index?: string) {
   }
   return true;
 }
+
+export const sanitize = (text: string) => text.replace(/[;<>]/g, (match) => (match === ">" ? ")" : "("));
