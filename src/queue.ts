@@ -5,7 +5,8 @@ const queue: SpeechQueue = [];
 
 const queueListeners: QueueChangeEventHandler[] = [];
 
-export function clearQueue(start = 0, emitEvent = false) {
+export function clearQueue(cancelSpeech = false, start = 0, emitEvent = false) {
+  if (cancelSpeech) cancel();
   queue.slice(start).forEach(({ setSpeechStatus }) => setSpeechStatus("stopped"));
   queue.length = 0;
   if (emitEvent) emit();
@@ -16,15 +17,9 @@ export function addToQueue(item: SpeechQueueItem, callback?: QueueChangeEventHan
   emit(callback);
 }
 
-export function clearQueueHook() {
-  cancel();
-  clearQueue(1, true);
-}
+export const clearQueueHook = () => clearQueue(true, 1, true);
 
-export function clearQueueUnload() {
-  cancel();
-  clearQueue(1);
-}
+export const clearQueueUnload = () => clearQueue(true, 1);
 
 export function dequeue(index: number = 0) {
   if (index === 0) cancel();

@@ -37,9 +37,7 @@ export function findCharIndex(words: StringArray, index: number) {
   return recursiveSearch(words);
 }
 
-export function getIndex(parentIndex: Index, index: Index) {
-  return `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
-}
+export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 
 export function isParent(parentIndex: string, index?: string) {
   if (!index?.startsWith(parentIndex)) return false;
@@ -53,4 +51,4 @@ export function isParent(parentIndex: string, index?: string) {
   return true;
 }
 
-export const sanitize = (text: string) => text.replace(/[;<>]/g, (match) => (match === ">" ? ")" : "("));
+export const sanitize = (text: string) => text.replace(/<([^>]+)>|;/g, (_, group) => (group ? `(${group})` : "("));
