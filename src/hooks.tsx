@@ -43,7 +43,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words)));
+    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words), highlightText));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;

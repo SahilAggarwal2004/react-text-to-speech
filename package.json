@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
@@ -22,6 +22,8 @@
     "react-text-to-speech",
     "react-tts",
     "tts-react",
+    "speak",
+    "say",
     "highlight",
     "queue",
     "typescript"

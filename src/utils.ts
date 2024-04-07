@@ -1,5 +1,5 @@
 import { ReactNode, isValidElement } from "react";
-import { Index, StringArray } from "./types.js";
+import { Index, Replacer, StringArray } from "./types.js";
 
 export function ArrayToText(element: StringArray): string {
   if (typeof element === "string") return element;
@@ -51,4 +51,8 @@ export function isParent(parentIndex: string, index?: string) {
   return true;
 }
 
-export const sanitize = (text: string) => text.replace(/<([^>]+)>|;/g, (_, group) => (group ? `(${group})` : "("));
+export function sanitize(text: string, strict: boolean) {
+  if (strict) var replacer: Replacer = (match) => (match === "<" ? "(" : ")");
+  else replacer = (match) => (match === "<" ? "less than" : match === ">" ? "greater than" : ")");
+  return text.replace(/[<>;]/g, replacer);
+}

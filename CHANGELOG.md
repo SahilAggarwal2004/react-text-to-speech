@@ -1,4 +1,8 @@
-# 0.14.0 (05-04-2024)
+# 0.14.3 (07-04-2024)
+
+- **improved:** better sanitization of `text` before passing to `Web Speech API`.
+
+## 0.14.0 (05-04-2024)
 
 - **added:** `useQueue` hook. See usage [here](https://www.npmjs.com/package/react-text-to-speech#multiple-instance-usage-1)
 
