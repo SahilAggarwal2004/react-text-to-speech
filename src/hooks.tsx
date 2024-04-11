@@ -19,7 +19,7 @@ export function useSpeech({
   lang,
   voiceURI,
   highlightText = false,
-  highlightProps = { style: { backgroundColor: "yellow" } },
+  highlightProps,
   preserveUtteranceQueue = false,
   onError = console.error,
   onStart,
@@ -127,7 +127,7 @@ export function useSpeech({
       return (
         <span key={index}>
           {(element as string).slice(0, before)}
-          <span {...highlightProps}>{(element as string).slice(before, before + length)}</span>
+          <mark {...highlightProps}>{(element as string).slice(before, before + length)}</mark>
           {(element as string).slice(before + length)}
         </span>
       );

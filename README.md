@@ -367,7 +367,7 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `lang` | `string` | No | - | The language in which the utterance will be spoken. |
 | `voiceURI` | `string \| string[]` | No | - | The voice using which the utterance will be spoken. If provided an array, further voices will be used as fallback if initial voices are not found. See possible values [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices). |
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
-| `highlightProps` | `React.DetailedHTMLProps` | No | `{ style: { backgroundColor: "yellow" } }` | Props to customise the highlighted word. |
+| `highlightProps` | `React.DetailedHTMLProps` | No | - | Props to customize the highlighted word, typically applied to the `<mark>` tag. |
 | `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
 | `onError` | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No | `console.error` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
