@@ -43,7 +43,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words), highlightText));
+    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words)));
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -90,7 +90,7 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      if (highlightText) setSpeakingWord({ index: findCharIndex(words, event.charIndex), length: event.charLength });
+      setSpeakingWord({ index: findCharIndex(words, event.charIndex), length: event.charLength });
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
@@ -117,7 +117,7 @@ export function useSpeech({
   }
 
   function highlightedText(element: ReactNode, parentIndex = ""): ReactNode {
-    if (!isParent(parentIndex, speakingWord?.index)) return element;
+    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return element;
     if (Array.isArray(element)) return element.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
     if (isValidElement(element)) return cloneElement(element, { key: element.key ?? Math.random() }, highlightedText(element.props.children, parentIndex));
     if (typeof element === "string" || typeof element === "number") {

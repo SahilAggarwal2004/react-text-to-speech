@@ -70,6 +70,4 @@ export type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
 // utils.tsx
 export type Index = string | number;
 
-export type Replacer = (match: string) => string;
-
 export type StringArray = string | StringArray[];

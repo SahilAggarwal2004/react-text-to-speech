@@ -75,10 +75,11 @@ Here, you may want to pass a `JSX.Element` instead of a plain string as `text` p
 `NOTE`: It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
 
 ```jsx
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
+  const [highlightText, setHighlightText] = useState(true);
   const text = useMemo(
     () => (
       <div>
@@ -102,7 +103,7 @@ export default function App() {
   );
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text,
-    highlightText: true,
+    highlightText,
     highlightProps: { style: { color: "white", backgroundColor: "blue" } },
   });
 
@@ -112,6 +113,7 @@ export default function App() {
       <div style={{ display: "flex", columnGap: "0.5rem" }}>
         {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
         <button onClick={stop}>Stop</button>
+        <button onClick={() => setHighlightText(!highlightText)}>Toggle Highlight Text</button>
       </div>
     </div>
   );
@@ -267,7 +269,8 @@ export default function App() {
             <span>
               <span>upto </span>
               <span>
-                <span>any level.</span>
+                any
+                <span> level.</span>
               </span>
             </span>
           </div>

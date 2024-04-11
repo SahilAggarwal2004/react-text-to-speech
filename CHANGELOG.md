@@ -1,4 +1,8 @@
-# 0.14.3 (07-04-2024)
+# 0.14.4 (11-04-2024)
+
+- **improved:** `highlightText` prop can now be toggled dynamically while a speech utterance is being spoken.
+
+## 0.14.3 (07-04-2024)
 
 - **improved:** better sanitization of `text` before passing to `Web Speech API`.
 
