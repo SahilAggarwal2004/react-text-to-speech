@@ -1,7 +1,12 @@
+.github
 .vscode
+contributing
 node_modules
 src
 .gitignore
-CHANGELOG.md
 bun.lockb
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
 tsconfig.json

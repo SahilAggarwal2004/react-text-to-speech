@@ -1,4 +1,8 @@
-# 0.14.4 (11-04-2024)
+# 0.14.6 (05-05-2024)
+
+- **added:** Code of conduct, Contributing, Security policy and Issue templates.
+
+## 0.14.4 (11-04-2024)
 
 - **improved:** `highlightText` prop can now be toggled dynamically while a speech utterance is being spoken.
 
