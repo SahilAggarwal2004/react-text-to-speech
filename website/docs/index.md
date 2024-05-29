@@ -1,8 +1,10 @@
-# react-text-to-speech
+---
+sidebar_position: 1
+---
 
-An easy to use react component for the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).
+# Tutorial Intro
 
-It is as easy as to import a React component!
+`react-text-to-speech` is an easy to use react component for the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). It is as easy as to import a React component!
 
 ## Features
 

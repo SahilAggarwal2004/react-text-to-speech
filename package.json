@@ -1,45 +1,19 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.14.6",
-  "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "bun i && tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SahilAggarwal2004/react-text-to-speech.git"
-  },
-  "keywords": [
-    "react",
-    "speech",
-    "component",
-    "webspeech-api",
-    "text-to-speech",
-    "tts",
-    "react-text-to-speech",
-    "react-tts",
-    "tts-react",
-    "speak",
-    "say",
-    "highlight",
-    "queue",
-    "typescript"
-  ],
-  "author": "Sahil Aggarwal",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
-  },
-  "homepage": "https://github.com/SahilAggarwal2004/react-text-to-speech#readme",
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+  "scripts": {
+    "build": "pnpm i && pnpm run copy && pnpm run compile",
+    "compile": "pnpm --filter ./package run compile",
+    "copy": "shx cp README.md package/README.md",
+    "dev": "pnpm --filter ./website run start",
+    "publish": "pnpm --filter ./package publish",
+    "update": "ncu -u -ws --root"
   },
   "devDependencies": {
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "shx": "^0.3.4",
+    "typescript": "^5.4.5"
   }
 }

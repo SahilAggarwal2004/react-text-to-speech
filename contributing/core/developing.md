@@ -22,13 +22,13 @@ git checkout -b $YOUR_BRANCH_NAME origin/master
 1. Install the dependencies with:
 
 ```
-bun install
+pnpm build
 ```
 
-1. Start developing and compile the code to javascript:
+1. Start developing and watch for code changes:
 
 ```
-bun build
+pnpm dev
 ```
 
 1. When your changes are finished, commit them to the branch:

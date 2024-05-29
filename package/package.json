@@ -1,0 +1,41 @@
+{
+  "name": "react-text-to-speech",
+  "version": "0.14.7",
+  "description": "An easy to use react component for the Web Speech API.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SahilAggarwal2004/react-text-to-speech.git"
+  },
+  "keywords": [
+    "react",
+    "speech",
+    "component",
+    "webspeech-api",
+    "text-to-speech",
+    "tts",
+    "react-text-to-speech",
+    "react-tts",
+    "tts-react",
+    "speak",
+    "say",
+    "highlight",
+    "queue",
+    "typescript"
+  ],
+  "author": "Sahil Aggarwal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
+  },
+  "homepage": "https://rtts.vercel.app/",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  }
+}

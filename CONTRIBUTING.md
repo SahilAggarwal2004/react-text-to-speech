@@ -7,3 +7,7 @@
 
 - [Developing](./contributing/core/developing.md)
 - [Adding a new feature](./contributing/core/adding-features.md)
+
+## Documentation
+
+- [Adding documentation](./contributing/docs/adding-docs.md)

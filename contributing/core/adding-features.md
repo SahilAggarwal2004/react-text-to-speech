@@ -9,4 +9,4 @@ Therefore, before opening a PR, you should [open a new issue](https://github.com
 The discussion's goal is to achieve the following:
 
 1. **Verify the validity of the feature request**: The community can upvote discussions. Highly upvoted feature requests are more likely to be considered.
-2. **Understanding the consequences**: Any feature added is likely to be around for a long time. This means that a new feature has to cover use cases, needs to consider how it affects users.
+1. **Understanding the consequences**: Any feature added is likely to be around for a long time. This means that a new feature has to cover use cases, needs to consider how it affects users.

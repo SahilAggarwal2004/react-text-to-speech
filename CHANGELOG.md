@@ -1,4 +1,10 @@
-# 0.14.6 (05-05-2024)
+# 0.14.7 (29-05-2024)
+
+- **added:** separate documentation website available at https://rtts.vercel.app/
+- **changed:** repository structure updated to a monorepo.
+- **changed:** switched from [bun](https://bun.sh/) to [pnpm](https://pnpm.io/)
+
+## 0.14.6 (05-05-2024)
 
 - **added:** Code of conduct, Contributing, Security policy and Issue templates.
 
