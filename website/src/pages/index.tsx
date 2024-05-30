@@ -18,7 +18,7 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link className="button button--secondary button--lg" to="/docs">
-            react-text-to-speech Tutorial
+            react-text-to-speech Docs
           </Link>
         </div>
       </div>
