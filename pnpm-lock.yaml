@@ -54,7 +54,7 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-text-to-speech:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../package
     devDependencies:
       '@docusaurus/module-type-aliases':
