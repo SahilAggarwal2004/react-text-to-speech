@@ -68,6 +68,7 @@ const config: Config = {
           position: "left",
           label: "Docs",
         },
+        { to: "/demo", label: "Demo", position: "left" },
         // { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/SahilAggarwal2004/react-text-to-speech",

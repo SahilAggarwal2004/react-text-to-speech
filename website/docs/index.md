@@ -38,5 +38,5 @@ To install react-text-to-speech
 
 <!-- The `react-text-to-speech` package offers two main ways to integrate text-to-speech functionality into your React applications through the `useSpeech` hook and the `<Speech>` component. -->
 The `react-text-to-speech` package offers two main ways to integrate text-to-speech functionality into your React applications.
-- [`<Speech>` component](/docs/usage/speech)
 - [`useSpeech` hook](/docs/usage/useSpeech)
+- [`<Speech>` component](/docs/usage/speech)

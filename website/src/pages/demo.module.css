@@ -1,0 +1,65 @@
+.main {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  padding: 2.5rem 1rem;
+  row-gap: 3rem;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputs>textarea {
+  width: 250px;
+}
+
+.inputs>div {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  margin: 0.5rem 0;
+}
+
+.inputs>div>div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 230px;
+}
+
+.inputs select {
+  width: 150px;
+}
+
+.component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+.highlightedText {
+  margin-top: 2rem;
+  height: 50vh;
+  max-height: 400px;
+}
+
+.highlightedText>h4 {
+  text-align: center;
+}
+
+.highlightedText>div {
+  max-height: 80%;
+  text-align: justify;
+  overflow-y: scroll;
+}
+
+@media only screen and (max-width: 720px) {
+  .main {
+    flex-direction: column;
+  }
+}
