@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Introduction
 
 `react-text-to-speech` is an easy to use react component for the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API). It is as easy as to import a React component!
@@ -36,7 +32,7 @@ To install react-text-to-speech
 
 ## Usage
 
-<!-- The `react-text-to-speech` package offers two main ways to integrate text-to-speech functionality into your React applications through the `useSpeech` hook and the `<Speech>` component. -->
 The `react-text-to-speech` package offers two main ways to integrate text-to-speech functionality into your React applications.
+
 - [`useSpeech` hook](/docs/usage/useSpeech)
 - [`<Speech>` component](/docs/usage/speech)

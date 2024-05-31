@@ -128,7 +128,7 @@ export default function App() {
 
 ## Multiple Instance Usage
 
-The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Speech>` component, facilitates handling multiple speech instances simultaneously.\
+The `preserveUtteranceQueue` prop, available in both `useSpeech` hook and `<Speech>` component, facilitates handling multiple speech instances conveniently.\
 If set to `false`, any currently speaking speech utterance will be stopped immediately upon initiating a new utterance. The new utterance will be spoken without waiting for the previous one to finish.\
 If set to `true`, new speech utterances will be added to a queue. They will be spoken once the previous speech instances are completed. This allows for sequential delivery of speech content, maintaining order and avoiding overlapping utterances.
 
@@ -195,3 +195,7 @@ export default function App() {
   );
 }
 ```
+
+## API Reference
+
+Check the [API Reference](/docs/api/useSpeech) for more details.

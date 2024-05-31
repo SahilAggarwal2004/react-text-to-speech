@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.14.7",
+  "version": "0.14.8",
   "description": "An easy to use react component for the Web Speech API.",
   "type": "module",
   "main": "dist/index.js",
@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
   },
-  "homepage": "https://rtts.vercel.app/",
+  "homepage": "https://rtts.vercel.app",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"

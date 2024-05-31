@@ -13,9 +13,11 @@ export default function App() {
 
 ## Highlight Text
 
-For `<Speech>` component, `<HighlightedText>` component exported by `react-text-to-speech` can be used to display the highlighted text.
+Like `useSpeech` hook, the `<Speech>` component can also be used to highlight text. [Refer here](/docs/usage/useSpeech#highlight-text)
 
-`NOTE`: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-reorder-list` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
+With `<Speech>` component, `<HighlightedText>` component exported by `react-text-to-speech` can be used to display the highlighted text.
+
+`NOTE`: `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while `react-text-to-speech` links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
 
 ```jsx
 import React, { useMemo } from "react";
@@ -54,6 +56,8 @@ export default function App() {
 ```
 
 ## Multiple Instance Usage
+
+Like `useSpeech` hook, the `<Speech>` component can also be used to handle multiple speech instances. [Refer here](/docs/usage/useSpeech#multiple-instance-usage)
 
 ```jsx
 import React, { useMemo } from "react";
@@ -116,3 +120,7 @@ export default function App() {
   );
 }
 ```
+
+## API Reference
+
+Check the [API Reference](/docs/api/speech) for more details.
