@@ -8,6 +8,7 @@
     "copy": "shx cp README.md package/README.md",
     "dev": "pnpm --filter ./website run start",
     "publish": "pnpm --filter ./package publish",
+    "deploy": "pnpm --filter ./website run deploy",
     "update": "ncu -u -ws --root"
   },
   "devDependencies": {

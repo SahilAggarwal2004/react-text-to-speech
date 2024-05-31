@@ -4,12 +4,14 @@
   justify-content: space-evenly;
   padding: 2.5rem 1rem;
   row-gap: 3rem;
+  position: relative;
 }
 
-.inputs {
+.main>section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .inputs>textarea {
@@ -31,6 +33,10 @@
   width: 230px;
 }
 
+.inputs input {
+  accent-color: var(--ifm-color-primary-lighter);
+}
+
 .inputs select {
   width: 150px;
 }
@@ -42,23 +48,42 @@
   width: 250px;
 }
 
-.highlightedText {
+.text {
   margin-top: 2rem;
   height: 50vh;
   max-height: 400px;
 }
 
-.highlightedText>h4 {
+.text>h4 {
   text-align: center;
 }
 
-.highlightedText>div {
+.text>div {
+  width: 250px;
   max-height: 80%;
   text-align: justify;
   overflow-y: scroll;
 }
 
-@media only screen and (max-width: 720px) {
+.button {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  translate: -50%;
+  padding: 0.5rem 0.75rem;
+  margin: auto;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--ifm-font-color-base-inverse);
+  background-color: var(--ifm-color-primary-lighter);
+}
+
+.button:hover {
+  background-color: var(--ifm-color-primary-dark);
+}
+
+@media screen and (max-width: 720px) {
   .main {
     flex-direction: column;
   }

@@ -1,7 +1,9 @@
 import Layout from "@theme/Layout";
 import React, { useEffect, useState } from "react";
 import Speech, { HighlightedText } from "react-text-to-speech";
+import { ToastContainer, toast } from "react-toastify";
 import styles from "./demo.module.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function demo() {
   const [text, setText] = useState("");
@@ -10,17 +12,32 @@ export default function demo() {
   const [volume, setVolume] = useState(1);
   const [lang, setLang] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
-  const [highlightText, setHighlightText] = useState(true);
+  const [highlightText, setHighlightText] = useState(false);
   const [useStopOverPause, setUseStopOverPause] = useState(false);
 
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const languages = [...new Set(voices.map(({ lang }) => lang))];
   const onVoicesChanged = () => setVoices(window.speechSynthesis.getVoices());
 
+  const [disabled, setDisabled] = useState(false);
+
   useEffect(() => {
     speechSynthesis.addEventListener("voiceschanged", onVoicesChanged);
     return () => speechSynthesis.removeEventListener("voiceschanged", onVoicesChanged);
   }, []);
+
+  function copy() {
+    const sanitizedText = text.replace(/\n|(?<!\\)`/g, (match) => (match === "`" ? "\\`" : " "));
+    const code = `import React from "react";\nimport Speech${
+      highlightText ? ", { HighlightedText }" : ""
+    } from "react-text-to-speech";\n\nexport default function App() {\n\treturn (\n\t\t<>\n\t\t\t<Speech${
+      highlightText ? ` id="rtts"` : ""
+    } text={\`${sanitizedText}\`} pitch={${pitch}} rate={${rate}} volume={${volume}} lang="${lang}" voiceURI="${voiceURI}" highlightText={${highlightText}} useStopOverPause={${useStopOverPause}} />\n${
+      highlightText ? `\t\t\t<HighlightedText id="rtts">${sanitizedText}</HighlightedText>\n` : ""
+    }\t\t</>\n\t);\n}`;
+    navigator.clipboard.writeText(code);
+    toast.success("Code copied to clipboard!");
+  }
 
   return (
     <Layout title="Demo">
@@ -31,26 +48,26 @@ export default function demo() {
           <div>
             <div>
               <label htmlFor="pitch">Pitch:</label>
-              <input id="pitch" type="range" value={pitch} step={0.1} min={0} max={2} onChange={(e) => setPitch(+e.target.value)} />
+              <input id="pitch" type="range" value={pitch} disabled={disabled} step={0.1} min={0} max={2} onChange={(e) => setPitch(+e.target.value)} />
             </div>
             <span>{pitch}</span>
           </div>
           <div>
             <div>
               <label htmlFor="volume">Rate:</label>
-              <input id="rate" type="range" value={rate} step={0.1} min={0.1} max={10} onChange={(e) => setRate(+e.target.value)} />
+              <input id="rate" type="range" value={rate} disabled={disabled} step={0.1} min={0.1} max={10} onChange={(e) => setRate(+e.target.value)} />
             </div>
             <span>{rate}</span>
           </div>
           <div>
             <div>
               <label htmlFor="volume">Volume:</label>
-              <input id="volume" type="range" value={volume} step={0.05} min={0} max={1} onChange={(e) => setVolume(+e.target.value)} />
+              <input id="volume" type="range" value={volume} disabled={disabled} step={0.05} min={0} max={1} onChange={(e) => setVolume(+e.target.value)} />
             </div>
           </div>
           <div>
             <label htmlFor="lang">Language:</label>
-            <select id="lang" value={lang} onChange={(e) => setLang(e.target.value)}>
+            <select id="lang" value={lang} disabled={disabled} onChange={(e) => setLang(e.target.value)}>
               <option value="">Choose a language</option>
               {languages.map((lang) => (
                 <option key={lang} value={lang}>
@@ -61,7 +78,7 @@ export default function demo() {
           </div>
           <div>
             <label htmlFor="voice">Voice:</label>
-            <select id="voice" value={voiceURI} onChange={(e) => setVoiceURI(e.target.value)}>
+            <select id="voice" value={voiceURI} disabled={disabled} onChange={(e) => setVoiceURI(e.target.value)}>
               <option value="">Choose a voice</option>
               {voices
                 .filter((voice) => !lang || voice.lang === lang)
@@ -93,15 +110,19 @@ export default function demo() {
             voiceURI={voiceURI}
             highlightText={highlightText}
             useStopOverPause={useStopOverPause}
+            onStart={() => setDisabled(true)}
+            onStop={() => setDisabled(false)}
           />
-          {highlightText && (
-            <div className={styles.highlightedText}>
-              <h4>Highlighted Text:</h4>
-              <HighlightedText id="rtts">{text}</HighlightedText>
-            </div>
-          )}
+          <div className={styles.text}>
+            <h4>Text:</h4>
+            {highlightText ? <HighlightedText id="rtts">{text}</HighlightedText> : <div>{text}</div>}
+          </div>
         </section>
+        <button className={styles.button} onClick={copy}>
+          Copy Code
+        </button>
       </main>
+      <ToastContainer stacked position="top-right" />
     </Layout>
   );
 }
