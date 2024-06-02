@@ -19,7 +19,7 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
 | `useStopOverPause` | `boolean` | No | `false` | Whether the controls should display `stopBtn` instead of `pauseBtn`. In Android devices, `SpeechSynthesis.pause()` behaves like `SpeechSynthesis.cancel()`. See [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause) |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
-| `children` | [`Children`](#children) | No | - | See [usage with FaC](#full-customization) |
+| `children` | [`Children`](#children) | No | - | See [usage with FaC](/docs/usage/speech#full-customization) |
 | `onError` | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No | `console.error` | Function to be executed if browser doesn't support `Web Speech API`. |
 | `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
 | `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |
