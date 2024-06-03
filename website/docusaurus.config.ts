@@ -37,13 +37,13 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/SahilAggarwal2004/react-text-to-speech/tree/main/website/",
+          editUrl: "https://github.com/SahilAggarwal2004/react-text-to-speech/tree/master/website/",
         },
         // blog: {
         //   showReadingTime: true,
         //   // Please change this to your repo.
         //   // Remove this to remove the "edit this page" links.
-        //   editUrl: "https://github.com/SahilAggarwal2004/react-text-to-speech/tree/main/website/",
+        //   editUrl: "https://github.com/SahilAggarwal2004/react-text-to-speech/tree/master/website/",
         // },
         theme: {
           customCss: "./src/css/custom.css",
