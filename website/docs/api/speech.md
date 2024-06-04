@@ -5,7 +5,7 @@
 Here is the full API for the `<Speech>` component, these properties can be set on an instance of `<Speech>`:
 | Parameter | Type | Required | Default | Description |
 | - | - | - | - | - |
-| `text` | `string \| JSX.Element` | Yes | - | It contains the text to be spoken by `Web Speech API`. |
+| `text` | `string \| JSX.Element` | Yes | - | It contains the text to be spoken by **Web Speech API**. |
 | `pitch` | `number (0 to 2)` | No | 1 | The pitch at which the utterance will be spoken. |
 | `rate` | `number (0.1 to 10)` | No | 1 | The speed at which the utterance will be spoken. |
 | `volume` | `number (0 to 1)` | No | 1 | The volume at which the utterance will be spoken. |
@@ -20,7 +20,7 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `useStopOverPause` | `boolean` | No | `false` | Whether the controls should display `stopBtn` instead of `pauseBtn`. In Android devices, `SpeechSynthesis.pause()` behaves like `SpeechSynthesis.cancel()`. See [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause) |
 | `props` | `React.DetailedHTMLProps` | No | - | Props to customize the `<Speech>` component. |
 | `children` | [`Children`](#children) | No | - | See [usage with FaC](/docs/usage/speech#full-customization) |
-| `onError` | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No | `console.error` | Function to be executed if browser doesn't support `Web Speech API`. |
+| `onError` | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No | `console.error` | Function to be executed if browser doesn't support **Web Speech API**. |
 | `onStart` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is started. |
 | `onResume` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is resumed. |
 | `onPause` | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No | - | Function to be executed when speech utterance is paused. |

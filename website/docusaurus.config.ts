@@ -4,7 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "react-text-to-speech",
-  tagline: "An easy to use react component for the Web Speech API",
+  tagline: "An easy to use React.js component for the Web Speech API",
   // favicon: "img/favicon.ico",
 
   // Set the production url of your site here

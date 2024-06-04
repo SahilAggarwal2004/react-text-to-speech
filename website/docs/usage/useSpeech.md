@@ -2,7 +2,7 @@
 
 ## Basic Usage
 
-```jsx
+```tsx
 import React from "react";
 import { useSpeech } from "react-text-to-speech";
 
@@ -32,11 +32,11 @@ export default function App() {
 
 The `highlightText` & `highlightProps` props, available in both `useSpeech` hook and `<Speech>` component, can be used to highlight text and modify its styling.
 
-Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and `react-text-to-speech` supports it!
+Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and **react-text-to-speech** supports it!
 
-`NOTE`: It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
+**NOTE:** It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
 
-```jsx
+```tsx
 import React, { useMemo, useState } from "react";
 import { useSpeech } from "react-text-to-speech";
 
@@ -84,7 +84,7 @@ export default function App() {
 
 ## Handling Errors and Events
 
-```jsx
+```tsx
 import React from "react";
 import { useSpeech } from "react-text-to-speech";
 
@@ -134,7 +134,7 @@ If set to `true`, new speech utterances will be added to a queue. They will be s
 
 The `useQueue` hook can be used to keep track of the queue as well as change the queue as shown below. The `onQueueChange` event handler used [above](#handling-errors-and-events) can also be used to keep track of queue updates.
 
-```jsx
+```tsx
 import React, { useMemo } from "react";
 import { useQueue, useSpeech } from "../components/dist";
 

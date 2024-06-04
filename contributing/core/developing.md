@@ -2,12 +2,12 @@
 
 ## Setting up
 
-- The development branch is `master`.
-- All pull requests should be opened against `master`.
+- The development branch is **master**.
+- All pull requests should be opened against **master**.
 
 To develop locally:
 
-1. Clone the react-text-to-speech repository:
+1. Clone the **react-text-to-speech** repository:
 
 ```
 git clone https://github.com/SahilAggarwal2004/react-text-to-speech -- --depth=3000 --branch master --single-branch

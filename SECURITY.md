@@ -2,7 +2,7 @@
 
 ## Reporting Security Issues
 
-If you discover a security vulnerability in react-text-to-speech, please report it by emailing us at aggarwalsahil2004@gmail.com. We take security issues seriously and will work promptly to address them.
+If you discover a security vulnerability in **react-text-to-speech**, please report it by emailing us at aggarwalsahil2004@gmail.com. We take security issues seriously and will work promptly to address them.
 
 When reporting security issues, please include the following information:
 
@@ -14,4 +14,4 @@ Our security team will acknowledge receipt of your report within 48 hours and wi
 
 We kindly request that you do not publicly disclose the vulnerability until we have had the opportunity to address it. We believe in coordinated disclosure to minimize the risk of exploitation and to protect our users.
 
-Thank you for helping us keep react-text-to-speech and our users safe and secure.
+Thank you for helping us keep **react-text-to-speech** and our users safe and secure.

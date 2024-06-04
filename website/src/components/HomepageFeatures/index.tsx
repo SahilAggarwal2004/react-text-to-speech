@@ -17,7 +17,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: "Easy to Use, yet Fully Customizable",
     Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
-    description: <>react-text-to-speech was designed from the ground up to be easily imported and used in your react app, while providing all possible customization options.</>,
+    description: <>react-text-to-speech was designed from the ground up to be easily imported and used in your React.js app, while providing all possible customization options.</>,
   },
   {
     title: "Highlights words",
