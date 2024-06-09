@@ -30,10 +30,10 @@ export default function demo() {
     const sanitizedText = text.replace(/\n|(?<!\\)`/g, (match) => (match === "`" ? "\\`" : " "));
     const code = `import React from "react";\nimport Speech${
       highlightText ? ", { HighlightedText }" : ""
-    } from "react-text-to-speech";\n\nexport default function App() {\n\treturn (\n\t\t<>\n\t\t\t<Speech${
+    } from "react-text-to-speech";\n\nexport default function App() {\n\tconst text = \`${sanitizedText}\`;\n\treturn (\n\t\t<>\n\t\t\t<Speech${
       highlightText ? ` id="rtts"` : ""
-    } text={\`${sanitizedText}\`} pitch={${pitch}} rate={${rate}} volume={${volume}} lang="${lang}" voiceURI="${voiceURI}" highlightText={${highlightText}} useStopOverPause={${useStopOverPause}} />\n${
-      highlightText ? `\t\t\t<HighlightedText id="rtts">${sanitizedText}</HighlightedText>\n` : ""
+    } text={text} pitch={${pitch}} rate={${rate}} volume={${volume}} lang="${lang}" voiceURI="${voiceURI}" highlightText={${highlightText}} useStopOverPause={${useStopOverPause}} />\n${
+      highlightText ? `\t\t\t<HighlightedText id="rtts">{text}</HighlightedText>\n` : ""
     }\t\t</>\n\t);\n}`;
     navigator.clipboard.writeText(code);
     toast.success("Code copied to clipboard!");
