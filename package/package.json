@@ -1,42 +1,53 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.14.9",
-  "description": "An easy to use React.js component for the Web Speech API.",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "compile": "tsc"
-  },
+  "version": "0.15.0",
+  "description": "An easy-to-use React.js component that leverages the Web Speech API to convert text to speech.",
+  "license": "MIT",
+  "author": "Sahil Aggarwal <aggarwalsahil2004@gmail.com>",
+  "contributors": [
+    "Akshay Srivastava <akshaysrivastava46@gmail.com>"
+  ],
+  "homepage": "https://rtts.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SahilAggarwal2004/react-text-to-speech.git"
   },
-  "keywords": [
-    "react",
-    "speech",
-    "component",
-    "webspeech-api",
-    "text-to-speech",
-    "text to speech",
-    "tts",
-    "react-text-to-speech",
-    "react-tts",
-    "tts-react",
-    "speak",
-    "say",
-    "highlight",
-    "queue",
-    "typescript"
-  ],
-  "author": "Sahil Aggarwal",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
   },
-  "homepage": "https://rtts.vercel.app",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./icons": "./dist/icons.js",
+    "./types": "./dist/types.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "types": "dist/index.d.ts",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
-  }
+  },
+  "keywords": [
+    "component",
+    "highlight",
+    "queue",
+    "react",
+    "react-text-to-speech",
+    "react-tts",
+    "say",
+    "speak",
+    "speech",
+    "speech-synthesis",
+    "synthesis",
+    "text",
+    "text-to-speech",
+    "to",
+    "tts",
+    "tts-react",
+    "typescript",
+    "webspeech-api"
+  ]
 }

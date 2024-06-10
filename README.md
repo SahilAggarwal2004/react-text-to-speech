@@ -1,17 +1,15 @@
 # react-text-to-speech
 
-An easy-to-use React.js component for the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).
-
-It is as easy as to import a React.js component!
+An easy-to-use React.js component that leverages the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API" target="_blank">Web Speech API</a> to convert text to speech.
 
 ## Features
 
 - Text-to-speech
 - Easy to use
-- Highlights words as they are read. See highlighting text using [useSpeech Hook](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text) and [Speech Component](https://rtts.vercel.app/docs/usage/speech#highlight-text)
-- Provides API to handle errors and events. See [Handling Errors and Events](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events)
-- Handles multiple speech instances easily. See handling using [useSpeech Hook](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage) and [Speech Component](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage)
-- Fully Customizable. See [useSpeech Hook Usage](https://rtts.vercel.app/docs/usage/useSpeech) and [usage with FaC](https://rtts.vercel.app/docs/usage/speech#full-customization)
+- Highlights words as they are read. See highlighting text using <a href="https://rtts.vercel.app/docs/usage/useSpeech#highlight-text" target="_blank">useSpeech Hook</a> and <a href="https://rtts.vercel.app/docs/usage/speech#highlight-text" target="_blank">Speech Component</a>
+- Provides API to handle errors and events. See <a href="https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events" target="_blank">Handling Errors and Events</a>
+- Handles multiple speech instances easily. See handling using <a href="https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage" target="_blank">useSpeech Hook</a> and <a href="https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage" target="_blank">Speech Component</a>
+- Fully Customizable. See <a href="https://rtts.vercel.app/docs/usage/useSpeech" target="_blank">useSpeech Hook Usage</a> and <a href="https://rtts.vercel.app/docs/usage/speech#full-customization" target="_blank">usage with FaC</a>
 - Stops speech instance on component unmount.
 
 ## Installation
@@ -68,7 +66,7 @@ export default function App() {
 
 #### Detailed Usage
 
-For detailed usage of `useSpeech` hook, [refer here](https://rtts.vercel.app/docs/usage/useSpeech)
+For detailed usage of `useSpeech` hook, <a href="https://rtts.vercel.app/docs/usage/useSpeech" target="_blank">refer here</a>
 
 ### Speech Component
 
@@ -85,16 +83,16 @@ export default function App() {
 
 #### Detailed Usage
 
-For detailed usage of `<Speech>` component, [refer here](https://rtts.vercel.app/docs/usage/speech)
+For detailed usage of `<Speech>` component, <a href="https://rtts.vercel.app/docs/usage/speech" target="_blank">refer here</a>
 
 ## Demo
 
-[A Demo is worth a thousand words](https://rtts.vercel.app/demo)
+<a href="https://rtts.vercel.app/demo" target="_blank">A Demo is worth a thousand words</a>
 
 ## Documentation
 
-Check the [documentation](https://rtts.vercel.app/docs) to get you started!
+Check the <a href="https://rtts.vercel.app/docs" target="_blank">documentation</a> to get you started!
 
 ## Contribute
 
-Show your ❤️ and support by giving a ⭐. Any suggestions are welcome! Take a look at the [contributing guide](https://github.com/SahilAggarwal2004/react-text-to-speech/blob/master/CONTRIBUTING.md).
+Show your ❤️ and support by giving a ⭐. Any suggestions are welcome! Take a look at the <a href="https://github.com/SahilAggarwal2004/react-text-to-speech/blob/master/CONTRIBUTING.md" target="_blank">contributing guide</a>.

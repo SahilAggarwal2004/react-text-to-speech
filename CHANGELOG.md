@@ -1,4 +1,8 @@
-# 0.14.7 (29-05-2024)
+# 0.15.0 (11-06-2024)
+
+- **added:** Exporting icons and types from library
+
+## 0.14.7 (29-05-2024)
 
 - **added:** Separate documentation website available at [https://rtts.vercel.app/](https://rtts.vercel.app/)
 - **changed:** Repository structure updated to a monorepo.
