@@ -1,4 +1,4 @@
-# 0.15.0 (11-06-2024)
+# 0.15.1 (11-06-2024)
 
 - **added:** Exporting icons and types from library
 
