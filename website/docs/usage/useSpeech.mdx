@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # useSpeech Hook
 
 ## Basic Usage
@@ -193,6 +196,90 @@ export default function App() {
       <button onClick={clearQueue}>Clear Queue</button>
     </div>
   );
+}
+```
+
+## Usage with Markdown
+
+To use react-text-to-speech seamlessly with markdown text, it is recommended to install following packages:
+- html-react-parser
+- react-markdown
+- remark-gfm (optional)
+
+<Tabs>
+<TabItem value="npm" label="npm">
+```bash
+npm install html-react-parser react-markdown remark-gfm --save
+```
+</TabItem>
+<TabItem value="yarn" label="yarn">
+```bash 
+yarn add html-react-parser react-markdown remark-gfm
+```
+</TabItem>
+<TabItem value="pnpm" label="pnpm">
+```bash 
+pnpm add html-react-parser react-markdown remark-gfm
+```
+</TabItem>
+<TabItem value="bun" label="bun">
+```bash 
+bun add html-react-parser react-markdown remark-gfm
+```
+</TabItem>
+</Tabs>
+
+Optionally, we also recommended to setup [TailwindCSS](https://tailwindcss.com/docs/installation) and [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography) for styling purposes.
+
+```tsx title="Custom MarkdownText Component"
+import parse from "html-react-parser";
+import { useLayoutEffect, useMemo, useState } from "react";
+import Markdown from "react-markdown";
+import { useSpeech } from "react-text-to-speech";
+import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
+import remarkGfm from "remark-gfm";
+
+function MarkdownText({ text }) {
+  const [showMarkdown, setShowMarkdown] = useState(true);
+  const [markdown, setMarkdown] = useState("");
+  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, showMarkdown, markdown]);
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, highlightText: true });
+
+  useLayoutEffect(() => {
+    stop();
+    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
+  }, [text]);
+
+  function toggleMarkdown() {
+    stop();
+    setTimeout(() => setShowMarkdown((prev) => !prev), 1);
+  }
+
+  return (
+    <div className="flex flex-col space-y-3 p-4 text-justify">
+      <div className="flex w-fit flex-col items-center space-y-2">
+        <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={toggleMarkdown}>
+          Toggle Markdown
+        </button>
+        <div className="flex space-x-4">
+          <button>{speechStatus !== "started" ? <HiVolumeUp title="Start speech" onClick={start} /> : <HiVolumeOff title="Pause speech" onClick={pause} />}</button>
+          <button>
+            <HiMiniStop title="Stop speech" onClick={stop} />
+          </button>
+        </div>
+      </div>
+      <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
+        <Text />
+        <Markdown className={`rtts-markdown ${(!showMarkdown || markdown) && "hidden"}`} remarkPlugins={[remarkGfm]}>
+          {text}
+        </Markdown>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return <MarkdownText text={`# react-text-to-speech\nThis library is awesome`} />
 }
 ```
 

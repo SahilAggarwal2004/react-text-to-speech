@@ -1,3 +1,8 @@
+:root {
+  --md-width: 325px;
+  --max-md-width: 90vw;
+}
+
 .main {
   display: flex;
   width: 100%;
@@ -15,13 +20,15 @@
 }
 
 .inputs>textarea {
-  width: 250px;
+  width: var(--md-width);
+  max-width: var(--max-md-width);
 }
 
 .inputs>div {
   display: flex;
   justify-content: space-between;
-  width: 250px;
+  width: var(--md-width);
+  max-width: var(--max-md-width);
   margin: 0.5rem 0;
 }
 
@@ -30,7 +37,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  width: 230px;
+  width: calc(var(--md-width) - 20px);
+  max-width: calc(var(--max-md-width) - 20px);
 }
 
 .inputs input {
@@ -45,7 +53,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 250px;
+  width: var(--md-width);
+  max-width: var(--max-md-width);
+}
+
+.icons {
+  display: flex;
+  column-gap: 1rem;
+}
+
+.icons>button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }
 
 .text {
@@ -59,10 +79,11 @@
 }
 
 .text>div {
-  width: 250px;
+  width: var(--md-width);
+  max-width: var(--max-md-width);
   max-height: 80%;
-  text-align: justify;
   overflow-y: scroll;
+  white-space: pre-wrap;
 }
 
 .button {

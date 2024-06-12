@@ -1,9 +1,15 @@
 import Layout from "@theme/Layout";
-import React, { useEffect, useState } from "react";
-import Speech, { HighlightedText } from "react-text-to-speech";
-import { ToastContainer, toast } from "react-toastify";
+import parse from "html-react-parser";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useSpeech } from "react-text-to-speech";
+import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
+import { toast, ToastContainer } from "react-toastify";
+
 import styles from "./demo.module.css";
+
 import "react-toastify/dist/ReactToastify.css";
+
+import Markdown from "react-markdown";
 
 export default function demo() {
   const [text, setText] = useState("");
@@ -13,7 +19,8 @@ export default function demo() {
   const [lang, setLang] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
   const [highlightText, setHighlightText] = useState(false);
-  const [useStopOverPause, setUseStopOverPause] = useState(false);
+  const [showMarkdown, setShowMarkdown] = useState(false);
+  const [markdown, setMarkdown] = useState("");
 
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const languages = [...new Set(voices.map(({ lang }) => lang))];
@@ -21,20 +28,97 @@ export default function demo() {
 
   const [disabled, setDisabled] = useState(false);
 
+  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, showMarkdown, markdown]);
+  const { Text, speechStatus, start, pause, stop } = useSpeech({
+    text: mdText,
+    pitch,
+    rate,
+    volume,
+    lang,
+    voiceURI,
+    highlightText,
+    onStart: () => setDisabled(true),
+    onStop: () => setDisabled(false),
+  });
+
   useEffect(() => {
     speechSynthesis.addEventListener("voiceschanged", onVoicesChanged);
     return () => speechSynthesis.removeEventListener("voiceschanged", onVoicesChanged);
   }, []);
 
+  useLayoutEffect(() => {
+    stop();
+    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
+  }, [text]);
+
   function copy() {
-    const sanitizedText = text.replace(/\n|(?<!\\)`/g, (match) => (match === "`" ? "\\`" : " "));
-    const code = `import React from "react";\nimport Speech${
-      highlightText ? ", { HighlightedText }" : ""
-    } from "react-text-to-speech";\n\nexport default function App() {\n\tconst text = \`${sanitizedText}\`;\n\treturn (\n\t\t<>\n\t\t\t<Speech${
-      highlightText ? ` id="rtts"` : ""
-    } text={text} pitch={${pitch}} rate={${rate}} volume={${volume}} lang="${lang}" voiceURI="${voiceURI}" highlightText={${highlightText}} useStopOverPause={${useStopOverPause}} />\n${
-      highlightText ? `\t\t\t<HighlightedText id="rtts">{text}</HighlightedText>\n` : ""
-    }\t\t</>\n\t);\n}`;
+    const sanitizedText = text.replace(/(?<!\\)(`|\$)/g, "\\$1");
+    if (showMarkdown)
+      var code = `import parse from "html-react-parser";
+import { useLayoutEffect, useMemo, useState } from "react";
+import Markdown from "react-markdown";
+import { useSpeech } from "react-text-to-speech";
+import remarkGfm from "remark-gfm";
+
+export default function App() {
+  const text = \`${sanitizedText}\`;
+  const markdownClass = "prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2";
+
+  const [markdown, setMarkdown] = useState("");
+  const mdText = useMemo(() => <>{markdown && parse(markdown)}</>, [markdown]);
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", highlightText: ${highlightText} });
+
+  useLayoutEffect(() => {
+    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
+  }, []);
+
+  return (
+    <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
+      <div style={{ display: "flex", columnGap: "1rem", marginBottom: "1rem" }}>
+        <button disabled={speechStatus === "started"} onClick={start}>
+          Start
+        </button>
+        <button disabled={speechStatus === "paused"} onClick={pause}>
+          Pause
+        </button>
+        <button disabled={speechStatus === "stopped"} onClick={stop}>
+          Stop
+        </button>
+      </div>
+      <div className={markdownClass}>
+        <Text />
+      </div>
+      <Markdown className={\`rtts-markdown \${markdownClass} \${markdown && "hidden"}\`} remarkPlugins={[remarkGfm]}>
+        {text}
+      </Markdown>
+    </div>
+  );
+}`;
+    else
+      code = `import React from "react";
+import { useSpeech } from "react-text-to-speech";
+
+export default function App() {
+  const text = \`${sanitizedText}\`;
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", highlightText: ${highlightText} });
+
+  return (
+    <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
+      <div style={{ display: "flex", columnGap: "1rem", marginBottom: "1rem" }}>
+        <button disabled={speechStatus === "started"} onClick={start}>
+          Start
+        </button>
+        <button disabled={speechStatus === "paused"} onClick={pause}>
+          Pause
+        </button>
+        <button disabled={speechStatus === "stopped"} onClick={stop}>
+          Stop
+        </button>
+      </div>
+      <Text />
+    </div>
+  );
+}`;
     navigator.clipboard.writeText(code);
     toast.success("Code copied to clipboard!");
   }
@@ -94,28 +178,26 @@ export default function demo() {
             <input id="highlightText" type="checkbox" checked={highlightText} onChange={(e) => setHighlightText(e.target.checked)} />
           </div>
           <div>
-            <label htmlFor="useStopOverPause">Stop Over Pause:</label>
-            <input id="useStopOverPause" type="checkbox" checked={useStopOverPause} onChange={(e) => setUseStopOverPause(e.target.checked)} />
+            <label htmlFor="showMarkdown">Markdown Support:</label>
+            <input id="showMarkdown" type="checkbox" checked={showMarkdown} onChange={(e) => setShowMarkdown(e.target.checked)} />
           </div>
         </section>
         <section className={styles.component}>
           <h4>Speech Component:</h4>
-          <Speech
-            id="rtts"
-            text={text}
-            pitch={pitch}
-            rate={rate}
-            volume={volume}
-            lang={lang}
-            voiceURI={voiceURI}
-            highlightText={highlightText}
-            useStopOverPause={useStopOverPause}
-            onStart={() => setDisabled(true)}
-            onStop={() => setDisabled(false)}
-          />
+          <div className={styles.icons}>
+            <button>{speechStatus !== "started" ? <HiVolumeUp title="Start speech" onClick={start} /> : <HiVolumeOff title="Pause speech" onClick={pause} />}</button>
+            <button>
+              <HiMiniStop title="Stop speech" onClick={stop} />
+            </button>
+          </div>
           <div className={styles.text}>
             <h4>Text:</h4>
-            {highlightText ? <HighlightedText id="rtts">{text}</HighlightedText> : <div>{text}</div>}
+            <div>
+              <Text />
+            </div>
+            <div style={{ display: "none" }}>
+              <Markdown className="rtts-markdown">{text}</Markdown>
+            </div>
           </div>
         </section>
         <button className={styles.button} onClick={copy}>

@@ -51,7 +51,7 @@ If you use Visual Studio Code, you may want to set .vscode/settings.json to this
 
 ```json
 {
-  "prettier.printWidth": 180,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
 ```
