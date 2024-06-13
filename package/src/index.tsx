@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useSpeech, useQueue } from "./hooks.js";
+
+import { useQueue, useSpeech } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 import { DivProps, SpeechProps } from "./types.js";
 

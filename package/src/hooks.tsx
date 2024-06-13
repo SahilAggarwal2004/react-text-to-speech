@@ -1,7 +1,8 @@
-import React, { ReactNode, cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from "react";
-import { addToQueue, removeFromQueue, speakFromQueue, subscribe, dequeue, clearQueueHook, clearQueueUnload, clearQueue } from "./queue.js";
-import { SpeechStatus, SpeechSynthesisEventHandler, useSpeechProps, SpeechUtterancesQueue } from "./types.js";
-import { ArrayToText, JSXToArray, cancel, findCharIndex, getIndex, isParent, sanitize } from "./utils.js";
+import React, { cloneElement, isValidElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+
+import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
+import { SpeechStatus, SpeechSynthesisEventHandler, SpeechUtterancesQueue, useSpeechProps } from "./types.js";
+import { ArrayToText, cancel, findCharIndex, getIndex, isParent, JSXToArray, sanitize } from "./utils.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
@@ -61,6 +62,7 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
+      cancel();
       window.removeEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("stopped");
       setSpeakingWord(null);

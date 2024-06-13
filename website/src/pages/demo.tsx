@@ -28,7 +28,7 @@ export default function demo() {
 
   const [disabled, setDisabled] = useState(false);
 
-  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, markdown]);
+  const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: mdText,
     pitch,
@@ -64,7 +64,7 @@ export default function App() {
   const text = \`${sanitizedText}\`;
 
   const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{markdown && parse(markdown)}</>, [markdown]);
+  const mdText = useMemo(() => <>{parse(markdown)}</>, [markdown]);
   const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", highlightText: ${highlightText} });
 
   useLayoutEffect(() => {

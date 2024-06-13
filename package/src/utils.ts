@@ -1,4 +1,5 @@
-import { ReactNode, isValidElement } from "react";
+import { isValidElement, ReactNode } from "react";
+
 import { Index, StringArray } from "./types.js";
 
 export function ArrayToText(element: StringArray): string {

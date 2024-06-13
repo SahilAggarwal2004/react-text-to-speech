@@ -1,4 +1,8 @@
-# 0.15.1 (11-06-2024)
+## 0.15.2 (13-06-2024)
+
+- **fixed:** A bug where speech wouldn't start again if speech was paused just when it was about to end.
+
+## 0.15.1 (11-06-2024)
 
 - **added:** Exporting icons and types from library
 

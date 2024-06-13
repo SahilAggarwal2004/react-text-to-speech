@@ -135,7 +135,7 @@ import remarkGfm from "remark-gfm";
 function MarkdownText({ text }) {
   const [showMarkdown, setShowMarkdown] = useState(true);
   const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, markdown]);
+  const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
 
   useLayoutEffect(() => {
     setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
