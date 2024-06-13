@@ -1,15 +1,15 @@
 import Layout from "@theme/Layout";
 import parse from "html-react-parser";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import Markdown from "react-markdown";
 import { useSpeech } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
 import { toast, ToastContainer } from "react-toastify";
+import remarkGfm from "remark-gfm";
 
 import styles from "./demo.module.css";
 
 import "react-toastify/dist/ReactToastify.css";
-
-import Markdown from "react-markdown";
 
 export default function demo() {
   const [text, setText] = useState("");
@@ -28,7 +28,7 @@ export default function demo() {
 
   const [disabled, setDisabled] = useState(false);
 
-  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, showMarkdown, markdown]);
+  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, markdown]);
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: mdText,
     pitch,
@@ -49,7 +49,7 @@ export default function demo() {
   useLayoutEffect(() => {
     stop();
     setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, [text]);
+  }, [text, showMarkdown]);
 
   function copy() {
     const sanitizedText = text.replace(/(?<!\\)(`|\$)/g, "\\$1");
@@ -62,7 +62,6 @@ import remarkGfm from "remark-gfm";
 
 export default function App() {
   const text = \`${sanitizedText}\`;
-  const markdownClass = "prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2";
 
   const [markdown, setMarkdown] = useState("");
   const mdText = useMemo(() => <>{markdown && parse(markdown)}</>, [markdown]);
@@ -85,10 +84,10 @@ export default function App() {
           Stop
         </button>
       </div>
-      <div className={markdownClass}>
+      <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
         <Text />
       </div>
-      <Markdown className={\`rtts-markdown \${markdownClass} \${markdown && "hidden"}\`} remarkPlugins={[remarkGfm]}>
+      <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
         {text}
       </Markdown>
     </div>
@@ -192,12 +191,14 @@ export default function App() {
           </div>
           <div className={styles.text}>
             <h4>Text:</h4>
-            <div>
+            <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
               <Text />
             </div>
-            <div style={{ display: "none" }}>
-              <Markdown className="rtts-markdown">{text}</Markdown>
-            </div>
+            {showMarkdown && (
+              <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
+                {text}
+              </Markdown>
+            )}
           </div>
         </section>
         <button className={styles.button} onClick={copy}>

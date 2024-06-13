@@ -82,8 +82,6 @@
   width: var(--md-width);
   max-width: var(--max-md-width);
   max-height: 80%;
-  overflow-y: scroll;
-  white-space: pre-wrap;
 }
 
 .button {

@@ -135,11 +135,11 @@ import remarkGfm from "remark-gfm";
 function MarkdownText({ text }) {
   const [showMarkdown, setShowMarkdown] = useState(true);
   const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, showMarkdown, markdown]);
+  const mdText = useMemo(() => <>{!showMarkdown ? text : markdown && parse(markdown)}</>, [text, markdown]);
 
   useLayoutEffect(() => {
     setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, [text]);
+  }, [text, showMarkdown]);
 
   function toggleMarkdown() {
     stop();
@@ -154,12 +154,17 @@ function MarkdownText({ text }) {
         </button>
         <Speech id="unique-id" text={mdText} highlightText={true} />
       </div>
-      <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
-        <HighlightedText id="unique-id">{mdText}</HighlightedText>
-        <Markdown className={`rtts-markdown ${(!showMarkdown || markdown) && "hidden"}`} remarkPlugins={[remarkGfm]}>
+      <HighlightedText
+        id="unique-id"
+        className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2"
+      >
+        {mdText}
+      </HighlightedText>
+      {showMarkdown && (
+        <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
           {text}
         </Markdown>
-      </div>
+      )}
     </div>
   );
 }
