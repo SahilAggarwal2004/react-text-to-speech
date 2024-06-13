@@ -62,7 +62,7 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
-      cancel();
+      if (synth.paused) cancel();
       window.removeEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("stopped");
       setSpeakingWord(null);
