@@ -1,3 +1,7 @@
+# 0.16.0 (15-06-2024)
+
+- **added:** `useVoices` hook. See usage [here](https://rtts.vercel.app/docs/usage/useVoices).
+
 ## 0.15.3 (13-06-2024)
 
 - **fixed:** A bug where speech wouldn't start again if speech was paused just when it was about to end.

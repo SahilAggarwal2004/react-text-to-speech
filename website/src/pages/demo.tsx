@@ -1,8 +1,8 @@
 import Layout from "@theme/Layout";
 import parse from "html-react-parser";
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
-import { useSpeech } from "react-text-to-speech";
+import { useSpeech, useVoices } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
 import { toast, ToastContainer } from "react-toastify";
 import remarkGfm from "remark-gfm";
@@ -16,16 +16,12 @@ export default function demo() {
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
+  const { languages, voices } = useVoices();
   const [lang, setLang] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
   const [highlightText, setHighlightText] = useState(false);
   const [showMarkdown, setShowMarkdown] = useState(false);
   const [markdown, setMarkdown] = useState("");
-
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const languages = [...new Set(voices.map(({ lang }) => lang))];
-  const onVoicesChanged = () => setVoices(window.speechSynthesis.getVoices());
-
   const [disabled, setDisabled] = useState(false);
 
   const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
@@ -40,11 +36,6 @@ export default function demo() {
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
   });
-
-  useEffect(() => {
-    speechSynthesis.addEventListener("voiceschanged", onVoicesChanged);
-    return () => speechSynthesis.removeEventListener("voiceschanged", onVoicesChanged);
-  }, []);
 
   useLayoutEffect(() => {
     stop();

@@ -138,6 +138,7 @@ export function useSpeech({
   }
 
   useEffect(() => {
+    window.speechSynthesis?.getVoices();
     return () => stop(speechStatusRef.current);
   }, [stringifiedWords]);
 
@@ -161,4 +162,25 @@ function useStateRef<T>(init: T) {
   }
 
   return [state, ref, setStateRef] as const;
+}
+
+export function useVoices() {
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  const onVoicesChanged = () => {
+    const voices = window.speechSynthesis.getVoices();
+    setLanguages([...new Set(voices.map(({ lang }) => lang))]);
+    setVoices(voices);
+  };
+
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    synth.addEventListener("voiceschanged", onVoicesChanged);
+    synth.getVoices();
+    return () => synth.removeEventListener("voiceschanged", onVoicesChanged);
+  }, []);
+
+  return { languages, voices };
 }

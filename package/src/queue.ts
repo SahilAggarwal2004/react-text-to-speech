@@ -46,7 +46,7 @@ export function removeFromQueue(utterance: SpeechSynthesisUtterance | number, ca
 
 export function speakFromQueue() {
   const item = queue[0];
-  if (item) speechSynthesis.speak(item.utterance);
+  if (item) window.speechSynthesis.speak(item.utterance);
 }
 
 export function subscribe(callback: QueueChangeEventHandler) {

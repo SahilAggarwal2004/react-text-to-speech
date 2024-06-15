@@ -20,7 +20,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Usage",
-      items: ["usage/useSpeech", "usage/speech"],
+      items: ["usage/useSpeech", "usage/speech", "usage/useVoices"],
     },
     {
       type: "category",
