@@ -82,6 +82,7 @@
   width: var(--md-width);
   max-width: var(--max-md-width);
   max-height: 80%;
+  color: var(--text-color)
 }
 
 .button {
