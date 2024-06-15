@@ -150,7 +150,15 @@ export default function App() {
           </div>
           <div>
             <label htmlFor="lang">Language:</label>
-            <select id="lang" value={lang} disabled={disabled} onChange={(e) => setLang(e.target.value)}>
+            <select
+              id="lang"
+              value={lang}
+              disabled={disabled}
+              onChange={(e) => {
+                setLang(e.target.value);
+                setVoiceURI("");
+              }}
+            >
               <option value="">Choose a language</option>
               {languages.map((lang) => (
                 <option key={lang} value={lang}>
