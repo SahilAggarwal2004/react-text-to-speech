@@ -33,6 +33,7 @@ export function useSpeech({
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number } | null>();
   const utteranceRef = useRef<SpeechSynthesisUtterance>();
+  const { voices } = useVoices();
 
   const [words, stringifiedWords] = useMemo(() => {
     const words = JSXToArray(text);
@@ -51,7 +52,6 @@ export function useSpeech({
     if (lang) utterance.lang = lang;
     if (voiceURI) {
       if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
-      const voices = synth.getVoices();
       for (let i = 0; i < voiceURI.length; i++) {
         const uri = voiceURI[i];
         const voice = voices.find((voice) => voice.voiceURI === uri);
@@ -138,7 +138,6 @@ export function useSpeech({
   }
 
   useEffect(() => {
-    window.speechSynthesis?.getVoices();
     return () => stop(speechStatusRef.current);
   }, [stringifiedWords]);
 
@@ -168,18 +167,21 @@ export function useVoices() {
   const [languages, setLanguages] = useState<string[]>([]);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
-  const onVoicesChanged = () => {
-    const voices = window.speechSynthesis.getVoices();
+  function setData(voices: SpeechSynthesisVoice[]) {
     setLanguages([...new Set(voices.map(({ lang }) => lang))]);
     setVoices(voices);
-  };
+  }
 
   useEffect(() => {
     const synth = window.speechSynthesis;
     if (!synth) return;
-    synth.addEventListener("voiceschanged", onVoicesChanged);
-    synth.getVoices();
-    return () => synth.removeEventListener("voiceschanged", onVoicesChanged);
+    const voices = synth.getVoices();
+    if (voices.length) setData(voices);
+    else {
+      const onVoicesChanged = () => setData(synth.getVoices());
+      synth.addEventListener("voiceschanged", onVoicesChanged);
+      return () => synth.removeEventListener("voiceschanged", onVoicesChanged);
+    }
   }, []);
 
   return { languages, voices };
