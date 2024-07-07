@@ -10,7 +10,7 @@ export function ArrayToText(element: StringArray): string {
 export function JSXToArray(element: ReactNode): StringArray {
   if (isValidElement(element)) {
     const { children } = element.props;
-    if (Array.isArray(children)) return (children as ReactNode[]).map(JSXToArray);
+    if (Array.isArray(children)) return children.map(JSXToArray);
     return JSXToArray(children);
   }
   return typeof element === "string" ? element : typeof element === "number" ? String(element) : "";
