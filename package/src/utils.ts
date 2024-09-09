@@ -20,6 +20,23 @@ export function cancel() {
   if (typeof window !== "undefined") window.speechSynthesis?.cancel();
 }
 
+export function TextToChunks(text: string, desktopSize: number = 1000, mobileSize: number = 250) {
+  const length = text.length;
+  const size = isMobile() ? mobileSize : desktopSize;
+  const result = [];
+  let startIndex = 0;
+  while (startIndex < length) {
+    let endIndex = Math.min(startIndex + size, length);
+    if (endIndex < length && text[endIndex] !== " ") {
+      const spaceIndex = text.lastIndexOf(" ", endIndex);
+      if (spaceIndex > startIndex) endIndex = spaceIndex;
+    }
+    result.push(text.slice(startIndex, endIndex));
+    startIndex = endIndex;
+  }
+  return result;
+}
+
 export function findCharIndex(words: StringArray, index: number) {
   let currentIndex = 0;
   function recursiveSearch(stringArray: StringArray, parentIndex: Index = ""): string {
@@ -39,6 +56,12 @@ export function findCharIndex(words: StringArray, index: number) {
 }
 
 export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
+
+export function isMobile(iOS = true) {
+  let result = (navigator as any).userAgentData?.mobile as boolean | undefined;
+  result ??= /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (iOS && /iPhone|iPad|iPod/i.test(navigator.userAgent));
+  return result;
+}
 
 export function isParent(parentIndex: string, index?: string) {
   if (!index?.startsWith(parentIndex)) return false;

@@ -2,7 +2,7 @@ import React, { cloneElement, isValidElement, ReactNode, useEffect, useMemo, use
 
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
 import { SpeechStatus, SpeechSynthesisEventHandler, SpeechUtterancesQueue, useSpeechProps } from "./types.js";
-import { ArrayToText, cancel, findCharIndex, getIndex, isParent, JSXToArray, sanitize } from "./utils.js";
+import { ArrayToText, cancel, findCharIndex, getIndex, isMobile, isParent, JSXToArray, sanitize, TextToChunks } from "./utils.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
@@ -45,7 +45,11 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const utterance = new SpeechSynthesisUtterance(sanitize(ArrayToText(words)));
+    const chunks = TextToChunks(sanitize(ArrayToText(words)));
+    const numChunks = chunks.length;
+    let currentChunk = 0,
+      offset = 0;
+    const utterance = new SpeechSynthesisUtterance(chunks[currentChunk]);
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -62,6 +66,11 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
+      if (event.type === "end" && currentChunk < numChunks - 1) {
+        offset += chunks[currentChunk].length;
+        utterance.text = chunks[++currentChunk];
+        return speakFromQueue();
+      }
       if (synth.paused) cancel();
       window.removeEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("stopped");
@@ -92,7 +101,7 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      setSpeakingWord({ index: findCharIndex(words, event.charIndex), length: event.charLength });
+      setSpeakingWord({ index: findCharIndex(words, offset + event.charIndex), length: event.charLength });
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
@@ -107,8 +116,8 @@ export function useSpeech({
   }
 
   function pause() {
-    if (speechStatus === "started") return window.speechSynthesis?.pause();
-    if (speechStatus === "queued") stop();
+    if (isMobile(false) || speechStatus === "queued") return stop();
+    if (speechStatus === "started") window.speechSynthesis?.pause();
   }
 
   function stop(status = speechStatus) {

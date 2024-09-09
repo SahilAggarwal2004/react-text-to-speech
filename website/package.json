@@ -16,12 +16,12 @@
     "write-translations": "docusaurus write-translations"
   },
   "dependencies": {
-    "@docusaurus/core": "3.4.0",
-    "@docusaurus/preset-classic": "3.4.0",
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/preset-classic": "3.5.2",
     "@mdx-js/react": "^3.0.1",
     "clsx": "^2.1.1",
-    "html-react-parser": "^5.1.10",
-    "prism-react-renderer": "^2.3.1",
+    "html-react-parser": "^5.1.15",
+    "prism-react-renderer": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
@@ -30,15 +30,15 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.4.0",
-    "@docusaurus/theme-classic": "^3.4.0",
-    "@docusaurus/tsconfig": "3.4.0",
-    "@docusaurus/types": "3.4.0",
-    "@tailwindcss/typography": "^0.5.13",
-    "@types/node": "^20.14.10",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.4"
+    "@docusaurus/module-type-aliases": "3.5.2",
+    "@docusaurus/theme-classic": "^3.5.2",
+    "@docusaurus/tsconfig": "3.5.2",
+    "@docusaurus/types": "3.5.2",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/node": "^22.5.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.10"
   },
   "browserslist": {
     "production": [

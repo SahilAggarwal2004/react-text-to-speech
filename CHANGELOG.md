@@ -1,4 +1,9 @@
-# 0.16.0 (15-06-2024)
+# 0.16.3 (09-09-2024)
+
+- **fixed:** A bug where speech wouldn't start if the `text` input was too large.
+- **fixed:** A bug where pause event was causing issues in Android devices.
+
+## 0.16.0 (15-06-2024)
 
 - **added:** `useVoices` hook. See usage [here](https://rtts.vercel.app/docs/usage/useVoices).
 
@@ -8,13 +13,13 @@
 
 ## 0.15.1 (11-06-2024)
 
-- **added:** Exporting icons and types from library
+- **added:** Exporting icons and types from library.
 
 ## 0.14.7 (29-05-2024)
 
-- **added:** Separate documentation website available at [https://rtts.vercel.app/](https://rtts.vercel.app/)
+- **added:** Separate documentation website available at [https://rtts.vercel.app/](https://rtts.vercel.app/).
 - **changed:** Repository structure updated to a monorepo.
-- **changed:** Switched from [bun](https://bun.sh/) to [pnpm](https://pnpm.io/)
+- **changed:** Switched from [bun](https://bun.sh/) to [pnpm](https://pnpm.io/).
 
 ## 0.14.6 (05-05-2024)
 
