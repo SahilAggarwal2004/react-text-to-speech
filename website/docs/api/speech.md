@@ -14,6 +14,7 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 | `highlightText` | `boolean` | No | `false` | Whether the words in the text should be highlighted as they are read or not. |
 | `highlightProps` | `React.DetailedHTMLProps` | No | - | Props to customize the highlighted word, typically applied to the `<mark>` tag. |
 | `preserveUtteranceQueue` | `boolean` | No | `false` | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false). |
+| `maxChunkSize` | `number` | No | 250 | Specifies the maximum size of each text chunk when dividing the text. This helps manage the Web Speech API's text limit, avoiding issues related to large text inputs. |
 | `startBtn` | [`Button`](#button) | No | `<HiVolumeUp />` | Button to start the speech instance. |
 | `pauseBtn` | [`Button`](#button) | No | `<HiVolumeOff />` | Button to pause the speech instance. |
 | `stopBtn` | [`Button`](#button) | No | `<HiMiniStop />` | Button to stop the speech instance. |
@@ -40,6 +41,7 @@ type Button = JSX.Element | string | null;
 
 ```typescript
 import { ReactNode } from "react";
+
 type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 type ChildrenOptions = {
   speechStatus?: SpeechStatus;

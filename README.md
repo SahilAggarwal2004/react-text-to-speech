@@ -4,13 +4,14 @@ An easy-to-use React.js component that leverages the [Web Speech API](https://de
 
 ## Features
 
-- Text-to-speech
+- Text-to-speech functionality
 - Easy to use
-- Highlights words as they are read. See highlighting text using [useSpeech Hook](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text) and [Speech Component](https://rtts.vercel.app/docs/usage/speech#highlight-text)
-- Provides API to handle errors and events. See [Handling Errors and Events](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events)
-- Handles multiple speech instances easily. See handling using [useSpeech Hook](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage) and [Speech Component](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage)
-- Fully Customizable. See [useSpeech Hook Usage](https://rtts.vercel.app/docs/usage/useSpeech) and [usage with FaC](https://rtts.vercel.app/docs/usage/speech#full-customization)
-- Stops speech instance on component unmount.
+- Highlights words as they are read (see highlighting text using [useSpeech Hook](/docs/usage/useSpeech#highlight-text) and [Speech Component](/docs/usage/speech#highlight-text)).
+- Provides API to handle errors and events (see [Handling Errors and Events](/docs/usage/useSpeech#handling-errors-and-events)).
+- Handles multiple speech instances easily (see handling using [useSpeech Hook](/docs/usage/useSpeech#multiple-instance-usage) and [Speech Component](/docs/usage/speech#multiple-instance-usage)).
+- Fully Customizable (see [useSpeech Hook Usage](/docs/usage/useSpeech) and [usage with FaC](/docs/usage/speech#full-customization)).
+- Overcomes the [Web Speech API's text limit](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/text), allowing for infinite text input.
+- Automatically stops speech instances on component unmount.
 
 ## Installation
 

@@ -20,9 +20,9 @@ export function cancel() {
   if (typeof window !== "undefined") window.speechSynthesis?.cancel();
 }
 
-export function TextToChunks(text: string, desktopSize: number = 1000, mobileSize: number = 250) {
+export function TextToChunks(text: string, size?: number) {
   const length = text.length;
-  const size = isMobile() ? mobileSize : desktopSize;
+  if (!size) size = isMobile() ? 250 : 1000;
   const result = [];
   let startIndex = 0;
   while (startIndex < length) {

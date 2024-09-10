@@ -19,6 +19,7 @@ export type useSpeechProps = {
   highlightText?: boolean;
   highlightProps?: SpanProps;
   preserveUtteranceQueue?: boolean;
+  maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;
   onResume?: SpeechSynthesisEventHandler;

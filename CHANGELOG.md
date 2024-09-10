@@ -1,4 +1,8 @@
-# 0.16.3 (09-09-2024)
+# 0.17.0 (10-09-2024)
+
+- **added:** `maxChunkSize` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+
+## 0.16.3 (09-09-2024)
 
 - **fixed:** A bug where speech wouldn't start if the `text` input was too large.
 - **fixed:** A bug where pause event was causing issues in Android devices.

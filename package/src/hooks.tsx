@@ -22,6 +22,7 @@ export function useSpeech({
   highlightText = false,
   highlightProps,
   preserveUtteranceQueue = false,
+  maxChunkSize,
   onError = console.error,
   onStart,
   onResume,
@@ -45,7 +46,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const chunks = TextToChunks(sanitize(ArrayToText(words)));
+    const chunks = TextToChunks(sanitize(ArrayToText(words)), maxChunkSize);
     const numChunks = chunks.length;
     let currentChunk = 0,
       offset = 0;
