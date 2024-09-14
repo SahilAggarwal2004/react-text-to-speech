@@ -75,4 +75,5 @@ export function isParent(parentIndex: string, index?: string) {
   return true;
 }
 
-export const sanitize = (text: string) => text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (match === "<" ? "(" : (group || "") + ")"));
+export const sanitize = (text: string) =>
+  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (match === "<" ? " \u200Eless-than " : match === ">" ? " \u200Egreater-than " : group + ")"));

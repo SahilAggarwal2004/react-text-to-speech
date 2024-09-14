@@ -102,7 +102,11 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      setSpeakingWord({ index: findCharIndex(words, offset + event.charIndex), length: event.charLength });
+      const { charIndex, charLength } = event;
+      if (charLength && utterance.text[charIndex] === "\u200E") {
+        setSpeakingWord({ index: findCharIndex(words, offset + charIndex - 1), length: 1 });
+        offset -= charLength + 1;
+      } else setSpeakingWord({ index: findCharIndex(words, offset + charIndex), length: charLength });
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();

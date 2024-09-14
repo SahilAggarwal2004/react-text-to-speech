@@ -1,19 +1,23 @@
-# 0.17.0 (10-09-2024)
+# 0.18.0 (14-09-2024)
 
-- **added:** `maxChunkSize` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+- **added:** Support for `<` and `>` characters to be spoken as "less-than" and "greater-than".
+
+## 0.17.0 (10-09-2024)
+
+- **added:** `maxChunkSize` prop in `useSpeech` hook and `<Speech>` component.
 
 ## 0.16.3 (09-09-2024)
 
-- **fixed:** A bug where speech wouldn't start if the `text` input was too large.
-- **fixed:** A bug where pause event was causing issues in Android devices.
+- **fixed:** Speech wouldn’t start for large `text` inputs.
+- **fixed:** Pause event issues on Android.
 
 ## 0.16.0 (15-06-2024)
 
-- **added:** `useVoices` hook. See usage [here](https://rtts.vercel.app/docs/usage/useVoices).
+- **added:** `useVoices` hook.
 
 ## 0.15.3 (13-06-2024)
 
-- **fixed:** A bug where speech wouldn't start again if speech was paused just when it was about to end.
+- **fixed:** Speech wouldn’t resume if paused near the end of a sentence.
 
 ## 0.15.1 (11-06-2024)
 
@@ -22,8 +26,7 @@
 ## 0.14.7 (29-05-2024)
 
 - **added:** Separate documentation website available at [https://rtts.vercel.app/](https://rtts.vercel.app/).
-- **changed:** Repository structure updated to a monorepo.
-- **changed:** Switched from [bun](https://bun.sh/) to [pnpm](https://pnpm.io/).
+- **changed:** Updated to monorepo structure and switched to `pnpm`.
 
 ## 0.14.6 (05-05-2024)
 
@@ -31,15 +34,15 @@
 
 ## 0.14.4 (11-04-2024)
 
-- **improved:** `highlightText` prop can now be toggled dynamically while a speech utterance is being spoken.
+- **improved:** `highlightText` prop can now be dynamically toggled during speech.
 
 ## 0.14.3 (07-04-2024)
 
-- **improved:** Better sanitization of `text` before passing to **Web Speech API**.
+- **improved:** Enhanced sanitization of `text` before passing to **Web Speech API**.
 
 ## 0.14.0 (05-04-2024)
 
-- **added:** `useQueue` hook. See usage [here](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage).
+- **added:** `useQueue` hook.
 
 ## 0.13.5 (02-04-2024)
 
@@ -47,19 +50,19 @@
 
 ## 0.13.3 (02-04-2024)
 
-- **changed:** Switched from [pnpm](https://pnpm.io/) to [bun](https://bun.sh/).
+- **changed:** Switched from `pnpm` to `bun`.
 
 ## 0.13.0 (31-03-2024)
 
-- **added:** `onQueueChange` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+- **added:** `onQueueChange` prop in `useSpeech` hook and `<Speech>` component.
 
 ## 0.12.8 (26-03-2024)
 
-- **fixed:** A bug where speech didn't stop when the start function of `useSpeech` hook was called but the component was unmounted before speech actually started.
+- **fixed:** Speech did not stop when the `start` function of the `useSpeech` hook was called if the component was unmounted before the speech actually began.
 
 ## 0.12.4 (23-03-2024)
 
-- **fixed:** A bug where unmounting one `<Speech>` instance would stop the speech utterance of another instance.
+- **fixed:** Unmounting one `<Speech>` instance would stop the speech utterance of another instance.
 
 ## 0.12.1 (22-03-2024)
 
@@ -67,34 +70,34 @@
 
 ## 0.12.0 (19-03-2024)
 
-- **added:** `onBoundary` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+- **added:** `onBoundary` prop in `useSpeech` hook and `<Speech>` component.
 
 ## 0.11.0 (19-03-2024)
 
-- **added:** `onStart`, `onResume`, `onPause`, and `onStop` props in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+- **added:** `onStart`, `onResume`, `onPause`, and `onStop` props in `useSpeech` hook and `<Speech>` component.
 - **added:** `isInQueue` state value returned by `useSpeech` hook.
 
 ## 0.10.0 (18-03-2024)
 
-- **added:** `preserveUtteranceQueue` prop in `useSpeech` hook and `<Speech>` component. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
+- **added:** `preserveUtteranceQueue` prop in `useSpeech` hook and `<Speech>` component.
 
 ## 0.9.5 (14-03-2024)
 
-- **fixed:** A bug where the `stop` function of `useSpeech` hook did not work if start was called multiple times.
-- **fixed:** A bug where HTML tags and entities were ignored by **Web Speech API**.
+- **fixed:** `stop` function of `useSpeech` hook did not work if start was called multiple times.
+- **fixed:** HTML tags and entities were ignored by Web Speech API.
 
 ## 0.9.4 (11-03-2024)
 
-- **fixed:** A bug where multiple highlight boxes appeared in the case of 10 or more children.
+- **fixed:** A bug where multiple highlight boxes appeared where there were 10 or more children.
 
 ## 0.9.2 (11-03-2024)
 
-- **fixed:** A bug where the highlight text feature wouldn't work if `<HighlightedText>` was placed after `<Speech>`.
+- **fixed:** Highlight text feature didn't work if `<HighlightedText>` was placed after `<Speech>`.
 
 ## 0.9.0 (14-02-2024)
 
-- **added:** `useSpeech` hook. See [useSpeech Hook API Reference](https://rtts.vercel.app/docs/api/useSpeech).
-- **changed:** Default value of `useStopOverPause` prop. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
+- **added:** `useSpeech` hook.
+- **changed:** Default value of `useStopOverPause` prop.
 - **docs:** Restructured and refined documentation.
 
 ## 0.8.15 (14-02-2024)
@@ -107,7 +110,7 @@
 
 ## 0.8.11 (09-02-2024)
 
-- **changed:** Default value of `highlightProps` prop of `<Speech>` component. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
+- **changed:** Default value of `highlightProps` prop of `<Speech>` component.
 - **fixed:** Minor bugs in the algorithm used to highlight words.
 
 ## 0.8.5 (08-02-2024)
@@ -116,21 +119,21 @@
 
 ## 0.8.2 (08-02-2024)
 
-- **fixed:** A bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component. See [Highlight Text Usage](https://rtts.vercel.app/docs/usage/speech#highlight-text) and [usage with FaC](https://rtts.vercel.app/docs/usage/speech#full-customization).
+- **fixed:** A bug where `<HighlightedText>` wasn't rendering when FaC was used in `<Speech>` component.
 
 ## 0.8.1 (07-02-2024)
 
-- **added:** `children` in `<HighlightedText>` component. See [Highlight Text Usage](https://rtts.vercel.app/docs/usage/speech#highlight-text).
+- **added:** `children` in `<HighlightedText>` component.
 
 ## 0.8.0 (04-02-2024)
 
-- **added:** `highlightText` and `highlightProps` props in `<Speech>` component. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
-- **added:** `<HighlightedText>` component. See [Highlight Text Usage](https://rtts.vercel.app/docs/usage/speech#highlight-text).
-- **improved:** `text` prop in `<Speech>` component can now be `JSX`. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
+- **added:** `highlightText` and `highlightProps` props in `<Speech>` component.
+- **added:** `<HighlightedText>` component.
+- **improved:** `text` prop in `<Speech>` component can now be `JSX`.
 
 ## 0.7.0 (03-02-2024)
 
-- **added:** `voiceURI` prop in `<Speech>` component. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech). Thanks [@akshaypx](https://github.com/akshaypx)!
+- **added:** `voiceURI` prop in `<Speech>` component.
 
 ## 0.6.6 (19-01-2024)
 
@@ -158,18 +161,18 @@
 
 ## 0.6.0 (30-10-2023)
 
-- **added:** `useStopOverPause` prop in `<Speech>` component. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
-- **fixed:** `pauseBtn` behaving as `stopBtn` on Android devices (see [details](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause)) with the help of the `useStopOverPause` prop.
+- **added:** `useStopOverPause` prop in `<Speech>` component.
+- **fixed:** `pauseBtn` behaving as `stopBtn` on Android devices.
 
 ## 0.5.2 (14-10-2023)
 
-- **fixed:** Sync issues when using multiple `<Speech>` instances. See [Multiple Instance Usage](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage).
+- **fixed:** Sync issues when using multiple `<Speech>` instances.
 
 ## 0.5.1 (14-10-2023)
 
-- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech. See [Multiple Instance Usage](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage).
+- **fixed:** `stopBtn` on any `<Speech>` instance was stopping the speech.
 
 ## 0.5.0 (14-10-2023)
 
-- **added:** `pauseBtn` prop in `<Speech>` component. See [Speech Component API Reference](https://rtts.vercel.app/docs/api/speech).
-- **added:** Full customization using FaC. See [usage with FaC](https://rtts.vercel.app/docs/usage/speech#full-customization).
+- **added:** `pauseBtn` prop in `<Speech>` component.
+- **added:** Full customization using FaC.
