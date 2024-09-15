@@ -1,5 +1,7 @@
 import { isValidElement, ReactNode } from "react";
 
+import { desktopChunkSize, minChunkSize, mobileChunkSize, specialSymbol, symbolMapping } from "./constants.js";
+import { setState } from "./state.js";
 import { Index, StringArray } from "./types.js";
 
 export function ArrayToText(element: StringArray): string {
@@ -17,12 +19,14 @@ export function JSXToArray(element: ReactNode): StringArray {
 }
 
 export function cancel() {
-  if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+  if (typeof window === "undefined") return;
+  setState({ stopReason: "manual" });
+  window.speechSynthesis?.cancel();
 }
 
 export function TextToChunks(text: string, size?: number) {
+  size = size ? Math.max(size, minChunkSize) : isMobile() ? mobileChunkSize : desktopChunkSize;
   const length = text.length;
-  if (!size) size = isMobile() ? 250 : 1000;
   const result = [];
   let startIndex = 0;
   while (startIndex < length) {
@@ -76,4 +80,4 @@ export function isParent(parentIndex: string, index?: string) {
 }
 
 export const sanitize = (text: string) =>
-  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (match === "<" ? " \u200Eless-than " : match === ">" ? " \u200Egreater-than " : group + ")"));
+  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (group ? group + ")" : ` ${specialSymbol}${symbolMapping[match as keyof typeof symbolMapping]} `));

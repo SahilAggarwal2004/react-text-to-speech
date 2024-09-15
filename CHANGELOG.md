@@ -1,4 +1,11 @@
-# 0.18.0 (14-09-2024)
+# 0.19.0 (15-09-2024)
+
+- **added:** `autoPlay` prop in `useSpeech` hook and `<Speech>` component.
+- **fixed:** Multiple issues in Firefox, including incorrect text highlighting and the `stop` function not working correctly.
+- **fixed:** Typo in documentation.
+- **refactored:** Improved internal code for better maintainability.
+
+## 0.18.0 (14-09-2024)
 
 - **added:** Support for `<` and `>` characters to be spoken as "less-than" and "greater-than".
 

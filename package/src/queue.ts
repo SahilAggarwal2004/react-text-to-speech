@@ -1,3 +1,4 @@
+import { setState } from "./state.js";
 import { QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "./types.js";
 import { cancel } from "./utils.js";
 
@@ -46,7 +47,9 @@ export function removeFromQueue(utterance: SpeechSynthesisUtterance | number, ca
 
 export function speakFromQueue() {
   const item = queue[0];
-  if (item) window.speechSynthesis.speak(item.utterance);
+  if (!item) return;
+  setState({ stopReason: "auto" });
+  window.speechSynthesis.speak(item.utterance);
 }
 
 export function subscribe(callback: QueueChangeEventHandler) {

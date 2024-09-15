@@ -16,9 +16,10 @@ export type useSpeechProps = {
   volume?: number;
   lang?: string;
   voiceURI?: string | string[];
+  autoPlay?: boolean;
+  preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
   highlightProps?: SpanProps;
-  preserveUtteranceQueue?: boolean;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;
@@ -70,5 +71,7 @@ export type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
 
 // utils.tsx
 export type Index = string | number;
+
+export type State = { stopReason: "auto" | "manual" };
 
 export type StringArray = string | StringArray[];

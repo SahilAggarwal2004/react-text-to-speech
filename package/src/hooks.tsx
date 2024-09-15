@@ -1,6 +1,8 @@
 import React, { cloneElement, isValidElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import { specialSymbol } from "./constants.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
+import { state } from "./state.js";
 import { SpeechStatus, SpeechSynthesisEventHandler, SpeechUtterancesQueue, useSpeechProps } from "./types.js";
 import { ArrayToText, cancel, findCharIndex, getIndex, isMobile, isParent, JSXToArray, sanitize, TextToChunks } from "./utils.js";
 
@@ -19,9 +21,10 @@ export function useSpeech({
   volume = 1,
   lang,
   voiceURI,
+  autoPlay = false,
+  preserveUtteranceQueue = false,
   highlightText = false,
   highlightProps,
-  preserveUtteranceQueue = false,
   maxChunkSize,
   onError = console.error,
   onStart,
@@ -48,9 +51,10 @@ export function useSpeech({
     if (speechStatus === "queued") return;
     const chunks = TextToChunks(sanitize(ArrayToText(words)), maxChunkSize);
     const numChunks = chunks.length;
-    let currentChunk = 0,
-      offset = 0;
-    const utterance = new SpeechSynthesisUtterance(chunks[currentChunk]);
+    let currentChunk = 0;
+    let currentText = chunks[currentChunk] || "";
+    const utterance = new SpeechSynthesisUtterance(currentText.trimStart());
+    let offset = currentText.length - utterance.text.length;
     utterance.pitch = pitch;
     utterance.rate = rate;
     utterance.volume = volume;
@@ -67,9 +71,11 @@ export function useSpeech({
       }
     }
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
-      if (event.type === "end" && currentChunk < numChunks - 1) {
-        offset += chunks[currentChunk].length;
-        utterance.text = chunks[++currentChunk];
+      if (state.stopReason === "auto" && currentChunk < numChunks - 1) {
+        offset += utterance.text.length;
+        currentText = chunks[++currentChunk];
+        utterance.text = currentText.trimStart();
+        offset += currentText.length - utterance.text.length;
         return speakFromQueue();
       }
       if (synth.paused) cancel();
@@ -102,8 +108,9 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      const { charIndex, charLength } = event;
-      if (charLength && utterance.text[charIndex] === "\u200E") {
+      const { charIndex, charLength, name } = event;
+      if (name === "sentence") setSpeakingWord(null);
+      else if (utterance.text[charIndex] === specialSymbol) {
         setSpeakingWord({ index: findCharIndex(words, offset + charIndex - 1), length: 1 });
         offset -= charLength + 1;
       } else setSpeakingWord({ index: findCharIndex(words, offset + charIndex), length: charLength });
@@ -111,13 +118,13 @@ export function useSpeech({
     };
     if (!preserveUtteranceQueue) clearQueue();
     addToQueue({ utterance, setSpeechStatus }, onQueueChange);
+    setSpeechStatus("started");
     if (synth.speaking) {
       if (preserveUtteranceQueue && speechStatus !== "started") {
         utteranceRef.current = utterance;
         return setSpeechStatus("queued");
       } else cancel();
     } else speakFromQueue();
-    setSpeechStatus("started");
   }
 
   function pause() {
@@ -152,6 +159,7 @@ export function useSpeech({
   }
 
   useEffect(() => {
+    if (autoPlay) start();
     return () => stop(speechStatusRef.current);
   }, [stringifiedWords]);
 
