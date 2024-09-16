@@ -120,7 +120,7 @@ export default function App() {
       <main className={styles.main}>
         <section className={styles.inputs}>
           <h4>Inputs:</h4>
-          <textarea rows={5} placeholder="Enter some text" onChange={(e) => setText(e.target.value)} />
+          <textarea rows={5} placeholder="Enter some text" value={text} onChange={(e) => setText(e.target.value)} />
           <div>
             <div>
               <label htmlFor="pitch">Pitch:</label>
