@@ -112,7 +112,7 @@ export function useSpeech({
     utterance.onboundary = (event) => {
       const { charIndex, charLength, name } = event;
       if (name === "sentence") setSpeakingWord(null);
-      else if (utterance.text[charIndex] === specialSymbol) {
+      else if (utterance.text[charIndex + charLength] === specialSymbol) {
         setSpeakingWord({ index: findCharIndex(words, offset + charIndex - 1), length: 1 });
         offset -= charLength + 1;
       } else setSpeakingWord({ index: findCharIndex(words, offset + charIndex), length: charLength });

@@ -1,4 +1,8 @@
-# 0.19.1 (16-09-2024)
+# 0.19.2 (16-09-2024)
+
+- **fixed:** Resolved text highlight issues in Firefox caused by `>` and `<` symbols by replacing the special symbol `\u200E` with `\u00A0`.
+
+## 0.19.1 (16-09-2024)
 
 - **added:** Speech utterance now starts when `autoPlay` is set to `true` and stops when `autoPlay` is set to `false`, based on the React state.
 - **fixed:** Incorrect queue details (stale data).

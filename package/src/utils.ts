@@ -86,4 +86,4 @@ export function isParent(parentIndex: string, index?: string) {
 }
 
 export const sanitize = (text: string) =>
-  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (group ? group + ")" : ` ${specialSymbol}${symbolMapping[match as keyof typeof symbolMapping]} `));
+  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));

@@ -6,7 +6,7 @@ export const minChunkSize = 50;
 
 export const mobileChunkSize = 250;
 
-export const specialSymbol = "\u200E";
+export const specialSymbol = "\u00A0";
 
 export const symbolMapping = { "<": "lessthan", ">": "greaterthan" };
 
