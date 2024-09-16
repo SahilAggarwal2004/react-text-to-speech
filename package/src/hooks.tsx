@@ -1,15 +1,15 @@
-import React, { cloneElement, isValidElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import React, { cloneElement, isValidElement, ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { specialSymbol } from "./constants.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
-import { state } from "./state.js";
+import { setState, state } from "./state.js";
 import { SpeechStatus, SpeechSynthesisEventHandler, SpeechUtterancesQueue, useSpeechProps } from "./types.js";
-import { ArrayToText, cancel, findCharIndex, getIndex, isMobile, isParent, JSXToArray, sanitize, TextToChunks } from "./utils.js";
+import { ArrayToText, cancel, cloneUtterance, findCharIndex, getIndex, isMobile, isParent, JSXToArray, sanitize, TextToChunks } from "./utils.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
 
-  useEffect(() => subscribe(setQueue), []);
+  useLayoutEffect(() => subscribe(setQueue), []);
 
   return { queue, dequeue, clearQueue: clearQueueHook };
 }
@@ -49,7 +49,8 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const chunks = TextToChunks(sanitize(ArrayToText(words)), maxChunkSize);
+    const sanitizedText = sanitize(ArrayToText(words));
+    const chunks = TextToChunks(sanitizedText, maxChunkSize);
     const numChunks = chunks.length;
     let currentChunk = 0;
     let currentText = chunks[currentChunk] || "";
@@ -95,6 +96,7 @@ export function useSpeech({
     utterance.onstart = (event) => {
       window.addEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("started");
+      setState({ stopReason: "auto" });
       onStart?.(event);
     };
     utterance.onresume = (event) => {
@@ -117,7 +119,7 @@ export function useSpeech({
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
-    addToQueue({ utterance, setSpeechStatus }, onQueueChange);
+    addToQueue({ utterance, displayUtterance: cloneUtterance(utterance, sanitizedText), setSpeechStatus }, onQueueChange);
     setSpeechStatus("started");
     if (synth.speaking) {
       if (preserveUtteranceQueue && speechStatus !== "started") {
@@ -161,7 +163,7 @@ export function useSpeech({
   useEffect(() => {
     if (autoPlay) start();
     return () => stop(speechStatusRef.current);
-  }, [stringifiedWords]);
+  }, [autoPlay, stringifiedWords]);
 
   return {
     Text: () => highlightedText(text),

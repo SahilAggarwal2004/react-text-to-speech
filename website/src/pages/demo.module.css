@@ -7,7 +7,7 @@
   display: flex;
   width: 100%;
   justify-content: space-evenly;
-  padding: 2.5rem 1rem;
+  padding: 2.25rem 1rem;
   row-gap: 3rem;
   position: relative;
 }

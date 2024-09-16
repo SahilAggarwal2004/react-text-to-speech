@@ -1,8 +1,8 @@
 import { isValidElement, ReactNode } from "react";
 
-import { desktopChunkSize, minChunkSize, mobileChunkSize, specialSymbol, symbolMapping } from "./constants.js";
+import { desktopChunkSize, minChunkSize, mobileChunkSize, specialSymbol, symbolMapping, utterancePropertiesAndEvents } from "./constants.js";
 import { setState } from "./state.js";
-import { Index, StringArray } from "./types.js";
+import { Index, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
 
 export function ArrayToText(element: StringArray): string {
   if (typeof element === "string") return element;
@@ -16,12 +16,6 @@ export function JSXToArray(element: ReactNode): StringArray {
     return JSXToArray(children);
   }
   return typeof element === "string" ? element : typeof element === "number" ? String(element) : "";
-}
-
-export function cancel() {
-  if (typeof window === "undefined") return;
-  setState({ stopReason: "manual" });
-  window.speechSynthesis?.cancel();
 }
 
 export function TextToChunks(text: string, size?: number) {
@@ -39,6 +33,18 @@ export function TextToChunks(text: string, size?: number) {
     startIndex = endIndex;
   }
   return result;
+}
+
+export function cancel() {
+  if (typeof window === "undefined") return;
+  setState({ stopReason: "manual" });
+  window.speechSynthesis?.cancel();
+}
+
+export function cloneUtterance(utterance: SpeechSynthesisUtterance, text: string) {
+  const newUtterance = new SpeechSynthesisUtterance(text);
+  utterancePropertiesAndEvents.forEach((property) => ((newUtterance[property] as SpeechSynthesisUtterance[SpeechSynthesisUtteranceKey]) = utterance[property]));
+  return newUtterance;
 }
 
 export function findCharIndex(words: StringArray, index: number) {

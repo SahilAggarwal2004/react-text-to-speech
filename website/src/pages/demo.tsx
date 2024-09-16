@@ -19,6 +19,7 @@ export default function demo() {
   const { languages, voices } = useVoices();
   const [lang, setLang] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
+  const [autoPlay, setAutoPlay] = useState(false);
   const [highlightText, setHighlightText] = useState(false);
   const [showMarkdown, setShowMarkdown] = useState(false);
   const [markdown, setMarkdown] = useState("");
@@ -32,6 +33,7 @@ export default function demo() {
     volume,
     lang,
     voiceURI,
+    autoPlay,
     highlightText,
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
@@ -56,7 +58,7 @@ export default function App() {
 
   const [markdown, setMarkdown] = useState("");
   const mdText = useMemo(() => <>{parse(markdown)}</>, [markdown]);
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", highlightText: ${highlightText} });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
 
   useLayoutEffect(() => {
     setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
@@ -90,7 +92,7 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const text = \`${sanitizedText}\`;
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", highlightText: ${highlightText} });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
@@ -170,6 +172,10 @@ export default function App() {
                   </option>
                 ))}
             </select>
+          </div>
+          <div>
+            <label htmlFor="autoPlay">Auto Play:</label>
+            <input id="autoPlay" type="checkbox" checked={autoPlay} disabled={disabled} onChange={(e) => setAutoPlay(e.target.checked)} />
           </div>
           <div>
             <label htmlFor="highlightText">Highlight Text:</label>

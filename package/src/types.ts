@@ -1,5 +1,8 @@
 import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
+// constants.tsx
+export type SpeechSynthesisUtteranceKeys = SpeechSynthesisUtteranceKey[];
+
 // hooks.tsx
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
@@ -61,7 +64,7 @@ export type SpeechProps = useSpeechProps & {
 // queue.tsx
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 
-export type SpeechQueueItem = { utterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
+export type SpeechQueueItem = { utterance: SpeechSynthesisUtterance; displayUtterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
 
 export type SpeechQueue = SpeechQueueItem[];
 
@@ -73,5 +76,7 @@ export type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
 export type Index = string | number;
 
 export type State = { stopReason: "auto" | "manual" };
+
+export type SpeechSynthesisUtteranceKey = keyof SpeechSynthesisUtterance;
 
 export type StringArray = string | StringArray[];

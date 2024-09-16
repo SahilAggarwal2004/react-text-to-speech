@@ -1,4 +1,3 @@
-import { setState } from "./state.js";
 import { QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "./types.js";
 import { cancel } from "./utils.js";
 
@@ -28,7 +27,7 @@ export function dequeue(index: number = 0) {
 }
 
 export function emit(callback?: QueueChangeEventHandler) {
-  const utteranceQueue = queue.map(({ utterance }) => utterance);
+  const utteranceQueue = queue.map(({ displayUtterance }) => displayUtterance);
   queueListeners.forEach((listener) => listener(utteranceQueue));
   callback?.(utteranceQueue);
 }
@@ -40,16 +39,15 @@ export function removeFromQueue(utterance: SpeechSynthesisUtterance | number, ca
   if (index === -1) return;
   const [item] = queue.splice(index, 1);
   if (item) {
-    item.setSpeechStatus("stopped");
+    if (index === 0) cancel();
+    else item.setSpeechStatus("stopped");
     emit(callback);
   }
 }
 
 export function speakFromQueue() {
   const item = queue[0];
-  if (!item) return;
-  setState({ stopReason: "auto" });
-  window.speechSynthesis.speak(item.utterance);
+  if (item) window.speechSynthesis.speak(item.utterance);
 }
 
 export function subscribe(callback: QueueChangeEventHandler) {

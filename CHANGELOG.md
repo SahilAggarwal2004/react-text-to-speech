@@ -1,4 +1,10 @@
-# 0.19.0 (15-09-2024)
+# 0.19.1 (16-09-2024)
+
+- **added:** Speech utterance now starts when `autoPlay` is set to `true` and stops when `autoPlay` is set to `false`, based on the React state.
+- **fixed:** Incorrect queue details (stale data).
+- **refactored:** Code refactor.
+
+## 0.19.0 (15-09-2024)
 
 - **added:** `autoPlay` prop in `useSpeech` hook and `<Speech>` component.
 - **fixed:** Multiple issues in Firefox, including incorrect text highlighting and the `stop` function not working correctly.
