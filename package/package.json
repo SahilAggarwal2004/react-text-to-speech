@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "0.19.2",
+  "version": "0.19.3",
   "description": "An easy-to-use React.js component that leverages the Web Speech API to convert text to speech.",
   "license": "MIT",
   "author": "Sahil Aggarwal <aggarwalsahil2004@gmail.com>",
@@ -35,6 +35,7 @@
     "highlight",
     "queue",
     "react",
+    "react-speech-highlight",
     "react-text-to-speech",
     "react-tts",
     "say",
@@ -44,7 +45,6 @@
     "synthesis",
     "text",
     "text-to-speech",
-    "to",
     "tts",
     "tts-react",
     "typescript",
