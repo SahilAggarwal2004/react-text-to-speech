@@ -10,6 +10,8 @@ export const specialSymbol = "\u00A0";
 
 export const symbolMapping = { "<": "lessthan", ">": "greaterthan" };
 
+export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}]|(&[^\s;]+);`, "g");
+
 const utteranceProperties: SpeechSynthesisUtteranceKeys = ["lang", "voice", "volume", "rate", "pitch"];
 
 const utteranceEvents: SpeechSynthesisUtteranceKeys = ["onstart", "onend", "onerror", "onpause", "onresume", "onmark", "onboundary"];

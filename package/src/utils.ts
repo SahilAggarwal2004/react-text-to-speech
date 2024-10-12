@@ -1,6 +1,6 @@
 import { isValidElement, ReactNode } from "react";
 
-import { desktopChunkSize, minChunkSize, mobileChunkSize, specialSymbol, symbolMapping, utterancePropertiesAndEvents } from "./constants.js";
+import { desktopChunkSize, minChunkSize, mobileChunkSize, sanitizeRegex, specialSymbol, symbolMapping, utterancePropertiesAndEvents } from "./constants.js";
 import { setState } from "./state.js";
 import { Index, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
 
@@ -86,4 +86,4 @@ export function isParent(parentIndex: string, index?: string) {
 }
 
 export const sanitize = (text: string) =>
-  text.replace(/[<>]|(&[^\s;]+);/g, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
+  text.replace(sanitizeRegex, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
