@@ -92,7 +92,7 @@ For detailed usage of `<Speech>` component, [refer here](https://rtts.vercel.app
 
 ## Documentation
 
-Check the [documentation](https://rtts.vercel.app/docs) to get you started!
+Check the [documentation](https://rtts.vercel.app/docs/) to get you started!
 
 ## Contribute
 
