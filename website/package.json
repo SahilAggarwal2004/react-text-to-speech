@@ -18,7 +18,7 @@
   "dependencies": {
     "@docusaurus/core": "3.5.2",
     "@docusaurus/preset-classic": "3.5.2",
-    "@mdx-js/react": "^3.0.1",
+    "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "html-react-parser": "^5.1.18",
     "prism-react-renderer": "^2.4.0",
@@ -35,10 +35,10 @@
     "@docusaurus/tsconfig": "3.5.2",
     "@docusaurus/types": "3.5.2",
     "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^22.7.5",
+    "@types/node": "^22.8.2",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.14"
   },
   "browserslist": {
     "production": [
