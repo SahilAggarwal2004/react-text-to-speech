@@ -9,6 +9,7 @@
     "deploy": "pnpm --filter ./website run deploy",
     "dev": "pnpm --filter ./website run start",
     "prettier": "prettier-package-json --write package.json ./package/package.json ./website/package.json",
+    "prod": "pnpm --filter ./website run build && pnpm --filter ./website run serve",
     "publish": "pnpm --filter ./package publish",
     "update": "ncu -u -ws --root"
   },
@@ -21,9 +22,7 @@
   },
   "pnpm": {
     "overrides": {
-      "path-to-regexp@>=2.0.0 <3.3.0": ">=3.3.0",
-      "cookie@<0.7.0": ">=0.7.0",
-      "http-proxy-middleware@<2.0.7": ">=2.0.7"
+      "cookie@<0.7.0": ">=0.7.0"
     }
   }
 }
