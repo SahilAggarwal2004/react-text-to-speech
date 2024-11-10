@@ -16,8 +16,8 @@
     "write-translations": "docusaurus write-translations"
   },
   "dependencies": {
-    "@docusaurus/core": "3.6.0",
-    "@docusaurus/preset-classic": "3.6.0",
+    "@docusaurus/core": "3.6.1",
+    "@docusaurus/preset-classic": "3.6.1",
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "html-react-parser": "^5.1.18",
@@ -30,10 +30,10 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.6.0",
-    "@docusaurus/theme-classic": "^3.6.0",
-    "@docusaurus/tsconfig": "3.6.0",
-    "@docusaurus/types": "3.6.0",
+    "@docusaurus/module-type-aliases": "3.6.1",
+    "@docusaurus/theme-classic": "^3.6.1",
+    "@docusaurus/tsconfig": "3.6.1",
+    "@docusaurus/types": "3.6.1",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^22.9.0",
     "autoprefixer": "^10.4.20",
