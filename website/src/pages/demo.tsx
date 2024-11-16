@@ -11,7 +11,7 @@ import styles from "./demo.module.css";
 
 import "react-toastify/dist/ReactToastify.css";
 
-export default function demo() {
+export default function Demo() {
   const [text, setText] = useState("");
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);

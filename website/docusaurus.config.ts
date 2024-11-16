@@ -1,6 +1,6 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "react-text-to-speech",
@@ -71,6 +71,7 @@ const config: Config = {
           position: "left",
           label: "Docs",
         },
+        { to: "/faqs", label: "FAQs", position: "left" },
         { to: "/demo", label: "Demo", position: "left" },
         // { to: "/blog", label: "Blog", position: "left" },
         {
