@@ -97,11 +97,3 @@ Check the [documentation](https://rtts.vercel.app/docs/) to get you started!
 ## Contribute
 
 Show your ❤️ and support by giving a ⭐. Any suggestions are welcome! Take a look at the [contributing guide](https://github.com/SahilAggarwal2004/react-text-to-speech/blob/master/CONTRIBUTING.md).
-
-## Explore Another Solution
-
-Here's the alternate solution for better React text-to-speech:
-
-[![React Text To Speech](https://raw.githubusercontent.com/albirrkarim/react-speech-highlight-demo/main/img/banner.png)](https://github.com/albirrkarim/react-speech-highlight-demo)
-
-[React Speech Highlight](https://github.com/albirrkarim/react-speech-highlight-demo), React text-to-speech with highlighting the words and sentences that are being spoken using audio files, text-to-speech API, and web speech synthesis API.
