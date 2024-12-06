@@ -1,4 +1,4 @@
-import { isValidElement, ReactNode } from "react";
+import { isValidElement, PropsWithChildren, ReactNode } from "react";
 
 import { desktopChunkSize, minChunkSize, mobileChunkSize, sanitizeRegex, specialSymbol, symbolMapping, utterancePropertiesAndEvents } from "./constants.js";
 import { setState } from "./state.js";
@@ -10,7 +10,7 @@ export function ArrayToText(element: StringArray): string {
 }
 
 export function JSXToArray(element: ReactNode): StringArray {
-  if (isValidElement(element)) {
+  if (isValidElement<PropsWithChildren>(element)) {
     const { children } = element.props;
     if (Array.isArray(children)) return children.map(JSXToArray);
     return JSXToArray(children);

@@ -4,7 +4,9 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
 import clsx from "clsx";
+import { JSX } from "react";
 
+import { getImageUrl } from "../utils/images";
 import styles from "./index.module.css";
 
 function HomepageHeader() {
@@ -12,6 +14,7 @@ function HomepageHeader() {
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
+        <img alt="react-text-to-speech Logo" src={getImageUrl("logo.jpeg")} width={100} className="shadow-2xl rounded-full" />
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>

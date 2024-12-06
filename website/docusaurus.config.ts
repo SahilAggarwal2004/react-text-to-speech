@@ -2,10 +2,12 @@ import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 
+import { getImageUrl } from "./src/utils/images";
+
 const config: Config = {
   title: "react-text-to-speech",
   tagline: "An easy to use React.js component for converting text to speech.",
-  // favicon: "img/favicon.ico",
+  favicon: getImageUrl("favicon.ico"),
 
   // Set the production url of your site here
   url: "https://rtts.vercel.app/",
@@ -62,7 +64,7 @@ const config: Config = {
       title: "react-text-to-speech",
       // logo: {
       //   alt: "react-text-to-speech Logo",
-      //   src: "img/logo.svg",
+      //   src: getImageUrl("logo.jpeg"),
       // },
       items: [
         {

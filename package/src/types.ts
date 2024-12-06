@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
+import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
 
 // constants.tsx
 export type SpeechSynthesisUtteranceKeys = SpeechSynthesisUtteranceKey[];

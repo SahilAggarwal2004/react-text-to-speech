@@ -15,14 +15,15 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "shx": "^0.3.4",
     "typescript": "^5.7.2"
   },
   "pnpm": {
     "overrides": {
-      "cookie@<0.7.0": ">=0.7.0"
+      "cookie@<0.7.0": ">=0.7.0",
+      "path-to-regexp@<0.1.12": ">=0.1.12"
     }
   }
 }
