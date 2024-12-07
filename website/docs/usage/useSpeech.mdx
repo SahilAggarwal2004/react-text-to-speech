@@ -201,35 +201,44 @@ export default function App() {
 
 ## Usage with Markdown
 
-To use react-text-to-speech seamlessly with markdown text, it is recommended to install following packages:
-- html-react-parser
-- react-markdown
-- remark-gfm (optional)
+To use `react-text-to-speech` seamlessly with markdown text, it is recommended to install the following packages:
+
+- `html-react-parser`
+- `react-markdown`
+- `rehype-raw` (optional, for HTML support)
+- `rehype-sanitize` (optional, for secure HTML support)
+- `remark-gfm` (optional)
+
+### Installation
 
 <Tabs>
 <TabItem value="npm" label="npm">
 ```bash
-npm install html-react-parser react-markdown remark-gfm --save
+npm install html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm --save
 ```
 </TabItem>
 <TabItem value="yarn" label="yarn">
-```bash 
-yarn add html-react-parser react-markdown remark-gfm
+```bash
+yarn add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 <TabItem value="pnpm" label="pnpm">
-```bash 
-pnpm add html-react-parser react-markdown remark-gfm
+```bash
+pnpm add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 <TabItem value="bun" label="bun">
-```bash 
-bun add html-react-parser react-markdown remark-gfm
+```bash
+bun add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 </Tabs>
 
-Optionally, we also recommended to setup [TailwindCSS](https://tailwindcss.com/docs/installation) and [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography) for styling purposes.
+Optionally, we also recommend setting up [TailwindCSS](https://tailwindcss.com/docs/installation) and [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography) for styling purposes.
+
+### Custom MarkdownText Component
+
+The following example demonstrates a custom `MarkdownText` component supporting HTML parsing using `rehype-raw` and sanitization using `rehype-sanitize`. If HTML support is not required, you can skip installing `rehype-raw` and `rehype-sanitize`.
 
 ```tsx title="Custom MarkdownText Component"
 import parse from "html-react-parser";
@@ -237,6 +246,8 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 import { useSpeech } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
 function MarkdownText({ text }) {
@@ -272,7 +283,7 @@ function MarkdownText({ text }) {
         <Text />
       </div>
       {showMarkdown && (
-        <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
+        <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
           {text}
         </Markdown>
       )}
@@ -284,6 +295,12 @@ export default function App() {
   return <MarkdownText text={`# react-text-to-speech\nThis library is awesome`} />;
 }
 ```
+
+### Notes
+
+- **HTML Support**: If you want to render HTML elements in markdown (e.g., `<table>` or inline `<strong>`), include `rehype-raw` and `rehype-sanitize`.
+- **Security**: To ensure safe rendering of HTML content, especially if the input comes from untrusted sources, always use `rehype-sanitize` to filter dangerous attributes like `onerror` or tags like `<script>`.
+- **Optional Dependencies**: If HTML support is not needed, you can skip installing `rehype-raw` and `rehype-sanitize`.
 
 ## API Reference
 

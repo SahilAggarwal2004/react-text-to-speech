@@ -5,11 +5,13 @@ import Markdown from "react-markdown";
 import { useSpeech, useVoices } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
 import { toast, ToastContainer } from "react-toastify";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
-import styles from "./demo.module.css";
-
 import "react-toastify/dist/ReactToastify.css";
+
+import styles from "./demo.module.css";
 
 export default function Demo() {
   const [text, setText] = useState("");
@@ -51,6 +53,8 @@ export default function Demo() {
 import { useLayoutEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 import { useSpeech } from "react-text-to-speech";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
 export default function App() {
@@ -80,7 +84,7 @@ export default function App() {
       <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
         <Text />
       </div>
-      <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
+      <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
         {text}
       </Markdown>
     </div>
@@ -200,7 +204,7 @@ export default function App() {
               <Text />
             </div>
             {showMarkdown && (
-              <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
+              <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
                 {text}
               </Markdown>
             )}

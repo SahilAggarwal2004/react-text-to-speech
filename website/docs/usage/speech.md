@@ -130,6 +130,8 @@ import parse from "html-react-parser";
 import { useLayoutEffect, useMemo, useState } from "react";
 import Markdown from "react-markdown";
 import Speech, { HighlightedText } from "react-text-to-speech";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
 function MarkdownText({ text }) {
@@ -161,7 +163,7 @@ function MarkdownText({ text }) {
         {mdText}
       </HighlightedText>
       {showMarkdown && (
-        <Markdown className="rtts-markdown hidden" remarkPlugins={[remarkGfm]}>
+        <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
           {text}
         </Markdown>
       )}
