@@ -35,6 +35,8 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 ### Button
 
 ```typescript
+import { JSX } from "react";
+
 type Button = JSX.Element | string | null;
 ```
 
