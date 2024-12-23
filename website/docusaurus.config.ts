@@ -85,47 +85,63 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      // links: [
-      //   {
-      //     title: "Docs",
-      //     items: [
-      //       {
-      //         label: "Tutorial",
-      //         to: "/docs/",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     title: "Community",
-      //     items: [
-      //       {
-      //         label: "Stack Overflow",
-      //         href: "https://stackoverflow.com/questions/tagged/react-text-to-speech",
-      //       },
-      //       {
-      //         label: "Discord",
-      //         href: "https://discordapp.com/invite/docusaurus",
-      //       },
-      //       {
-      //         label: "Twitter",
-      //         href: "https://twitter.com/docusaurus",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     title: "More",
-      //     items: [
-      //       {
-      //         label: "Blog",
-      //         to: "/blog",
-      //       },
-      //       {
-      //         label: "GitHub",
-      //         href: "https://github.com/SahilAggarwal2004/react-text-to-speech",
-      //       },
-      //     ],
-      //   },
-      // ],
+      links: [
+        {
+          title: "Docs",
+          items: [
+            {
+              label: "Introduction",
+              to: "/docs/",
+            },
+            {
+              label: "Usage",
+              to: "/docs/usage/useSpeech",
+            },
+            {
+              label: "API Reference",
+              to: "/docs/api/useSpeech",
+            },
+          ],
+        },
+        // {
+        //   title: "Community",
+        //   items: [
+        //     {
+        //       label: "Stack Overflow",
+        //       href: "https://stackoverflow.com/questions/tagged/react-text-to-speech",
+        //     },
+        //     {
+        //       label: "Discord",
+        //       href: "https://discordapp.com/invite/docusaurus",
+        //     },
+        //     {
+        //       label: "Twitter",
+        //       href: "https://twitter.com/docusaurus",
+        //     },
+        //   ],
+        // },
+        {
+          title: "More",
+          items: [
+            // {
+            //   label: "Blog",
+            //   to: "/blog",
+            // },
+            {
+              label: "GitHub",
+              href: "https://github.com/SahilAggarwal2004/react-text-to-speech",
+            },
+            {
+              label: "npm",
+              href: "https://www.npmjs.com/package/react-text-to-speech",
+            },
+            {
+              label: "Product Hunt",
+              href: "https://www.producthunt.com/posts/react-text-to-speech",
+            },
+          ],
+        },
+      ],
       copyright: `Copyright © ${new Date().getFullYear()} react-text-to-speech`,
     },
     prism: {

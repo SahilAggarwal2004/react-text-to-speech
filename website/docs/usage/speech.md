@@ -126,9 +126,8 @@ export default function App() {
 Like `useSpeech` hook, the `<Speech>` component can also be used along with markdown. <a href="/docs/usage/useSpeech#usage-with-markdown" target="_blank">Refer Here</a>
 
 ```tsx title="Custom MarkdownText Component"
-import parse from "html-react-parser";
-import { useLayoutEffect, useMemo, useState } from "react";
-import Markdown from "react-markdown";
+import { useState } from "react";
+import { useRemark } from "react-remarkify";
 import Speech, { HighlightedText } from "react-text-to-speech";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
@@ -136,22 +135,18 @@ import remarkGfm from "remark-gfm";
 
 function MarkdownText({ text }) {
   const [showMarkdown, setShowMarkdown] = useState(true);
-  const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
-
-  useLayoutEffect(() => {
-    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, [text, showMarkdown]);
-
-  function toggleMarkdown() {
-    stop();
-    setTimeout(() => setShowMarkdown((prev) => !prev), 1);
-  }
+  const reactContent = useRemark({
+    markdown: text,
+    rehypePlugins: [rehypeRaw, rehypeSanitize],
+    remarkPlugins: [remarkGfm],
+    remarkToRehypeOptions: { allowDangerousHtml: true },
+  });
+  const mdText = showMarkdown ? reactContent : text;
 
   return (
     <div className="flex flex-col space-y-3 p-4 text-justify">
       <div className="flex w-fit flex-col items-center space-y-2">
-        <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={toggleMarkdown}>
+        <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={() => setShowMarkdown((prev) => !prev)}>
           Toggle Markdown
         </button>
         <Speech id="unique-id" text={mdText} highlightText={true} />
@@ -162,11 +157,6 @@ function MarkdownText({ text }) {
       >
         {mdText}
       </HighlightedText>
-      {showMarkdown && (
-        <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-          {text}
-        </Markdown>
-      )}
     </div>
   );
 }

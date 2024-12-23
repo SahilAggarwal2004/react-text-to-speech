@@ -10,4 +10,4 @@
 
 ## Conventions
 
-- See [Conventions](./conventions.md).
+- See [Conventions](conventions.md).

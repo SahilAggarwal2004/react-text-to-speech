@@ -20,13 +20,12 @@
     "@docusaurus/preset-classic": "3.6.3",
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
-    "html-react-parser": "^5.2.0",
-    "prism-react-renderer": "^2.4.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^9.0.1",
+    "react-remarkify": "^0.1.2",
     "react-text-to-speech": "workspace:*",
-    "react-toastify": "^10.0.6",
+    "react-toastify": "^11.0.2",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.0"
@@ -37,10 +36,10 @@
     "@docusaurus/tsconfig": "3.6.3",
     "@docusaurus/types": "3.6.3",
     "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16"
+    "tailwindcss": "^3.4.17"
   },
   "browserslist": {
     "production": [

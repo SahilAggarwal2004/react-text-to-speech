@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
 
-// constants.tsx
+// constants.ts
 export type SpeechSynthesisUtteranceKeys = SpeechSynthesisUtteranceKey[];
 
 // hooks.tsx
@@ -12,7 +12,7 @@ export type SpeechSynthesisErrorHandler = (error: Error) => any;
 
 export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 
-export type useSpeechProps = {
+export type UseSpeechOptions = {
   text: string | JSX.Element;
   pitch?: number;
   rate?: number;
@@ -51,7 +51,7 @@ export type ChildrenOptions = {
 
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
-export type SpeechProps = useSpeechProps & {
+export type SpeechProps = UseSpeechOptions & {
   id?: string;
   startBtn?: Button;
   pauseBtn?: Button;
@@ -61,7 +61,7 @@ export type SpeechProps = useSpeechProps & {
   children?: Children;
 };
 
-// queue.tsx
+// queue.ts
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 
 export type SpeechQueueItem = { utterance: SpeechSynthesisUtterance; displayUtterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };

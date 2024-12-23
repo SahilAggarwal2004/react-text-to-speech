@@ -29,9 +29,9 @@ export default function Speech({
   children,
   ...hookProps
 }: SpeechProps) {
+  const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
   const { Text, ...childrenOptions } = useSpeech(hookProps);
   const { isInQueue, start, pause, stop } = childrenOptions;
-  const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (hookProps.highlightText) setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement);

@@ -6,14 +6,14 @@ export const minChunkSize = 50;
 
 export const mobileChunkSize = 250;
 
-export const specialSymbol = "\u00A0";
-
 export const symbolMapping = { "<": "lessthan", ">": "greaterthan" };
 
 export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}]|(&[^\s;]+);`, "g");
 
-const utteranceProperties: SpeechSynthesisUtteranceKeys = ["lang", "voice", "volume", "rate", "pitch"];
+export const specialSymbol = "\u00A0";
 
 const utteranceEvents: SpeechSynthesisUtteranceKeys = ["onstart", "onend", "onerror", "onpause", "onresume", "onmark", "onboundary"];
+
+const utteranceProperties: SpeechSynthesisUtteranceKeys = ["lang", "voice", "volume", "rate", "pitch"];
 
 export const utterancePropertiesAndEvents = utteranceProperties.concat(utteranceEvents);

@@ -203,8 +203,7 @@ export default function App() {
 
 To use `react-text-to-speech` seamlessly with markdown text, it is recommended to install the following packages:
 
-- `html-react-parser`
-- `react-markdown`
+- `react-remarkify`
 - `rehype-raw` (optional, for HTML support)
 - `rehype-sanitize` (optional, for secure HTML support)
 - `remark-gfm` (optional)
@@ -214,22 +213,22 @@ To use `react-text-to-speech` seamlessly with markdown text, it is recommended t
 <Tabs>
 <TabItem value="npm" label="npm">
 ```bash
-npm install html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm --save
+npm install react-remarkify rehype-raw rehype-sanitize remark-gfm --save
 ```
 </TabItem>
 <TabItem value="yarn" label="yarn">
 ```bash
-yarn add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
+yarn add react-remarkify rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 <TabItem value="pnpm" label="pnpm">
 ```bash
-pnpm add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
+pnpm add react-remarkify rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 <TabItem value="bun" label="bun">
 ```bash
-bun add html-react-parser react-markdown rehype-raw rehype-sanitize remark-gfm
+bun add react-remarkify rehype-raw rehype-sanitize remark-gfm
 ```
 </TabItem>
 </Tabs>
@@ -241,9 +240,8 @@ Optionally, we also recommend setting up [TailwindCSS](https://tailwindcss.com/d
 The following example demonstrates a custom `MarkdownText` component supporting HTML parsing using `rehype-raw` and sanitization using `rehype-sanitize`. If HTML support is not required, you can skip installing `rehype-raw` and `rehype-sanitize`.
 
 ```tsx title="Custom MarkdownText Component"
-import parse from "html-react-parser";
-import { useLayoutEffect, useMemo, useState } from "react";
-import Markdown from "react-markdown";
+import { useState } from "react";
+import { useRemark } from "react-remarkify";
 import { useSpeech } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
 import rehypeRaw from "rehype-raw";
@@ -252,41 +250,30 @@ import remarkGfm from "remark-gfm";
 
 function MarkdownText({ text }) {
   const [showMarkdown, setShowMarkdown] = useState(true);
-  const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, highlightText: true });
-
-  useLayoutEffect(() => {
-    stop();
-    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, [text, showMarkdown]);
-
-  function toggleMarkdown() {
-    stop();
-    setTimeout(() => setShowMarkdown((prev) => !prev), 1);
-  }
+  const reactContent = useRemark({
+    markdown: text,
+    rehypePlugins: [rehypeRaw, rehypeSanitize],
+    remarkPlugins: [remarkGfm],
+    remarkToRehypeOptions: { allowDangerousHtml: true },
+  });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: showMarkdown ? reactContent : text, highlightText: true });
 
   return (
     <div className="flex flex-col space-y-3 p-4 text-justify">
       <div className="flex w-fit flex-col items-center space-y-2">
-        <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={toggleMarkdown}>
+        <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={() => setShowMarkdown((prev) => !prev)}>
           Toggle Markdown
         </button>
         <div className="flex space-x-4">
-          <button>{speechStatus !== "started" ? <HiVolumeUp title="Start speech" onClick={start} /> : <HiVolumeOff title="Pause speech" onClick={pause} />}</button>
-          <button>
+          <span role="button">{speechStatus !== "started" ? <HiVolumeUp title="Start speech" onClick={start} /> : <HiVolumeOff title="Pause speech" onClick={pause} />}</span>
+          <span role="button">
             <HiMiniStop title="Stop speech" onClick={stop} />
-          </button>
+          </span>
         </div>
       </div>
       <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
         <Text />
       </div>
-      {showMarkdown && (
-        <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-          {text}
-        </Markdown>
-      )}
     </div>
   );
 }

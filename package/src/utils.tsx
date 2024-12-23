@@ -4,18 +4,18 @@ import { desktopChunkSize, minChunkSize, mobileChunkSize, sanitizeRegex, special
 import { setState } from "./state.js";
 import { Index, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
 
-export function ArrayToText(element: StringArray): string {
-  if (typeof element === "string") return element;
-  return element.map(ArrayToText).join(" ") + " ";
+export function ArrayToText(node: StringArray): string {
+  if (typeof node === "string") return node;
+  return node.map(ArrayToText).join(" ") + " ";
 }
 
-export function JSXToArray(element: ReactNode): StringArray {
-  if (isValidElement<PropsWithChildren>(element)) {
-    const { children } = element.props;
+export function JSXToArray(node: ReactNode): StringArray {
+  if (isValidElement<PropsWithChildren>(node)) {
+    const { children } = node.props;
     if (Array.isArray(children)) return children.map(JSXToArray);
     return JSXToArray(children);
   }
-  return typeof element === "string" ? element : typeof element === "number" ? String(element) : "";
+  return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
 }
 
 export function TextToChunks(text: string, size?: number) {
@@ -55,8 +55,8 @@ export function findCharIndex(words: StringArray, index: number) {
       return (currentIndex += stringArray.length + 1) > index ? getIndex(parentIndex, elementIndex) : "";
     }
     for (let i = 0; i < stringArray.length; i++) {
-      const element = stringArray[i];
-      const result = recursiveSearch(element, i);
+      const node = stringArray[i];
+      const result = recursiveSearch(node, i);
       if (result) return getIndex(parentIndex, result);
     }
     currentIndex++;

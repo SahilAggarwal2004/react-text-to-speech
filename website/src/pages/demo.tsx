@@ -1,7 +1,6 @@
 import Layout from "@theme/Layout";
-import parse from "html-react-parser";
-import React, { useLayoutEffect, useMemo, useState } from "react";
-import Markdown from "react-markdown";
+import { useState } from "react";
+import { useRemark } from "react-remarkify";
 import { useSpeech, useVoices } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,27 +8,29 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
-import "react-toastify/dist/ReactToastify.css";
-
 import styles from "./demo.module.css";
 
 export default function Demo() {
-  const [text, setText] = useState("");
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [highlightText, setHighlightText] = useState(false);
+  const [lang, setLang] = useState("");
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
-  const [volume, setVolume] = useState(1);
-  const { languages, voices } = useVoices();
-  const [lang, setLang] = useState("");
-  const [voiceURI, setVoiceURI] = useState("");
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [highlightText, setHighlightText] = useState(false);
   const [showMarkdown, setShowMarkdown] = useState(false);
-  const [markdown, setMarkdown] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  const [text, setText] = useState("");
+  const [voiceURI, setVoiceURI] = useState("");
+  const [volume, setVolume] = useState(1);
 
-  const mdText = useMemo(() => <>{showMarkdown ? parse(markdown) : text}</>, [text, markdown]);
+  const { languages, voices } = useVoices();
+  const reactContent = useRemark({
+    markdown: text,
+    rehypePlugins: [rehypeRaw, rehypeSanitize],
+    remarkPlugins: [remarkGfm],
+    remarkToRehypeOptions: { allowDangerousHtml: true },
+  });
   const { Text, speechStatus, start, pause, stop } = useSpeech({
-    text: mdText,
+    text: showMarkdown ? reactContent : text,
     pitch,
     rate,
     volume,
@@ -41,17 +42,11 @@ export default function Demo() {
     onStop: () => setDisabled(false),
   });
 
-  useLayoutEffect(() => {
-    stop();
-    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, [text, showMarkdown]);
-
   function copy() {
     const sanitizedText = text.replace(/(?<!\\)(`|\$)/g, "\\$1");
     if (showMarkdown)
-      var code = `import parse from "html-react-parser";
-import { useLayoutEffect, useMemo, useState } from "react";
-import Markdown from "react-markdown";
+      var code = `import { useState } from "react";
+import { useRemark } from "react-remarkify";
 import { useSpeech } from "react-text-to-speech";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
@@ -60,13 +55,8 @@ import remarkGfm from "remark-gfm";
 export default function App() {
   const text = \`${sanitizedText}\`;
 
-  const [markdown, setMarkdown] = useState("");
-  const mdText = useMemo(() => <>{parse(markdown)}</>, [markdown]);
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: mdText, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
-
-  useLayoutEffect(() => {
-    setMarkdown(document.querySelector(".rtts-markdown")?.innerHTML);
-  }, []);
+  const reactContent = useRemark({ markdown: text, rehypePlugins: [rehypeRaw, rehypeSanitize], remarkPlugins: [remarkGfm], remarkToRehypeOptions: { allowDangerousHtml: true } });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: reactContent, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
@@ -84,9 +74,6 @@ export default function App() {
       <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
         <Text />
       </div>
-      <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-        {text}
-      </Markdown>
     </div>
   );
 }`;
@@ -203,11 +190,6 @@ export default function App() {
             <div className="prose max-w-[90vw] overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2">
               <Text />
             </div>
-            {showMarkdown && (
-              <Markdown className="rtts-markdown hidden" rehypePlugins={[rehypeRaw, rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-                {text}
-              </Markdown>
-            )}
           </div>
         </section>
         <button className={styles.button} onClick={copy}>

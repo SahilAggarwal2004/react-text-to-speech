@@ -1,4 +1,9 @@
-# 1.0.0 (06-12-2024)
+# 1.0.2 (23-12-2024)
+
+- **perf:** Improved performance with memoization.
+- **docs:** Replaced react-markdown with react-remarkify in `Usage with Markdown` section.
+
+## 1.0.0 (06-12-2024)
 
 - **feat:** Support for React.js v19 to ensure compatibility with the latest features.
 - **feat:** A logo to enhance branding and visual identity.
