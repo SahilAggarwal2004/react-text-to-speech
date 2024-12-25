@@ -43,7 +43,8 @@ export function useSpeech({
     const words = JSXToArray(text);
     return [words, JSON.stringify(words)];
   }, [text]);
-  const Text = useCallback(() => highlightedText(text), [speakingWord?.index, highlightText, stringifiedWords]);
+  const reactContent = useMemo(() => highlightedText(text), [speakingWord?.index, highlightText, stringifiedWords]);
+  const Text = useCallback(() => reactContent, [reactContent]);
 
   function start() {
     const synth = window.speechSynthesis;

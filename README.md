@@ -6,16 +6,16 @@ An easy-to-use React.js component that leverages the [Web Speech API](https://de
 
 - Converts text to speech using the Web Speech API.
 - Highlights words as they are read aloud. See:
-  - [Highlighting text with `useSpeech`](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text).
+  - [Highlighting text with `useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text).
   - [Highlighting text with `Speech` component](https://rtts.vercel.app/docs/usage/speech#highlight-text).
 - Provides an API for handling errors and events:
-  - [Error handling with `useSpeech`](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events).
+  - [Error handling with `useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events).
   - [Error handling with `Speech` component](https://rtts.vercel.app/docs/usage/speech#handling-errors-and-events).
 - Manages multiple speech instances:
-  - [Multiple instances with `useSpeech`](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage).
+  - [Multiple instances with `useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage).
   - [Multiple instances with `Speech` component](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage).
 - Fully customizable for various use cases:
-  - [Customizing `useSpeech`](https://rtts.vercel.app/docs/usage/useSpeech).
+  - [Customizing `useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech).
   - [Customizing `Speech` component](https://rtts.vercel.app/docs/usage/speech#full-customization).
 - Overcomes the [Web Speech API's text length limit](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/text), enabling infinite text input.
 - Automatically stops speech instances when the component unmounts.
