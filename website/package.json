@@ -23,7 +23,7 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-remarkify": "^0.1.2",
+    "react-remarkify": "^0.1.3",
     "react-text-to-speech": "workspace:*",
     "react-toastify": "^11.0.2",
     "rehype-raw": "^7.0.0",

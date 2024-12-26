@@ -12,19 +12,19 @@
   position: relative;
 }
 
-.main>section {
+.main > section {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
-.inputs>textarea {
+.inputs > textarea {
   width: var(--md-width);
   max-width: var(--max-md-width);
 }
 
-.inputs>div {
+.inputs > div {
   display: flex;
   justify-content: space-between;
   width: var(--md-width);
@@ -32,7 +32,7 @@
   margin: 0.5rem 0;
 }
 
-.inputs>div>div {
+.inputs > div > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,7 +62,7 @@
   column-gap: 1rem;
 }
 
-.icons>button {
+.icons > button {
   background-color: transparent;
   border: none;
   padding: 0;
@@ -74,15 +74,15 @@
   max-height: 450px;
 }
 
-.text>h4 {
+.text > h4 {
   text-align: center;
 }
 
-.text>div {
+.text > div {
   width: var(--md-width);
   max-width: var(--max-md-width);
   max-height: 80%;
-  color: var(--text-color)
+  color: var(--text-color);
 }
 
 .button {
