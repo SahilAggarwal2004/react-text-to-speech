@@ -1,4 +1,8 @@
-# 1.0.3 (25-12-2024)
+# 1.1.0 (28-12-2024)
+
+- **feat:** `showOnlyHighlightedText` and `highlightMode` props in `useSpeech` hook and `<Speech>` component.
+
+## 1.0.3 (25-12-2024)
 
 - **perf:** Improved performance with memoization.
 

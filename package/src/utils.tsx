@@ -1,12 +1,25 @@
 import { isValidElement, PropsWithChildren, ReactNode } from "react";
 
-import { desktopChunkSize, minChunkSize, mobileChunkSize, sanitizeRegex, specialSymbol, symbolMapping, utterancePropertiesAndEvents } from "./constants.js";
+import {
+  chunkDelimiters,
+  desktopChunkSize,
+  lineDelimiter,
+  minChunkSize,
+  mobileChunkSize,
+  sanitizeRegex,
+  sentenceDelimiters,
+  spaceDelimiter,
+  spaceDelimiters,
+  specialSymbol,
+  symbolMapping,
+  utterancePropertiesAndEvents,
+} from "./constants.js";
 import { setState } from "./state.js";
-import { Index, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
+import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
 
 export function ArrayToText(node: StringArray): string {
   if (typeof node === "string") return node;
-  return node.map(ArrayToText).join(" ") + " ";
+  return node.map(ArrayToText).join(spaceDelimiter) + spaceDelimiter;
 }
 
 export function JSXToArray(node: ReactNode): StringArray {
@@ -25,10 +38,14 @@ export function TextToChunks(text: string, size?: number) {
   let startIndex = 0;
   while (startIndex < length) {
     let endIndex = Math.min(startIndex + size, length);
-    if (endIndex < length && text[endIndex] !== " ") {
-      const spaceIndex = text.lastIndexOf(" ", endIndex);
-      if (spaceIndex > startIndex) endIndex = spaceIndex;
-    }
+    if (endIndex < length && !spaceDelimiters.includes(text[endIndex]))
+      for (const delimiter of chunkDelimiters) {
+        let delimiterIndex = text.lastIndexOf(delimiter, endIndex) + delimiter.length - 1;
+        if (delimiterIndex > startIndex) {
+          endIndex = delimiterIndex;
+          break;
+        }
+      }
     result.push(text.slice(startIndex, endIndex));
     startIndex = endIndex;
   }
@@ -85,5 +102,39 @@ export function isParent(parentIndex: string, index?: string) {
   return true;
 }
 
+export function parent(index?: string) {
+  if (!index) return "";
+  const lastIndex = index.lastIndexOf("-");
+  return lastIndex === -1 ? "" : index.slice(0, lastIndex);
+}
+
 export const sanitize = (text: string) =>
   text.replace(sanitizeRegex, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
+
+export function shouldHighlightNextPart(
+  highlightMode: HighlightMode,
+  name: SpeechSynthesisEventName,
+  utterance: SpeechSynthesisUtterance,
+  charIndex: number,
+  isSpecialSymbol: number,
+) {
+  if (name === "word" && (highlightMode === "word" || !charIndex)) return true;
+  const text = utterance.text.slice(0, charIndex).replace(/[ \t]+$/, spaceDelimiter);
+  if (highlightMode === "sentence" && (text.at(-isSpecialSymbol - 1) === lineDelimiter || sentenceDelimiters.includes(text.at(-2)!))) return true;
+  if (highlightMode === "line" && text.at(-isSpecialSymbol - 1) === lineDelimiter) return true;
+  if (highlightMode === "paragraph" && name === "sentence") return true;
+  return false;
+}
+
+export function splitNode(highlightMode: HighlightMode, node: string, speakingWord: SpeakingWord): [string, string, string] {
+  const { index, length } = speakingWord!;
+  const beforeIndex = +index.split("-").at(-1)!;
+  const before = node.slice(0, beforeIndex);
+  if (highlightMode === "word") return [before, node.slice(beforeIndex, beforeIndex + length), node.slice(beforeIndex + length)];
+  node = node.slice(beforeIndex);
+  const regex = highlightMode === "sentence" ? /(.*?)(\n|[.!?]\s)(.*)/ : /(.*?)(\n)(.*)/;
+  const match = node.match(regex);
+  if (!match) return [before, node, ""];
+  const sentence = match[1] + match[2].trimEnd();
+  return [before, sentence, node.slice(sentence.length)];
+}

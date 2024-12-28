@@ -153,7 +153,7 @@ function MarkdownText({ text }) {
       </div>
       <HighlightedText
         id="unique-id"
-        className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 flex max-w-[90vw] flex-col overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full"
+        className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full"
       >
         {mdText}
       </HighlightedText>

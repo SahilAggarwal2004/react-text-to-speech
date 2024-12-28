@@ -33,11 +33,20 @@ export default function App() {
 
 ## Highlight Text
 
-The `highlightText` & `highlightProps` props, available in both `useSpeech` hook and `<Speech>` component, can be used to highlight text and modify its styling.
+The `highlightText`, `showOnlyHighlightedText`, `highlightMode`, and `highlightProps` props, available in both the `useSpeech` hook and `<Speech>` component, can be used to highlight text and modify its styling during speech.
+
+- **`highlightText`**: Enables or disables text highlighting while the speech is active.
+- **`showOnlyHighlightedText`**: If set to `true`, only the currently highlighted text is returned (useful when you want to isolate the highlighted portion of text).
+- **`highlightMode`**: Controls the level of text highlighting, with options:  
+  - `word`: Highlights one word at a time.
+  - `sentence`: Highlights text until the next sentence-ending punctuation (e.g., `.`, `?`, `!`, or `\n`).
+  - `line`: Highlights text until the next newline (`\n`).
+  - `paragraph`: Highlights an entire paragraph or node.
+- **`highlightProps`**: Defines the styling for the highlighted text.
 
 Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and **react-text-to-speech** supports it!
 
-**NOTE:** It is recommended to memoize the `JSX.Element` first before passing it to `text` property for performance optimizations.
+**NOTE:** It is recommended to memoize the `JSX.Element` before passing it to the `text` property for performance optimizations.
 
 ```tsx
 import React, { useMemo, useState } from "react";
@@ -69,6 +78,8 @@ export default function App() {
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text,
     highlightText,
+    showOnlyHighlightedText: false,
+    highlightMode: "word",
     highlightProps: { style: { color: "white", backgroundColor: "blue" } },
   });
 
@@ -271,7 +282,7 @@ function MarkdownText({ text }) {
           </span>
         </div>
       </div>
-      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 flex max-w-[90vw] flex-col overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
+      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
         <Text />
       </div>
     </div>

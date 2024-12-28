@@ -3,21 +3,25 @@ import { useState } from "react";
 import { useRemark } from "react-remarkify";
 import { useSpeech, useVoices } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
+import { HighlightMode } from "react-text-to-speech/types";
 import { toast, ToastContainer } from "react-toastify";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
+import { highlightModes } from "../constants";
 import styles from "./demo.module.css";
 
 export default function Demo() {
   const [autoPlay, setAutoPlay] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [highlightText, setHighlightText] = useState(false);
+  const [highlightMode, setHighlightMode] = useState<HighlightMode>("word");
   const [lang, setLang] = useState("");
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [showMarkdown, setShowMarkdown] = useState(false);
+  const [showOnlyHighlightedText, setShowOnlyHighlightedText] = useState(false);
   const [text, setText] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
   const [volume, setVolume] = useState(1);
@@ -38,6 +42,8 @@ export default function Demo() {
     voiceURI,
     autoPlay,
     highlightText,
+    showOnlyHighlightedText,
+    highlightMode,
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
   });
@@ -56,7 +62,7 @@ export default function App() {
   const text = \`${sanitizedText}\`;
 
   const reactContent = useRemark({ markdown: text, rehypePlugins: [rehypeRaw, rehypeSanitize], remarkPlugins: [remarkGfm], remarkToRehypeOptions: { allowDangerousHtml: true } });
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: reactContent, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: reactContent, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}" });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
@@ -71,7 +77,7 @@ export default function App() {
           Stop
         </button>
       </div>
-      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 flex max-w-[90vw] flex-col overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
+      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
         <Text />
       </div>
     </div>
@@ -83,7 +89,7 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const text = \`${sanitizedText}\`;
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText} });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}" });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
@@ -173,6 +179,26 @@ export default function App() {
             <input id="highlightText" type="checkbox" checked={highlightText} onChange={(e) => setHighlightText(e.target.checked)} />
           </div>
           <div>
+            <label htmlFor="showOnlyHighlightedText">Show Only Highlighted Text:</label>
+            <input
+              id="showOnlyHighlightedText"
+              type="checkbox"
+              checked={showOnlyHighlightedText}
+              disabled={!highlightText}
+              onChange={(e) => setShowOnlyHighlightedText(e.target.checked)}
+            />
+          </div>
+          <div>
+            <label htmlFor="highlightMode">Highlight Mode:</label>
+            <select id="highlightMode" value={highlightMode} disabled={disabled || !highlightText} onChange={(e) => setHighlightMode(e.target.value as HighlightMode)}>
+              {highlightModes.map((mode) => (
+                <option key={mode} value={mode}>
+                  {highlightText ? mode : "Choose a mode"}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
             <label htmlFor="showMarkdown">Markdown Support:</label>
             <input id="showMarkdown" type="checkbox" checked={showMarkdown} onChange={(e) => setShowMarkdown(e.target.checked)} />
           </div>
@@ -187,7 +213,7 @@ export default function App() {
           </div>
           <div className={styles.text}>
             <h4>Text:</h4>
-            <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 flex max-w-[90vw] flex-col overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
+            <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
               <Text />
             </div>
           </div>

@@ -3,8 +3,22 @@ import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useC
 import { specialSymbol } from "./constants.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
 import { setState, state } from "./state.js";
-import { SpeechStatus, SpeechSynthesisEventHandler, SpeechUtterancesQueue, UseSpeechOptions } from "./types.js";
-import { ArrayToText, cancel, cloneUtterance, findCharIndex, getIndex, isMobile, isParent, JSXToArray, sanitize, TextToChunks } from "./utils.js";
+import { SpeakingWord, SpeechStatus, SpeechSynthesisEventHandler, SpeechSynthesisEventName, SpeechUtterancesQueue, UseSpeechOptions } from "./types.js";
+import {
+  ArrayToText,
+  cancel,
+  cloneUtterance,
+  findCharIndex,
+  getIndex,
+  isMobile,
+  isParent,
+  JSXToArray,
+  parent,
+  sanitize,
+  shouldHighlightNextPart,
+  splitNode,
+  TextToChunks,
+} from "./utils.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
@@ -24,6 +38,8 @@ export function useSpeech({
   autoPlay = false,
   preserveUtteranceQueue = false,
   highlightText = false,
+  showOnlyHighlightedText = false,
+  highlightMode = "word",
   highlightProps,
   maxChunkSize,
   onError = console.error,
@@ -35,7 +51,7 @@ export function useSpeech({
   onQueueChange,
 }: UseSpeechOptions) {
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
-  const [speakingWord, setSpeakingWord] = useState<{ index: string; length: number } | null>();
+  const [speakingWord, speakingWordRef, setSpeakingWord] = useStateRef<SpeakingWord>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance>(null);
   const { voices } = useVoices();
 
@@ -43,7 +59,7 @@ export function useSpeech({
     const words = JSXToArray(text);
     return [words, JSON.stringify(words)];
   }, [text]);
-  const reactContent = useMemo(() => highlightedText(text), [speakingWord?.index, highlightText, stringifiedWords]);
+  const reactContent = useMemo(() => highlightedText(text), [speakingWord, highlightText, showOnlyHighlightedText, stringifiedWords]);
   const Text = useCallback(() => reactContent, [reactContent]);
 
   function start() {
@@ -112,12 +128,12 @@ export function useSpeech({
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
-      const { charIndex, charLength, name } = event;
-      if (name === "sentence") setSpeakingWord(null);
-      else if (utterance.text[charIndex + charLength] === specialSymbol) {
-        setSpeakingWord({ index: findCharIndex(words, offset + charIndex - 1), length: 1 });
-        offset -= charLength + 1;
-      } else setSpeakingWord({ index: findCharIndex(words, offset + charIndex), length: charLength });
+      const { charIndex, charLength, name } = event as SpeechSynthesisEvent & { name: SpeechSynthesisEventName };
+      const isSpecialSymbol = +(utterance.text[charIndex + charLength] === specialSymbol);
+      const index = findCharIndex(words, offset + charIndex - isSpecialSymbol);
+      if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex, isSpecialSymbol) || parent(index) !== parent(speakingWordRef.current?.index))
+        setSpeakingWord({ index, length: isSpecialSymbol || charLength });
+      if (isSpecialSymbol) offset -= charLength + 1;
       onBoundary?.(event);
     };
     if (!preserveUtteranceQueue) clearQueue();
@@ -144,22 +160,33 @@ export function useSpeech({
   }
 
   function highlightedText(node: ReactNode, parentIndex = ""): ReactNode {
-    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return node;
+    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return !showOnlyHighlightedText && node;
     if (Array.isArray(node)) return node.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
     if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? Math.random() }, highlightedText(node.props.children, parentIndex));
     if (typeof node === "string" || typeof node === "number") {
-      node = String(node);
-      const { index, length } = speakingWord!;
-      const before = (node as string).slice(0, +index.split("-").at(-1)!).length;
+      const { index } = speakingWord!;
+      if (highlightMode === "paragraph")
+        return (
+          <mark key={index} {...highlightProps}>
+            {node}
+          </mark>
+        );
+      const [before, highlighted, after] = splitNode(highlightMode, String(node), speakingWord!);
+      if (showOnlyHighlightedText)
+        return (
+          <mark key={index} {...highlightProps}>
+            {highlighted}
+          </mark>
+        );
       return (
         <span key={index}>
-          {(node as string).slice(0, before)}
-          <mark {...highlightProps}>{(node as string).slice(before, before + length)}</mark>
-          {(node as string).slice(before + length)}
+          {before}
+          <mark {...highlightProps}>{highlighted}</mark>
+          {after}
         </span>
       );
     }
-    return node;
+    return !showOnlyHighlightedText && node;
   }
 
   useEffect(() => {

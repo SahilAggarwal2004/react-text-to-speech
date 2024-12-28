@@ -4,13 +4,19 @@ import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
 export type SpeechSynthesisUtteranceKeys = SpeechSynthesisUtteranceKey[];
 
 // hooks.tsx
+export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
+
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+export type SpeakingWord = { index: string; length: number } | null;
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
 export type SpeechSynthesisErrorHandler = (error: Error) => any;
 
 export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
+
+export type SpeechSynthesisEventName = "word" | "sentence";
 
 export type UseSpeechOptions = {
   text: string | JSX.Element;
@@ -22,6 +28,8 @@ export type UseSpeechOptions = {
   autoPlay?: boolean;
   preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
+  showOnlyHighlightedText?: boolean;
+  highlightMode?: HighlightMode;
   highlightProps?: SpanProps;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
