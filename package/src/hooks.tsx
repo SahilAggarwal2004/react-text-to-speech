@@ -131,7 +131,7 @@ export function useSpeech({
       const { charIndex, charLength, name } = event as SpeechSynthesisEvent & { name: SpeechSynthesisEventName };
       const isSpecialSymbol = +(utterance.text[charIndex + charLength] === specialSymbol);
       const index = findCharIndex(words, offset + charIndex - isSpecialSymbol);
-      if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex, isSpecialSymbol) || parent(index) !== parent(speakingWordRef.current?.index))
+      if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex) || parent(index) !== parent(speakingWordRef.current?.index))
         setSpeakingWord({ index, length: isSpecialSymbol || charLength });
       if (isSpecialSymbol) offset -= charLength + 1;
       onBoundary?.(event);

@@ -1,4 +1,8 @@
-# 1.1.0 (28-12-2024)
+# 1.1.1 (29-12-2024)
+
+- **fix:** Corrected sentence and line highlighting logic.
+
+## 1.1.0 (28-12-2024)
 
 - **feat:** `showOnlyHighlightedText` and `highlightMode` props in `useSpeech` hook and `<Speech>` component.
 

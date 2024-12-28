@@ -20,8 +20,6 @@ export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}
 
 export const sentenceDelimiters = [lineDelimiter, ...punctuationDelimiters];
 
-export const spaceDelimiters = [lineDelimiter, spaceDelimiter];
-
 export const specialSymbol = "\u00A0";
 
 const utteranceEvents: SpeechSynthesisUtteranceKeys = ["onstart", "onend", "onerror", "onpause", "onresume", "onmark", "onboundary"];

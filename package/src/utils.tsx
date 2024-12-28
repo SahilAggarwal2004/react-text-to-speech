@@ -9,7 +9,6 @@ import {
   sanitizeRegex,
   sentenceDelimiters,
   spaceDelimiter,
-  spaceDelimiters,
   specialSymbol,
   symbolMapping,
   utterancePropertiesAndEvents,
@@ -38,7 +37,7 @@ export function TextToChunks(text: string, size?: number) {
   let startIndex = 0;
   while (startIndex < length) {
     let endIndex = Math.min(startIndex + size, length);
-    if (endIndex < length && !spaceDelimiters.includes(text[endIndex]))
+    if (endIndex < length && text[endIndex] !== lineDelimiter)
       for (const delimiter of chunkDelimiters) {
         let delimiterIndex = text.lastIndexOf(delimiter, endIndex) + delimiter.length - 1;
         if (delimiterIndex > startIndex) {
@@ -111,17 +110,14 @@ export function parent(index?: string) {
 export const sanitize = (text: string) =>
   text.replace(sanitizeRegex, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
 
-export function shouldHighlightNextPart(
-  highlightMode: HighlightMode,
-  name: SpeechSynthesisEventName,
-  utterance: SpeechSynthesisUtterance,
-  charIndex: number,
-  isSpecialSymbol: number,
-) {
+export function shouldHighlightNextPart(highlightMode: HighlightMode, name: SpeechSynthesisEventName, utterance: SpeechSynthesisUtterance, charIndex: number) {
   if (name === "word" && (highlightMode === "word" || !charIndex)) return true;
-  const text = utterance.text.slice(0, charIndex).replace(/[ \t]+$/, spaceDelimiter);
-  if (highlightMode === "sentence" && (text.at(-isSpecialSymbol - 1) === lineDelimiter || sentenceDelimiters.includes(text.at(-2)!))) return true;
-  if (highlightMode === "line" && text.at(-isSpecialSymbol - 1) === lineDelimiter) return true;
+  const text = utterance.text
+    .slice(0, charIndex)
+    .replace(/[ \t]+$/, spaceDelimiter)
+    .slice(-2);
+  if (highlightMode === "sentence" && (text[1] === lineDelimiter || (sentenceDelimiters.includes(text[0]) && text[1] === spaceDelimiter))) return true;
+  if (highlightMode === "line" && (text[1] === lineDelimiter || (text[0] === lineDelimiter && text[1] === spaceDelimiter))) return true;
   if (highlightMode === "paragraph" && name === "sentence") return true;
   return false;
 }
