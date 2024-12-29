@@ -1,4 +1,4 @@
-import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { specialSymbol } from "./constants.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, removeFromQueue, speakFromQueue, subscribe } from "./queue.js";
@@ -23,7 +23,7 @@ import {
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
 
-  useLayoutEffect(() => subscribe(setQueue), []);
+  useEffect(() => subscribe(setQueue), []);
 
   return { queue, dequeue, clearQueue: clearQueueHook };
 }
