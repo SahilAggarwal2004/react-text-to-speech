@@ -22,11 +22,8 @@ export function ArrayToText(node: StringArray): string {
 }
 
 export function JSXToArray(node: ReactNode): StringArray {
-  if (isValidElement<PropsWithChildren>(node)) {
-    const { children } = node.props;
-    if (Array.isArray(children)) return children.map(JSXToArray);
-    return JSXToArray(children);
-  }
+  if (Array.isArray(node)) return node.map(JSXToArray);
+  if (isValidElement<PropsWithChildren>(node)) return JSXToArray(node.props.children);
   return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
 }
 

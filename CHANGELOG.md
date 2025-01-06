@@ -1,4 +1,8 @@
-# 1.1.1 (29-12-2024)
+# 1.2.0 (06-01-2025)
+
+- **feat:** Support for `ReactNode` in `text` prop in `useSpeech` hook and `<Speech>` component.
+
+## 1.1.1 (29-12-2024)
 
 - **fix:** Corrected sentence and line highlighting logic.
 

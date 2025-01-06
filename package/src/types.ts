@@ -19,7 +19,7 @@ export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 export type SpeechSynthesisEventName = "word" | "sentence";
 
 export type UseSpeechOptions = {
-  text: string | JSX.Element;
+  text: ReactNode;
   pitch?: number;
   rate?: number;
   volume?: number;

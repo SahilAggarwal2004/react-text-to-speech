@@ -44,9 +44,9 @@ The `highlightText`, `showOnlyHighlightedText`, `highlightMode`, and `highlightP
   - `paragraph`: Highlights an entire paragraph or node.
 - **`highlightProps`**: Defines the styling for the highlighted text.
 
-Here, you may want to pass a `JSX.Element` instead of a plain string as `text` property for better presentation and ease of use, and **react-text-to-speech** supports it!
+Here, you can enhance both presentation and flexibility by passing a `ReactNode` instead of a plain string to the `text` property, and **react-text-to-speech** fully supports this feature!  
 
-**NOTE:** It is recommended to memoize the `JSX.Element` before passing it to the `text` property for performance optimizations.
+**NOTE:** It is recommended to memoize the `ReactNode` before passing it to the `text` property to improve performance.  
 
 ```tsx
 import React, { useMemo, useState } from "react";
