@@ -55,6 +55,28 @@ export default function App() {
 }
 ```
 
+## Handling Errors and Events
+
+```tsx
+import React from "react";
+import Speech from "react-text-to-speech";
+
+export default function App() {
+  return (
+    <Speech
+      text="This library can handle different errors and speech events!"
+      onError={(error) => alert(error.message)}
+      onStart={(event) => console.log("Speech Started:", event)}
+      onResume={(event) => console.log("Speech Resumed:", event)}
+      onPause={(event) => console.log("Speech Paused:", event)}
+      onStop={(event) => console.log("Speech Stopped:", event)}
+      onBoundary={(event) => console.log("Boundary:", event)}
+      onQueueChange={(queue) => console.log("Queue updated:", queue)}
+    />
+  );
+}
+```
+
 ## Multiple Instance Usage
 
 Like `useSpeech` hook, the `<Speech>` component can also be used to handle multiple speech instances. <a href="/docs/usage/useSpeech#multiple-instance-usage" target="_blank">Refer Here</a>
@@ -153,7 +175,7 @@ function MarkdownText({ text }) {
       </div>
       <HighlightedText
         id="unique-id"
-        className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full"
+        className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-max *:max-w-full"
       >
         {mdText}
       </HighlightedText>

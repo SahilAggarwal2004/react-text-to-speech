@@ -77,7 +77,7 @@ export default function App() {
           Stop
         </button>
       </div>
-      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
+      <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-max *:max-w-full">
         <Text />
       </div>
     </div>
@@ -212,8 +212,8 @@ export default function App() {
             </button>
           </div>
           <div className={styles.text}>
-            <h4>Text:</h4>
-            <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-x-scroll whitespace-pre-wrap break-words leading-snug *:my-0 *:w-max *:max-w-full">
+            <h4>Texts:</h4>
+            <div className="prose prose-headings:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-[90vw] grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-max *:max-w-full">
               <Text />
             </div>
           </div>
