@@ -108,9 +108,3 @@ Show your ❤️ and support by giving a ⭐ on [GitHub](https://github.com/Sahi
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## Explore Other Solutions
-
-[![React Text To Speech](https://raw.githubusercontent.com/albirrkarim/react-speech-highlight-demo/main/img/banner.png)](https://github.com/albirrkarim/react-speech-highlight-demo)
-
-[React Speech Highlight](https://github.com/albirrkarim/react-speech-highlight-demo), React text to speech with highlighting realtime the words and sentences that are being spoken using audio files, text-to-speech API, and web speech synthesis API. Also it offer powerful, flexible programatic API for many use cases.
