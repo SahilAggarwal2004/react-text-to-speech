@@ -13,6 +13,7 @@ import {
   isMobile,
   isParent,
   JSXToArray,
+  JSXToKey,
   parent,
   sanitize,
   shouldHighlightNextPart,
@@ -55,11 +56,8 @@ export function useSpeech({
   const utteranceRef = useRef<SpeechSynthesisUtterance>(null);
   const { voices } = useVoices();
 
-  const [words, stringifiedWords] = useMemo(() => {
-    const words = JSXToArray(text);
-    return [words, JSON.stringify(words)];
-  }, [text]);
-  const reactContent = useMemo(() => highlightedText(text), [speakingWord, highlightText, showOnlyHighlightedText, stringifiedWords]);
+  const [words, JSXKey] = useMemo(() => [JSXToArray(text), JSXToKey(text)], [text]);
+  const reactContent = useMemo(() => highlightedText(text), [speakingWord, highlightText, showOnlyHighlightedText, JSXKey]);
   const Text = useCallback(() => reactContent, [reactContent]);
 
   function start() {
@@ -192,7 +190,7 @@ export function useSpeech({
   useEffect(() => {
     if (autoPlay) start();
     return () => stop(speechStatusRef.current);
-  }, [autoPlay, stringifiedWords]);
+  }, [autoPlay, JSXKey]);
 
   return {
     Text,

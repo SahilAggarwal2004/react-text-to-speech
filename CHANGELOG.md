@@ -1,4 +1,8 @@
-# 1.2.0 (06-01-2025)
+# 1.2.2 (17-01-2025)
+
+- **fix:** Resolve re-render issues by replacing stringifiedWords with JSXKey in memoization.
+
+## 1.2.0 (06-01-2025)
 
 - **feat:** Support for `ReactNode` in `text` prop in `useSpeech` hook and `<Speech>` component.
 

@@ -27,6 +27,18 @@ export function JSXToArray(node: ReactNode): StringArray {
   return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
 }
 
+export function JSXToKey(node: ReactNode): string | number {
+  if (Array.isArray(node)) return node.map(JSXToKey).join("");
+  if (isValidElement<PropsWithChildren>(node)) {
+    const type = typeof node.type === "string" ? node.type : "Component";
+    const { children, ...props } = node.props;
+    const propsKey = JSON.stringify(props);
+    const childrenKey = JSXToKey(children);
+    return `${type}(${propsKey})[${childrenKey}]`;
+  }
+  return typeof node === "string" || typeof node === "number" ? node : "";
+}
+
 export function TextToChunks(text: string, size?: number) {
   size = size ? Math.max(size, minChunkSize) : isMobile() ? mobileChunkSize : desktopChunkSize;
   const length = text.length;
