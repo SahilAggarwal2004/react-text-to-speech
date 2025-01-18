@@ -14,29 +14,29 @@ import {
   utterancePropertiesAndEvents,
 } from "./constants.js";
 import { setState } from "./state.js";
-import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, SpeechSynthesisUtteranceKey, StringArray } from "./types.js";
+import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, SpeechSynthesisUtteranceKey, Words } from "./types.js";
 
-export function ArrayToText(node: StringArray): string {
+export function WordsToText(node: Words): string {
   if (typeof node === "string") return node;
-  return node.map(ArrayToText).join(spaceDelimiter) + spaceDelimiter;
+  return node.map(WordsToText).join(spaceDelimiter) + spaceDelimiter;
 }
 
-export function JSXToArray(node: ReactNode): StringArray {
-  if (Array.isArray(node)) return node.map(JSXToArray);
-  if (isValidElement<PropsWithChildren>(node)) return JSXToArray(node.props.children);
+export function NodeToWords(node: ReactNode): Words {
+  if (Array.isArray(node)) return node.map(NodeToWords);
+  if (isValidElement<PropsWithChildren>(node)) return NodeToWords(node.props.children);
   return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
 }
 
-export function JSXToKey(node: ReactNode): string | number {
-  if (Array.isArray(node)) return node.map(JSXToKey).join("");
+export function NodeToKey(node: ReactNode): string {
+  if (Array.isArray(node)) return node.map(NodeToKey).join("");
   if (isValidElement<PropsWithChildren>(node)) {
     const type = typeof node.type === "string" ? node.type : "Component";
     const { children, ...props } = node.props;
     const propsKey = JSON.stringify(props);
-    const childrenKey = JSXToKey(children);
+    const childrenKey = NodeToKey(children);
     return `${type}(${propsKey})[${childrenKey}]`;
   }
-  return typeof node === "string" || typeof node === "number" ? node : "";
+  return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
 }
 
 export function TextToChunks(text: string, size?: number) {
@@ -72,16 +72,15 @@ export function cloneUtterance(utterance: SpeechSynthesisUtterance, text: string
   return newUtterance;
 }
 
-export function findCharIndex(words: StringArray, index: number) {
+export function findCharIndex(words: Words, index: number) {
   let currentIndex = 0;
-  function recursiveSearch(stringArray: StringArray, parentIndex: Index = ""): string {
-    if (typeof stringArray === "string") {
+  function recursiveSearch(currentWords: Words, parentIndex: Index = ""): string {
+    if (typeof currentWords === "string") {
       const elementIndex = index - currentIndex;
-      return (currentIndex += stringArray.length + 1) > index ? getIndex(parentIndex, elementIndex) : "";
+      return (currentIndex += currentWords.length + 1) > index ? getIndex(parentIndex, elementIndex) : "";
     }
-    for (let i = 0; i < stringArray.length; i++) {
-      const node = stringArray[i];
-      const result = recursiveSearch(node, i);
+    for (let i = 0; i < currentWords.length; i++) {
+      const result = recursiveSearch(currentWords[i], i);
       if (result) return getIndex(parentIndex, result);
     }
     currentIndex++;

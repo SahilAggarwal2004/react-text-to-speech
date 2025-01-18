@@ -1,4 +1,9 @@
-# 1.2.2 (17-01-2025)
+# 1.2.3 (18-01-2025)
+
+- **refactor:** Optimized `words` and `key` computation by separating dependencies, improving memoization behavior.
+- **refactor:** Renamed `StringArray` type to `Words` for better clarity and consistency.
+
+## 1.2.2 (17-01-2025)
 
 - **fix:** Resolve re-render issues by replacing stringifiedWords with JSXKey in memoization.
 

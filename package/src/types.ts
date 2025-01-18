@@ -87,4 +87,4 @@ export type State = { stopReason: "auto" | "manual" };
 
 export type SpeechSynthesisUtteranceKey = keyof SpeechSynthesisUtterance;
 
-export type StringArray = string | StringArray[];
+export type Words = string | Words[];

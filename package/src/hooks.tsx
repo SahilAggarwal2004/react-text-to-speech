@@ -5,20 +5,20 @@ import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, remo
 import { setState, state } from "./state.js";
 import { SpeakingWord, SpeechStatus, SpeechSynthesisEventHandler, SpeechSynthesisEventName, SpeechUtterancesQueue, UseSpeechOptions } from "./types.js";
 import {
-  ArrayToText,
   cancel,
   cloneUtterance,
   findCharIndex,
   getIndex,
   isMobile,
   isParent,
-  JSXToArray,
-  JSXToKey,
+  NodeToKey,
+  NodeToWords,
   parent,
   sanitize,
   shouldHighlightNextPart,
   splitNode,
   TextToChunks,
+  WordsToText,
 } from "./utils.js";
 
 export function useQueue() {
@@ -56,8 +56,9 @@ export function useSpeech({
   const utteranceRef = useRef<SpeechSynthesisUtterance>(null);
   const { voices } = useVoices();
 
-  const [words, JSXKey] = useMemo(() => [JSXToArray(text), JSXToKey(text)], [text]);
-  const reactContent = useMemo(() => highlightedText(text), [speakingWord, highlightText, showOnlyHighlightedText, JSXKey]);
+  const key = useMemo(() => NodeToKey(text), [text]);
+  const words = useMemo(() => NodeToWords(text), [key]);
+  const reactContent = useMemo(() => highlightedText(text), [speakingWord, words, highlightText, showOnlyHighlightedText]);
   const Text = useCallback(() => reactContent, [reactContent]);
 
   function start() {
@@ -65,7 +66,7 @@ export function useSpeech({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatus === "paused") return synth.resume();
     if (speechStatus === "queued") return;
-    const sanitizedText = sanitize(ArrayToText(words));
+    const sanitizedText = sanitize(WordsToText(words));
     const chunks = TextToChunks(sanitizedText, maxChunkSize);
     const numChunks = chunks.length;
     let currentChunk = 0;
@@ -190,7 +191,7 @@ export function useSpeech({
   useEffect(() => {
     if (autoPlay) start();
     return () => stop(speechStatusRef.current);
-  }, [autoPlay, JSXKey]);
+  }, [autoPlay, key]);
 
   return {
     Text,
