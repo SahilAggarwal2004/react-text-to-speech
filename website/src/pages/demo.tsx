@@ -77,7 +77,7 @@ export default function App() {
           Stop
         </button>
       </div>
-      <div className="prose prose-headings:my-1 prose-pre:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-max *:max-w-full *:whitespace-pre-wrap">
+      <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
         <Text />
       </div>
     </div>
@@ -127,7 +127,7 @@ export default function App() {
           </div>
           <div>
             <div>
-              <label htmlFor="volume">Rate:</label>
+              <label htmlFor="rate">Rate:</label>
               <input id="rate" type="range" value={rate} disabled={disabled} step={0.1} min={0.1} max={10} onChange={(e) => setRate(+e.target.value)} />
             </div>
             <span>{rate}</span>
@@ -213,7 +213,7 @@ export default function App() {
           </div>
           <div className={styles.text}>
             <h4>Text:</h4>
-            <div className="prose prose-headings:my-1 prose-pre:my-1 prose-pre:w-full prose-li:my-0 prose-table:w-full prose-table:table-fixed prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-max *:max-w-full *:whitespace-pre-wrap">
+            <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
               <Text />
             </div>
           </div>
