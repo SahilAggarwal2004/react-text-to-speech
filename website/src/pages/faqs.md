@@ -24,6 +24,12 @@
 </details>
 
 <details>
+<summary>Why doesn't `autoPlay` always work?</summary>
+<p>Most modern browsers block `SpeechSynthesis.speak()` from running automatically unless the user interacts with the page (e.g., clicking or pressing a key). This is a security measure to prevent unwanted audio playback.</p>
+<p>For more details, see <a href="https://stackoverflow.com/questions/54265423/javascript-speechsynthesis-speak-without-user-activation-is-no-longer-allowed" target="_blank">this discussion on Stack Overflow</a>.</p>
+</details>
+
+<details>
 <summary>Why can't I pause audio on Android/mobile devices?</summary>
 <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/pause#browser_compatibility" target="_blank">`SpeechSynthesis.pause()`</a> function does not work as expected on mobile devices. On these platforms, calling `pause()` ends the current utterance, behaving like `cancel()`.</p>
 <p>If you're using the `<Speech>` component, set the `useStopOverPause` prop to `true` for mobile devices. For custom controls with the `useSpeech` hook, avoid exposing a pause option and provide only stop functionality instead.</p>
