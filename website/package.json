@@ -9,7 +9,7 @@
     "deploy:docusaurus": "docusaurus deploy",
     "docusaurus": "docusaurus",
     "serve": "docusaurus serve --host localhost",
-    "start": "docusaurus start --host localhost",
+    "start": "docusaurus start --host localhost --no-open",
     "swizzle": "docusaurus swizzle",
     "typecheck": "tsc",
     "write-heading-ids": "docusaurus write-heading-ids",

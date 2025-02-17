@@ -7,7 +7,9 @@
     "compile": "pnpm --filter ./package run compile",
     "copy": "shx cp README.md LICENSE package/",
     "deploy": "pnpm --filter ./website run deploy",
-    "dev": "pnpm --filter ./website run start",
+    "dev:package": "pnpm --filter ./package run dev",
+    "dev:website": "pnpm --filter ./website run start",
+    "dev": "concurrently --kill-others \"pnpm run dev:package\" \"pnpm run dev:website\"",
     "prettier": "prettier-package-json --write package.json ./package/package.json ./website/package.json",
     "prod": "pnpm --filter ./website run build && pnpm --filter ./website run serve",
     "publish": "pnpm --filter ./package publish",
@@ -15,8 +17,9 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "concurrently": "^9.1.2",
     "prettier": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "shx": "^0.3.4",
@@ -26,6 +29,11 @@
     "overrides": {
       "cookie@<0.7.0": ">=0.7.0",
       "path-to-regexp@<0.1.12": ">=0.1.12"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "core-js",
+      "core-js-pure",
+      "esbuild"
+    ]
   }
 }

@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
     "target": "ES6",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

@@ -1,4 +1,8 @@
-# 1.2.3 (18-01-2025)
+# 1.2.4 (17-02-2025)
+
+- **chore:** Replaced `tsc` with `tsup` for faster and optimized bundling.
+
+## 1.2.3 (18-01-2025)
 
 - **refactor:** Optimized `words` and `key` computation by separating dependencies, improving memoization behavior.
 - **refactor:** Renamed `StringArray` type to `Words` for better clarity and consistency.
