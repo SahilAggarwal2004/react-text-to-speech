@@ -26,14 +26,15 @@
     "typescript": "^5.7.3"
   },
   "pnpm": {
-    "overrides": {
-      "cookie@<0.7.0": ">=0.7.0",
-      "path-to-regexp@<0.1.12": ">=0.1.12"
-    },
     "onlyBuiltDependencies": [
       "core-js",
       "core-js-pure",
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "cookie@<0.7.0": ">=0.7.0",
+      "path-to-regexp@<0.1.12": ">=0.1.12",
+      "esbuild@<=0.24.2": ">=0.25.0"
+    }
   }
 }
