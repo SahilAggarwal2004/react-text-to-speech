@@ -1,4 +1,8 @@
-# 1.2.4 (17-02-2025)
+# 1.3.0 (01-03-2025)
+
+- **feat:** Allow dynamic adjustment of `pitch`, `rate`, and `volume` during speech.
+
+## 1.2.4 (17-02-2025)
 
 - **chore:** Replaced `tsc` with `tsup` for faster and optimized bundling.
 

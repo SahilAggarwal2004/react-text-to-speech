@@ -50,6 +50,6 @@ type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 ### QueueChangeEventHandler
 
 ```typescript
-type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
+type SpeechUtterancesQueue = Partial<SpeechSynthesisUtterance>[];
 type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 ```

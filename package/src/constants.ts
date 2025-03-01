@@ -1,5 +1,3 @@
-import { SpeechSynthesisUtteranceKeys } from "./types.js";
-
 export const lineDelimiter = "\n";
 
 const punctuationDelimiters = [".", "?", "!"];
@@ -21,9 +19,3 @@ export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}
 export const sentenceDelimiters = [lineDelimiter, ...punctuationDelimiters];
 
 export const specialSymbol = "\u00A0";
-
-const utteranceEvents: SpeechSynthesisUtteranceKeys = ["onstart", "onend", "onerror", "onpause", "onresume", "onmark", "onboundary"];
-
-const utteranceProperties: SpeechSynthesisUtteranceKeys = ["lang", "voice", "volume", "rate", "pitch"];
-
-export const utterancePropertiesAndEvents = utteranceProperties.concat(utteranceEvents);

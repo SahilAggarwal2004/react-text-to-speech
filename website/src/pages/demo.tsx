@@ -121,21 +121,21 @@ export default function App() {
           <div>
             <div>
               <label htmlFor="pitch">Pitch:</label>
-              <input id="pitch" type="range" value={pitch} disabled={disabled} step={0.1} min={0} max={2} onChange={(e) => setPitch(+e.target.value)} />
+              <input id="pitch" type="range" value={pitch} step={0.1} min={0} max={2} onChange={(e) => setPitch(+e.target.value)} />
             </div>
             <span>{pitch}</span>
           </div>
           <div>
             <div>
               <label htmlFor="rate">Rate:</label>
-              <input id="rate" type="range" value={rate} disabled={disabled} step={0.1} min={0.1} max={10} onChange={(e) => setRate(+e.target.value)} />
+              <input id="rate" type="range" value={rate} step={0.1} min={0.1} max={10} onChange={(e) => setRate(+e.target.value)} />
             </div>
             <span>{rate}</span>
           </div>
           <div>
             <div>
               <label htmlFor="volume">Volume:</label>
-              <input id="volume" type="range" value={volume} disabled={disabled} step={0.05} min={0} max={1} onChange={(e) => setVolume(+e.target.value)} />
+              <input id="volume" type="range" value={volume} step={0.05} min={0} max={1} onChange={(e) => setVolume(+e.target.value)} />
             </div>
           </div>
           <div>

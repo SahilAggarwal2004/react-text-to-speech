@@ -11,10 +11,9 @@ import {
   spaceDelimiter,
   specialSymbol,
   symbolMapping,
-  utterancePropertiesAndEvents,
 } from "./constants.js";
 import { setState } from "./state.js";
-import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, SpeechSynthesisUtteranceKey, Words } from "./types.js";
+import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, State, Words } from "./types.js";
 
 export function WordsToText(node: Words): string {
   if (typeof node === "string") return node;
@@ -60,16 +59,10 @@ export function TextToChunks(text: string, size?: number) {
   return result;
 }
 
-export function cancel() {
+export function cancel(stopReason: State["stopReason"] = "manual") {
   if (typeof window === "undefined") return;
-  setState({ stopReason: "manual" });
+  setState({ stopReason });
   window.speechSynthesis?.cancel();
-}
-
-export function cloneUtterance(utterance: SpeechSynthesisUtterance, text: string) {
-  const newUtterance = new SpeechSynthesisUtterance(text);
-  utterancePropertiesAndEvents.forEach((property) => ((newUtterance[property] as SpeechSynthesisUtterance[SpeechSynthesisUtteranceKey]) = utterance[property]));
-  return newUtterance;
 }
 
 export function findCharIndex(words: Words, index: number) {

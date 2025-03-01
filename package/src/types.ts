@@ -1,14 +1,11 @@
 import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
 
-// constants.ts
-export type SpeechSynthesisUtteranceKeys = SpeechSynthesisUtteranceKey[];
-
 // hooks.tsx
 export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
-export type SpeakingWord = { index: string; length: number } | null;
+export type SpeakingWord = { index: string; charIndex: number; length: number } | null;
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
@@ -18,13 +15,16 @@ export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 
 export type SpeechSynthesisEventName = "word" | "sentence";
 
-export type UseSpeechOptions = {
-  text: ReactNode;
-  pitch?: number;
-  rate?: number;
-  volume?: number;
+export type SpeechSynthesisUtteranceProps = {
+  pitch: number;
+  rate: number;
+  volume: number;
   lang?: string;
   voiceURI?: string | string[];
+};
+
+export type UseSpeechOptions = Partial<SpeechSynthesisUtteranceProps> & {
+  text: ReactNode;
   autoPlay?: boolean;
   preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
@@ -72,19 +72,17 @@ export type SpeechProps = UseSpeechOptions & {
 // queue.ts
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 
-export type SpeechQueueItem = { utterance: SpeechSynthesisUtterance; displayUtterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
+export type SpeechQueueItem = { text: string; utterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
 
 export type SpeechQueue = SpeechQueueItem[];
 
 export type SpeechStatusUpdater = (newStatus: SpeechStatus) => void;
 
-export type SpeechUtterancesQueue = SpeechSynthesisUtterance[];
+export type SpeechUtterancesQueue = Partial<SpeechSynthesisUtterance>[];
 
 // utils.tsx
 export type Index = string | number;
 
-export type State = { stopReason: "auto" | "manual" };
-
-export type SpeechSynthesisUtteranceKey = keyof SpeechSynthesisUtterance;
+export type State = { stopReason: "auto" | "change" | "manual" };
 
 export type Words = string | Words[];

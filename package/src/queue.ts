@@ -27,7 +27,7 @@ export function dequeue(index: number = 0) {
 }
 
 export function emit(callback?: QueueChangeEventHandler) {
-  const utteranceQueue = queue.map(({ displayUtterance }) => displayUtterance);
+  const utteranceQueue = queue.map(({ text, utterance: { pitch, rate, volume, lang, voice } }) => ({ text, pitch, rate, volume, lang, voice }));
   queueListeners.forEach((listener) => listener(utteranceQueue));
   callback?.(utteranceQueue);
 }
