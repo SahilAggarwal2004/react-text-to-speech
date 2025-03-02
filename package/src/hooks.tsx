@@ -64,12 +64,11 @@ export function useSpeech({
   const { utteranceRef, updateProps } = useSpeechSynthesisUtterance();
 
   const key = useMemo(() => NodeToKey(text), [text]);
-  const { words, sanitizedText, chunks, numChunks } = useMemo(() => {
+  const { words, sanitizedText } = useMemo(() => {
     const words = NodeToWords(text);
-    const sanitizedText = sanitize(WordsToText(words));
-    const chunks = TextToChunks(sanitizedText, maxChunkSize);
-    return { words, sanitizedText, chunks, numChunks: chunks.length };
+    return { words, sanitizedText: sanitize(WordsToText(words)) };
   }, [key]);
+  const chunks = useMemo(() => TextToChunks(sanitizedText, maxChunkSize), [sanitizedText, maxChunkSize]);
 
   const reactContent = useMemo(() => highlightedText(text), [speakingWord, words, highlightText, showOnlyHighlightedText]);
   const Text = useCallback(() => reactContent, [reactContent]);
@@ -86,7 +85,7 @@ export function useSpeech({
     let offset = currentText.length - utterance.text.length;
     updateProps({ pitch, rate, volume, lang, voiceURI });
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
-      if (state.stopReason === "auto" && currentChunk < numChunks - 1) {
+      if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
         offset += utterance.text.length;
         currentText = chunks[++currentChunk];
         utterance.text = currentText.trimStart();
@@ -95,9 +94,10 @@ export function useSpeech({
       }
       if (state.stopReason === "change") {
         if (speakingWordRef.current) {
-          let currentLength = utterance.text.length;
-          utterance.text = utterance.text.slice(speakingWordRef.current?.charIndex || 0).trimStart();
+          const currentLength = utterance.text.length;
+          utterance.text = utterance.text.slice(speakingWordRef.current.charIndex).trimStart();
           offset += currentLength - utterance.text.length;
+          setSpeakingWord(null);
         }
         return speakFromQueue();
       }

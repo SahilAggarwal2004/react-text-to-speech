@@ -1,4 +1,8 @@
-# 1.3.0 (01-03-2025)
+# 1.3.1 (02-03-2025)
+
+- **fix:** Reset `speakingWord` when resuming speech after pitch, rate, or volume change to prevent out-of-sync issues.
+
+## 1.3.0 (01-03-2025)
 
 - **feat:** Allow dynamic adjustment of `pitch`, `rate`, and `volume` during speech.
 
