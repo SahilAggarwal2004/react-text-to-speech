@@ -1,4 +1,8 @@
-# 1.3.1 (02-03-2025)
+# 1.4.0 (03-03-2025)
+
+- **feat:** Allow dynamic adjustment of `lang`, and `voiceURI` during speech.
+
+## 1.3.1 (02-03-2025)
 
 - **fix:** Reset `speakingWord` when resuming speech after pitch, rate, or volume change to prevent out-of-sync issues.
 

@@ -6,6 +6,7 @@ import {
   lineDelimiter,
   minChunkSize,
   mobileChunkSize,
+  sanitizedRegex,
   sanitizeRegex,
   sentenceDelimiters,
   spaceDelimiter,
@@ -58,6 +59,8 @@ export function TextToChunks(text: string, size?: number) {
   }
   return result;
 }
+
+export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, " ").length;
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
   if (typeof window === "undefined") return;

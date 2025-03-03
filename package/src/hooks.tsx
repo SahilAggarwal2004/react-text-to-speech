@@ -14,6 +14,7 @@ import {
   UseSpeechOptions,
 } from "./types.js";
 import {
+  calculateOriginalTextLength,
   cancel,
   findCharIndex,
   getIndex,
@@ -64,6 +65,7 @@ export function useSpeech({
   const { utteranceRef, updateProps } = useSpeechSynthesisUtterance();
 
   const key = useMemo(() => NodeToKey(text), [text]);
+  const stringifiedVoices = useMemo(() => JSON.stringify(voiceURI), [voiceURI]);
   const { words, sanitizedText } = useMemo(() => {
     const words = NodeToWords(text);
     return { words, sanitizedText: sanitize(WordsToText(words)) };
@@ -82,14 +84,15 @@ export function useSpeech({
     let currentText = chunks[currentChunk] || "";
     const utterance = utteranceRef.current!;
     utterance.text = currentText.trimStart();
+    let processedTextLength = 0;
     let offset = currentText.length - utterance.text.length;
     updateProps({ pitch, rate, volume, lang, voiceURI });
     const stopEventHandler: SpeechSynthesisEventHandler = (event) => {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
-        offset += utterance.text.length;
+        processedTextLength += calculateOriginalTextLength(chunks[currentChunk]);
         currentText = chunks[++currentChunk];
         utterance.text = currentText.trimStart();
-        offset += currentText.length - utterance.text.length;
+        offset = processedTextLength + currentText.length - utterance.text.length;
         return speakFromQueue();
       }
       if (state.stopReason === "change") {
@@ -198,12 +201,12 @@ export function useSpeech({
   useEffect(() => {
     if (speechStatus !== "started") return;
     const timeout = setTimeout(() => {
-      updateProps({ pitch, rate, volume });
+      updateProps({ pitch, rate, volume, lang, voiceURI });
       stop({ stopReason: "change" });
       emit(onQueueChange);
     }, 500);
     return () => clearTimeout(timeout);
-  }, [pitch, rate, volume]);
+  }, [pitch, rate, volume, lang, stringifiedVoices]);
 
   return {
     Text,

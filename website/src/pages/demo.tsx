@@ -143,7 +143,6 @@ export default function App() {
             <select
               id="lang"
               value={lang}
-              disabled={disabled}
               onChange={(e) => {
                 setLang(e.target.value);
                 setVoiceURI("");
@@ -159,7 +158,7 @@ export default function App() {
           </div>
           <div>
             <label htmlFor="voice">Voice:</label>
-            <select id="voice" value={voiceURI} disabled={disabled} onChange={(e) => setVoiceURI(e.target.value)}>
+            <select id="voice" value={voiceURI} onChange={(e) => setVoiceURI(e.target.value)}>
               <option value="">Choose a voice</option>
               {voices
                 .filter((voice) => !lang || voice.lang === lang)
