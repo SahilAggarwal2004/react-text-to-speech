@@ -1,4 +1,8 @@
-# 1.4.0 (03-03-2025)
+# 1.4.1 (07-03-2025)
+
+- **fix:** Ensure `utterance.voice` is set to `null` when `voiceURI` is not set, preventing unintended voice retention.
+
+## 1.4.0 (03-03-2025)
 
 - **feat:** Allow dynamic adjustment of `lang`, and `voiceURI` during speech.
 

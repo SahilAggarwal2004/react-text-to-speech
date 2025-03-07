@@ -43,7 +43,7 @@ export function useSpeech({
   pitch = 1,
   rate = 1,
   volume = 1,
-  lang,
+  lang = "",
   voiceURI,
   autoPlay = false,
   preserveUtteranceQueue = false,
@@ -225,19 +225,18 @@ function useSpeechSynthesisUtterance() {
   function updateProps({ pitch, rate, volume, lang, voiceURI }: SpeechSynthesisUtteranceProps) {
     const utterance = utteranceRef.current;
     if (!utterance) return;
-    utterance.pitch = pitch!;
-    utterance.rate = rate!;
-    utterance.volume = volume!;
-    if (lang) utterance.lang = lang;
-    if (voiceURI) {
-      if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
-      for (let i = 0; i < voiceURI.length; i++) {
-        const uri = voiceURI[i];
-        const voice = voices.find((voice) => voice.voiceURI === uri);
-        if (voice) {
-          utterance.voice = voice;
-          break;
-        }
+    utterance.pitch = pitch;
+    utterance.rate = rate;
+    utterance.volume = volume;
+    utterance.lang = lang;
+    if (!voiceURI) return (utterance.voice = null);
+    if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
+    for (let i = 0; i < voiceURI.length; i++) {
+      const uri = voiceURI[i];
+      const voice = voices.find((voice) => voice.voiceURI === uri);
+      if (voice) {
+        utterance.voice = voice;
+        break;
       }
     }
   }

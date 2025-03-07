@@ -19,7 +19,7 @@ export type SpeechSynthesisUtteranceProps = {
   pitch: number;
   rate: number;
   volume: number;
-  lang?: string;
+  lang: string;
   voiceURI?: string | string[];
 };
 
