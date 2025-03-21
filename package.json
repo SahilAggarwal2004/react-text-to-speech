@@ -17,12 +17,12 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
-    "@types/react": "^19.0.10",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "concurrently": "^9.1.2",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "shx": "^0.3.4",
+    "shx": "^0.4.0",
     "typescript": "^5.8.2"
   },
   "pnpm": {
@@ -34,7 +34,9 @@
     "overrides": {
       "cookie@<0.7.0": ">=0.7.0",
       "path-to-regexp@<0.1.12": ">=0.1.12",
-      "prismjs@<1.30.0": ">=1.30.0"
+      "@babel/runtime-corejs3@<7.26.10": ">=7.26.10",
+      "@babel/runtime@<7.26.10": ">=7.26.10",
+      "@babel/helpers@<7.26.10": ">=7.26.10"
     }
   }
 }
