@@ -72,7 +72,7 @@ export function useSpeech({
   }, [key]);
   const chunks = useMemo(() => TextToChunks(sanitizedText, maxChunkSize), [sanitizedText, maxChunkSize]);
 
-  const reactContent = useMemo(() => highlightedText(text), [speakingWord, words, highlightText, showOnlyHighlightedText]);
+  const reactContent = useMemo(() => highlightedText(text), [speakingWord, key, highlightText, showOnlyHighlightedText]);
   const Text = useCallback(() => reactContent, [reactContent]);
 
   function start() {
