@@ -15,6 +15,7 @@ import styles from "./demo.module.css";
 export default function Demo() {
   const [autoPlay, setAutoPlay] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [enableDirectives, setEnableDirectives] = useState(false);
   const [highlightText, setHighlightText] = useState(false);
   const [highlightMode, setHighlightMode] = useState<HighlightMode>("word");
   const [lang, setLang] = useState("");
@@ -44,6 +45,7 @@ export default function Demo() {
     highlightText,
     showOnlyHighlightedText,
     highlightMode,
+    enableDirectives,
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
   });
@@ -196,6 +198,10 @@ export default function App() {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label htmlFor="enableDirectives">Enable Directives:</label>
+            <input id="enableDirectives" type="checkbox" checked={enableDirectives} onChange={(e) => setEnableDirectives(e.target.checked)} />
           </div>
           <div>
             <label htmlFor="showMarkdown">Markdown Support:</label>

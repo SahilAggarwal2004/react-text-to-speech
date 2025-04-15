@@ -1,4 +1,4 @@
-import { State } from "./types.js";
+import { State } from "../types.js";
 
 export const state: State = { stopReason: "manual" };
 

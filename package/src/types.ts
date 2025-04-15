@@ -3,6 +3,8 @@ import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
 // hooks.tsx
 export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 
+export type PauseReason = "auto" | "manual";
+
 export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
 export type SpeakingWord = { index: string; charIndex: number; length: number } | null;
@@ -16,14 +18,14 @@ export type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
 export type SpeechSynthesisEventName = "word" | "sentence";
 
 export type SpeechSynthesisUtteranceProps = {
-  pitch: number;
-  rate: number;
-  volume: number;
-  lang: string;
+  pitch?: number;
+  rate?: number;
+  volume?: number;
+  lang?: string;
   voiceURI?: string | string[];
 };
 
-export type UseSpeechOptions = Partial<SpeechSynthesisUtteranceProps> & {
+export type UseSpeechOptions = SpeechSynthesisUtteranceProps & {
   text: ReactNode;
   autoPlay?: boolean;
   preserveUtteranceQueue?: boolean;
@@ -31,6 +33,7 @@ export type UseSpeechOptions = Partial<SpeechSynthesisUtteranceProps> & {
   showOnlyHighlightedText?: boolean;
   highlightMode?: HighlightMode;
   highlightProps?: SpanProps;
+  enableDirectives?: boolean;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;
@@ -83,6 +86,6 @@ export type SpeechUtterancesQueue = Partial<SpeechSynthesisUtterance>[];
 // utils.tsx
 export type Index = string | number;
 
-export type State = { stopReason: "auto" | "change" | "manual" };
+export type State = { stopReason: PauseReason | "change" };
 
 export type Words = string | Words[];

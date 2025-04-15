@@ -1,4 +1,4 @@
-import { QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "./types.js";
+import { QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "../types.js";
 import { cancel } from "./utils.js";
 
 const queue: SpeechQueue = [];

@@ -1,4 +1,8 @@
-# 1.4.1 (07-03-2025)
+# 1.5.0 (15-04-2025)
+
+- **feat:** Support for inline `Directives` to control playback behavior directly within the text.
+
+## 1.4.1 (07-03-2025)
 
 - **fix:** Ensure `utterance.voice` is set to `null` when `voiceURI` is not set, preventing unintended voice retention.
 

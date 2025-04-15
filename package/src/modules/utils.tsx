@@ -12,43 +12,63 @@ import {
   spaceDelimiter,
   specialSymbol,
   symbolMapping,
-} from "./constants.js";
+} from "../constants.js";
+import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, State, Words } from "../types.js";
+import { TextToChunksDirective } from "./directiveUtils.js";
 import { setState } from "./state.js";
-import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, State, Words } from "./types.js";
-
-export function WordsToText(node: Words): string {
-  if (typeof node === "string") return node;
-  return node.map(WordsToText).join(spaceDelimiter) + spaceDelimiter;
-}
 
 export function NodeToWords(node: ReactNode): Words {
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
   if (Array.isArray(node)) return node.map(NodeToWords);
   if (isValidElement<PropsWithChildren>(node)) return NodeToWords(node.props.children);
-  return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
+  return "";
 }
 
 export function NodeToKey(node: ReactNode): string {
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
   if (Array.isArray(node)) return node.map(NodeToKey).join("");
   if (isValidElement<PropsWithChildren>(node)) {
-    const type = typeof node.type === "string" ? node.type : "Component";
+    const nodeType = typeof node.type === "string" ? node.type : "Component";
     const { children, ...props } = node.props;
     const propsKey = JSON.stringify(props);
     const childrenKey = NodeToKey(children);
-    return `${type}(${propsKey})[${childrenKey}]`;
+    return `${nodeType}(${propsKey})[${childrenKey}]`;
   }
-  return typeof node === "string" ? node : typeof node === "number" ? String(node) : "";
+  return "";
 }
 
-export function TextToChunks(text: string, size?: number) {
+export function TextToChunks(text: string, size?: number, enableDirectives?: boolean) {
   size = size ? Math.max(size, minChunkSize) : isMobile() ? mobileChunkSize : desktopChunkSize;
+  return enableDirectives ? TextToChunksDirective(text, size) : chunkBySizeWithDelimiters(text, size);
+}
+
+export function ToText(node: ReactNode | Words): string {
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(ToText).join(spaceDelimiter) + spaceDelimiter;
+  if (isValidElement<PropsWithChildren>(node)) return ToText(node.props.children);
+  return "";
+}
+
+export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, " ").length;
+
+export function cancel(stopReason: State["stopReason"] = "manual") {
+  if (typeof window === "undefined") return;
+  setState({ stopReason });
+  window.speechSynthesis?.cancel();
+}
+
+export function chunkBySizeWithDelimiters(text: string, size: number) {
   const length = text.length;
-  const result = [];
+  const result: string[] = [];
   let startIndex = 0;
   while (startIndex < length) {
     let endIndex = Math.min(startIndex + size, length);
     if (endIndex < length && text[endIndex] !== lineDelimiter)
       for (const delimiter of chunkDelimiters) {
-        let delimiterIndex = text.lastIndexOf(delimiter, endIndex) + delimiter.length - 1;
+        const delimiterIndex = text.lastIndexOf(delimiter, endIndex) + delimiter.length - 1;
         if (delimiterIndex > startIndex) {
           endIndex = delimiterIndex;
           break;
@@ -60,13 +80,7 @@ export function TextToChunks(text: string, size?: number) {
   return result;
 }
 
-export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, " ").length;
-
-export function cancel(stopReason: State["stopReason"] = "manual") {
-  if (typeof window === "undefined") return;
-  setState({ stopReason });
-  window.speechSynthesis?.cancel();
-}
+export const cloneRegex = (regex: RegExp) => new RegExp(regex.source, regex.flags);
 
 export function findCharIndex(words: Words, index: number) {
   let currentIndex = 0;
@@ -109,6 +123,14 @@ export function parent(index?: string) {
   if (!index) return "";
   const lastIndex = index.lastIndexOf("-");
   return lastIndex === -1 ? "" : index.slice(0, lastIndex);
+}
+
+export function parse(value: string): number | boolean | string {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  const number = +value;
+  if (!isNaN(number) && value !== "") return number;
+  return value;
 }
 
 export const sanitize = (text: string) =>

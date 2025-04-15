@@ -143,6 +143,10 @@ export default function App() {
 }
 ```
 
+> You can also optionally enable inline processing controls using the `enableDirectives` option — useful for dynamically adjusting things like pitch, rate, volume, or inserting pauses directly within your text content.  
+> Example: `[[rate=1.2]] This is spoken faster.`  
+> See [Directives](/docs/usage/directives) for all supported options.
+
 ## Usage with Markdown
 
 Like `useSpeech` hook, the `<Speech>` component can also be used along with markdown. <a href="/docs/usage/useSpeech#usage-with-markdown" target="_blank">Refer Here</a>
