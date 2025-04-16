@@ -69,7 +69,7 @@
 
 .text {
   margin-top: 2rem;
-  height: 50vh;
+  height: 65vh;
   max-height: 450px;
 }
 
@@ -80,7 +80,8 @@
 .text > div {
   width: var(--md-width);
   max-width: var(--max-md-width);
-  max-height: 100%;
+  max-height: calc(100% - 2.25rem);
+  overflow-y: scroll;
   color: var(--text-color);
 }
 
@@ -102,8 +103,15 @@
   background-color: var(--ifm-color-primary-dark);
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 1024px) {
   .main {
     flex-direction: column;
+    position: relative;
+  }
+  .text {
+    padding-bottom: 1.5rem;
+  }
+  .button {
+    bottom: 1.25rem;
   }
 }

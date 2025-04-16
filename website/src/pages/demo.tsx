@@ -79,7 +79,7 @@ export default function App() {
           Stop
         </button>
       </div>
-      <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
+      <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
         <Text />
       </div>
     </div>
@@ -218,7 +218,7 @@ export default function App() {
           </div>
           <div className={styles.text}>
             <h4>Text:</h4>
-            <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 overflow-y-scroll whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
+            <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
               <Text />
             </div>
           </div>
