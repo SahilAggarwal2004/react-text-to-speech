@@ -1,4 +1,10 @@
-# 1.5.0 (15-04-2025)
+# 2.0.0 (18-04-2025)
+
+- **breaking:** Removed the `event` parameter from all event handlers (`onStart`, `onResume`, `onPause`, `onStop`, `onBoundary`).
+- **feat:** Added support for `default` values in directives.
+- **fix:** Resolved an issue where the `[[delay]]` directive was not functioning properly on mobile devices.
+
+## 1.5.0 (15-04-2025)
 
 - **feat:** Support for inline `Directives` to control playback behavior directly within the text.
 

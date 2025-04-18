@@ -6,6 +6,8 @@ export const spaceDelimiter = " ";
 
 export const chunkDelimiters = [lineDelimiter, ...punctuationDelimiters.map((delimiter) => delimiter + spaceDelimiter), spaceDelimiter];
 
+export const defaults = { pitch: 1, rate: 1, volume: 1, lang: "", voice: "" };
+
 export const desktopChunkSize = 1000;
 
 export const directiveRegex = /\[\[(\w+)=([^\]=]+)\]\] ?/;

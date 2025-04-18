@@ -45,7 +45,7 @@ type SpeechSynthesisErrorHandler = (error: Error) => any;
 ### SpeechSynthesisEventHandler
 
 ```typescript
-type SpeechSynthesisEventHandler = (event: SpeechSynthesisEvent) => any;
+type SpeechSynthesisEventHandler = () => any;
 ```
 
 ### QueueChangeEventHandler

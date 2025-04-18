@@ -1,6 +1,6 @@
 import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { directiveRegex, specialSymbol, startToken } from "./constants.js";
+import { defaults, directiveRegex, specialSymbol, startToken } from "./constants.js";
 import { StripDirectives } from "./modules/directiveUtils.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
 import { setState, state } from "./modules/state.js";
@@ -21,7 +21,7 @@ import {
   TextToChunks,
   ToText,
 } from "./modules/utils.js";
-import { PauseReason, SpeakingWord, SpeechStatus, SpeechSynthesisEventName, SpeechSynthesisUtteranceProps, SpeechUtterancesQueue, State, UseSpeechOptions } from "./types.js";
+import { DirectiveEvent, SpeakingWord, SpeechStatus, SpeechSynthesisEventName, SpeechSynthesisUtteranceProps, SpeechUtterancesQueue, State, UseSpeechOptions } from "./types.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
@@ -33,11 +33,11 @@ export function useQueue() {
 
 export function useSpeech({
   text,
-  pitch = 1,
-  rate = 1,
-  volume = 1,
-  lang = "",
-  voiceURI,
+  pitch = defaults.pitch,
+  rate = defaults.rate,
+  volume = defaults.volume,
+  lang = defaults.lang,
+  voiceURI = defaults.voice,
   autoPlay = false,
   preserveUtteranceQueue = false,
   highlightText = false,
@@ -57,8 +57,7 @@ export function useSpeech({
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, speakingWordRef, setSpeakingWord] = useStateRef<SpeakingWord>(null);
   const { utteranceRef, updateProps } = useSpeechSynthesisUtterance();
-  const delayRef = useRef<{ delay: number; abort?: Function }>({ delay: 0 });
-  const pauseRef = useRef<{ reason: PauseReason; event?: SpeechSynthesisEvent | null }>({ reason: "auto" });
+  const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: Function }>({ event: null, delay: 0 });
 
   const key = useMemo(() => NodeToKey(text), [text]);
   const stringifiedVoices = useMemo(() => JSON.stringify(voiceURI), [voiceURI]);
@@ -72,16 +71,28 @@ export function useSpeech({
   const reactContent = useMemo(() => highlightedText(strippedText), [speakingWord, highlightText, showOnlyHighlightedText, strippedText]);
   const Text = useCallback(() => reactContent, [reactContent]);
 
-  function reset() {
-    delayRef.current.abort?.();
-    delayRef.current = { delay: 0 };
-    pauseRef.current.event = null;
+  function reset(event: DirectiveEvent = null) {
+    directiveRef.current.abortDelay?.();
+    directiveRef.current = { event, delay: 0 };
+  }
+
+  function resumeEventHandler() {
+    setSpeechStatus("started");
+    onResume?.();
+  }
+
+  function pauseEventHandler() {
+    setSpeechStatus("paused");
+    onPause?.();
   }
 
   function start() {
     const synth = window.speechSynthesis;
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
-    if (speechStatusRef.current === "paused") return synth.resume();
+    if (speechStatusRef.current === "paused") {
+      if (directiveRef.current.event === "pause") speakFromQueue();
+      return synth.resume();
+    }
     if (speechStatusRef.current === "queued") return;
     let currentChunk = 0;
     let currentText = chunks[currentChunk] || "";
@@ -91,7 +102,7 @@ export function useSpeech({
     let offset = processedTextLength + currentText.length - utterance.text.length;
     updateProps({ pitch, rate, volume, lang, voiceURI });
 
-    function handleDirectives(): boolean {
+    function handleDirectives() {
       let skip = false;
       while (currentChunk < chunks.length) {
         const match = directiveRegex.exec(currentText);
@@ -103,14 +114,14 @@ export function useSpeech({
           const value = parse(match[2]);
           switch (key) {
             case "delay":
-              delayRef.current.delay += value as number;
+              directiveRef.current.delay += value as number;
               break;
             case "pitch":
             case "rate":
             case "volume":
             case "lang":
             case "voice":
-              updateProps({ [key]: value });
+              updateProps({ [key]: value === "default" ? defaults[key] : value });
               break;
             case "skip":
               if (typeof value === "boolean") skip = value;
@@ -123,7 +134,7 @@ export function useSpeech({
       return false;
     }
 
-    async function stopEventHandler(event: SpeechSynthesisEvent) {
+    async function stopEventHandler() {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
         let continueSpeech = !enableDirectives;
         processedTextLength += calculateOriginalTextLength(currentText);
@@ -132,7 +143,13 @@ export function useSpeech({
         if (continueSpeech) {
           utterance.text = currentText.trimStart();
           offset = processedTextLength + currentText.length - utterance.text.length;
-          return speakFromQueue();
+          if (speechStatusRef.current === "paused") return reset("pause");
+          const { delay } = directiveRef.current;
+          directiveRef.current.event = "change";
+          if (!delay) return speakFromQueue();
+          const timeout = setTimeout(speakFromQueue, delay);
+          directiveRef.current.abortDelay = () => clearTimeout(timeout);
+          return;
         }
       }
       if (state.stopReason === "change") {
@@ -155,31 +172,21 @@ export function useSpeech({
       utterance.onerror = null;
       utterance.onboundary = null;
       removeFromQueue(utterance, onQueueChange);
-      pauseRef.current = { reason: "auto" };
       speakFromQueue();
-      onStop?.(event);
+      onStop?.();
     }
 
-    utterance.onstart = (event) => {
+    utterance.onstart = () => {
       window.addEventListener("beforeunload", clearQueueUnload);
-      const { delay } = delayRef.current;
-      const isManual = pauseRef.current.reason === "manual";
-      if (delay || !isManual) setSpeechStatus("started");
       setState({ stopReason: "auto" });
-      if (!delay) onStart?.(event);
-      else if (isManual) onResume?.({ ...event, type: "resume" });
-      if (delay) pause("auto");
+      if (!directiveRef.current.delay) {
+        if (!directiveRef.current.event) return onStart?.();
+        if (directiveRef.current.event === "pause") resumeEventHandler();
+      }
+      reset();
     };
-    utterance.onresume = (event) => {
-      if (delayRef.current.delay) return reset();
-      setSpeechStatus("started");
-      onResume?.(event);
-    };
-    utterance.onpause = (event) => {
-      if (pauseRef.current.reason === "auto") return (pauseRef.current.event = event);
-      setSpeechStatus("paused");
-      onPause?.(event);
-    };
+    utterance.onresume = resumeEventHandler;
+    utterance.onpause = pauseEventHandler;
     utterance.onend = stopEventHandler;
     utterance.onerror = stopEventHandler;
     utterance.onboundary = (event) => {
@@ -189,34 +196,23 @@ export function useSpeech({
       if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex) || parent(index) !== parent(speakingWordRef.current?.index))
         setSpeakingWord({ index, charIndex: isSpecialSymbol ? charIndex + charLength + 1 : charIndex, length: isSpecialSymbol || charLength });
       if (isSpecialSymbol) offset -= charLength + 1;
-      onBoundary?.(event);
+      onBoundary?.();
     };
 
     if (!preserveUtteranceQueue) clearQueue();
     addToQueue({ text: StripDirectives(sanitizedText) as string, utterance, setSpeechStatus }, onQueueChange);
     setSpeechStatus("started");
     if (!synth.speaking) return speakFromQueue();
-    if (preserveUtteranceQueue && speechStatusRef.current !== "started") return setSpeechStatus("queued");
+    if (preserveUtteranceQueue && speechStatus !== "started") return setSpeechStatus("queued");
     cancel();
   }
 
-  function pause(reason: PauseReason = "manual") {
+  function pause() {
     if (isMobile(false) || speechStatusRef.current === "queued") return stop();
     if (speechStatusRef.current === "started") {
-      pauseRef.current.reason = reason;
-      const synth = window.speechSynthesis;
-      if (!synth) return;
-      synth.pause();
-      if (reason === "auto") {
-        const timeout = setTimeout(() => synth.resume(), delayRef.current.delay);
-        delayRef.current.abort = () => clearTimeout(timeout);
-      } else {
-        if (pauseRef.current.event) {
-          setSpeechStatus("paused");
-          onPause?.(pauseRef.current.event);
-        }
-        reset();
-      }
+      if (!directiveRef.current.delay) return window.speechSynthesis?.pause();
+      reset("pause");
+      pauseEventHandler();
     }
   }
 
@@ -226,8 +222,11 @@ export function useSpeech({
       removeFromQueue(utteranceRef.current!, onQueueChange);
       return setSpeechStatus("stopped");
     }
+    if (directiveRef.current.delay || directiveRef.current.event === "pause") {
+      reset();
+      speakFromQueue();
+    }
     cancel(stopReason);
-    reset();
   }
 
   function highlightedText(node: ReactNode, parentIndex = ""): ReactNode {
@@ -273,6 +272,7 @@ export function useSpeech({
     if (speechStatusRef.current !== "started") return;
     const timeout = setTimeout(() => {
       updateProps({ pitch, rate, volume, lang, voiceURI });
+      if (directiveRef.current.delay) return;
       stop({ stopReason: "change" });
       emit(onQueueChange);
     }, 500);
@@ -284,7 +284,7 @@ export function useSpeech({
     speechStatus,
     isInQueue: speechStatus === "started" || speechStatus === "queued",
     start,
-    pause: () => pause(),
+    pause,
     stop: () => stop(),
   };
 }
@@ -296,18 +296,22 @@ function useSpeechSynthesisUtterance() {
   function updateProps({ pitch, rate, volume, lang, voiceURI }: SpeechSynthesisUtteranceProps) {
     const utterance = utteranceRef.current;
     if (!utterance) return;
-    if (pitch) utterance.pitch = pitch;
-    if (rate) utterance.rate = rate;
-    if (volume) utterance.volume = volume;
-    if (lang) utterance.lang = lang;
-    if (!voiceURI) return;
+    if (pitch !== undefined) utterance.pitch = pitch;
+    if (rate !== undefined) utterance.rate = rate;
+    if (volume !== undefined) utterance.volume = volume;
+    if (lang !== undefined) utterance.lang = lang;
+    if (voiceURI === undefined) return;
+    if (!voiceURI) {
+      utterance.voice = null;
+      return;
+    }
     if (!Array.isArray(voiceURI)) voiceURI = [voiceURI];
     for (let i = 0; i < voiceURI.length; i++) {
       const uri = voiceURI[i];
       const voice = voices.find((voice) => voice.voiceURI === uri);
       if (voice) {
         utterance.voice = voice;
-        break;
+        return;
       }
     }
   }

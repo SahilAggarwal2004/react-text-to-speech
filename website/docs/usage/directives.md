@@ -25,71 +25,76 @@ Introduces a pause before the subsequent content is processed.
 
 - `milliseconds`: The duration of the pause in milliseconds (a number).
 
-  **Example:**
+**Example:**
 
-  ```
-  This will have a [[delay=500]] half-second pause.
-  ```
+```
+This will have a [[delay=500]] half-second pause.
+```
 
-### `[[pitch=number]]`
+### `[[pitch=number | default]]`
 
 Sets the pitch of the spoken text.
 
-- `number`: A number between 0 and 2, where 1 is the default pitch.
+- `number`: A number between 0 and 2.
+- `default`: Resets the pitch to the default value (1).
 
-  **Example:**
+**Example:**
 
-  ```
-  This is a lower pitched voice. [[pitch=1.5]] This is a higher pitched voice.
-  ```
+```
+[[pitch=0.5]] This is a lower pitched voice. [[pitch=1.5]] This is a higher pitched voice. [[pitch=default]] This is the default pitch.
+```
 
-### `[[rate=number]]`
+### `[[rate=number | default]]`
 
 Sets the speed of the spoken text.
 
-- `number`: A number, where 1 is the default rate. Values less than 1 are slower, and values greater than 1 are faster.
+- `number`: A numeric value that adjusts the rate. Values less than 1 are slower, and values greater than 1 are faster.
+- `default`: Resets the rate to the default value (1).
 
-  **Example:**
+**Example:**
 
-  ```
-  This is normal speech rate. [[rate=0.8]] This is slower speech rate.
-  ```
+```
+[[rate=2]] This is faster speech rate. [[rate=0.5]] This is slower speech rate. [[rate=default]] This is the default rate.
+```
 
-### `[[volume=number]]`
+### `[[volume=number | default]]`
 
 Sets the volume.
 
-- `number`: A number between 0 and 1, where 1 is the default volume.
+- `number`: A number between 0 and 1.
+- `default`: Resets the volume to the default value (1).
 
-  **Example:**
+**Example:**
 
-  ```
-  This is normal volume voice. [[volume=0.7]] This is quieter voice.
-  ```
+```
+[[volume=0.7]] This is quieter voice. [[volume=default]] This is the default volume.
+```
 
-### `[[lang=string]]`
+### `[[lang=string | default]]`
 
 Sets the language context.
 
 - `string`: A valid BCP 47 language tag (e.g., "en-US", "es-ES", "fr-FR").
+- `default`: Resets the language to the default language.
 
-  **Example:**
+**Example:**
 
-  ```
-  This is [[lang=es-ES]] Spanish text.
-  ```
+```
+This is [[lang=es-ES]] Spanish text. [[lang=default]] This is the default language.
+```
 
-### `[[voice=voiceURI]]`
+### `[[voice=voiceURI | default]]`
 
 Sets the voice to be used.
 
 - `voiceURI`: The `voiceURI` of the desired voice. You can obtain a list of available `voiceURI`s using the `useVoices` hook.
+- `default`: Resets the voice to the default voice.
 
-  **Example:**
+**Example:**
 
-  ```
-  This is a [[voice=Microsoft David - English (United States)]] different voice.
-  ```
+```
+This is a [[voice=Microsoft David - English (United States)]] different voice. [[voice=default]] This is the default voice.
+```
 
 ### `[[skip=boolean]]`
 
@@ -98,11 +103,11 @@ Skips the processing of the following content while `skip=true` is active.
 - `true`: Begins skipping any content that follows.
 - `false`: Resumes processing of content.
 
-  **Example:**
+**Example:**
 
-  ```
-  This will be processed. [[skip=true]] This will be skipped. [[skip=false]] This will be processed again.
-  ```
+```
+This will be processed. [[skip=true]] This will be skipped. [[skip=false]] This will be processed again.
+```
 
 ## Behavior and Scope
 
@@ -110,9 +115,7 @@ Skips the processing of the following content while `skip=true` is active.
 - **Scoped Effect:** The effect of a directive applies to the content that follows it. If another directive for the same parameter is encountered later, it will override the previous one.
 - **Chunk Boundaries:** Directives are processed within the text chunks that are handled by the system. This means a directive in one chunk can affect subsequent chunks if not overridden.
 
-## Examples
-
-Here are some examples of how to use directives in practice:
+## Code Example
 
 ```tsx
 import React, { useMemo } from "react";
@@ -123,10 +126,10 @@ export default function App() {
     () => (
       <>
         <p>This is the default voice.</p>
-        <p>This is a [[pitch=1.5]][[rate=0.9]] higher and slower voice.</p>
+        <p>This is a [[pitch=1.5]][[rate=0.7]] higher and slower voice.</p>
         <p>[[delay=1000]] A one-second pause before this sentence.</p>
-        <p>[[lang=en-IN]] Hello India! [[lang=en-US]] Hello US!</p>
-        <p>This is [[volume=0.6]] quieter, [[volume=1]] normal volume, and [[volume=0.2]] very quiet.</p>
+        <p>[[lang=en-IN]] Hello India! [[lang=default]] Hello World!</p>
+        <p>This is [[volume=0.6]] quieter, [[volume=default]] normal volume, and [[volume=0.2]] very quiet.</p>
         <p>This is spoken. [[skip=true]] This is skipped. [[skip=false]] This is spoken again.</p>
       </>
     ),
