@@ -52,7 +52,7 @@ export function ToText(node: ReactNode | Words): string {
   return "";
 }
 
-export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, " ").length;
+export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, spaceDelimiter).length;
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
   if (typeof window === "undefined") return;

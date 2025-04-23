@@ -1,6 +1,6 @@
 import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { defaults, directiveRegex, specialSymbol, startToken } from "./constants.js";
+import { defaults, directiveRegex, spaceDelimiter, specialSymbol } from "./constants.js";
 import { StripDirectives } from "./modules/directiveUtils.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
 import { setState, state } from "./modules/state.js";
@@ -64,7 +64,7 @@ export function useSpeech({
   const { sanitizedText, strippedText, words } = useMemo(() => {
     const strippedText = enableDirectives ? StripDirectives(text) : text;
     const words = NodeToWords(strippedText);
-    return { sanitizedText: `${startToken}${sanitize(ToText(enableDirectives ? text : words))}`, strippedText, words };
+    return { sanitizedText: `${spaceDelimiter}${sanitize(ToText(enableDirectives ? text : words))}`, strippedText, words };
   }, [enableDirectives, key]);
   const chunks = useMemo(() => TextToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
 
@@ -96,7 +96,7 @@ export function useSpeech({
     if (speechStatusRef.current === "queued") return;
     let currentChunk = 0;
     let currentText = chunks[currentChunk] || "";
-    let processedTextLength = -startToken.length;
+    let processedTextLength = -spaceDelimiter.length;
     const utterance = utteranceRef.current!;
     utterance.text = currentText.trimStart();
     let offset = processedTextLength + currentText.length - utterance.text.length;
