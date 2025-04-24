@@ -311,6 +311,7 @@ function useSpeechSynthesisUtterance() {
       const voice = voices.find((voice) => voice.voiceURI === uri);
       if (voice) {
         utterance.voice = voice;
+        if (!lang) utterance.lang = voice.lang;
         return;
       }
     }
