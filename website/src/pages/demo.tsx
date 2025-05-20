@@ -123,7 +123,7 @@ export default function App() {
           <div>
             <div>
               <label htmlFor="pitch">Pitch:</label>
-              <input id="pitch" type="range" value={pitch} step={0.1} min={0} max={2} onChange={(e) => setPitch(+e.target.value)} />
+              <input id="pitch" type="range" value={pitch} step={0.1} min={0.1} max={2} onChange={(e) => setPitch(+e.target.value)} />
             </div>
             <span>{pitch}</span>
           </div>

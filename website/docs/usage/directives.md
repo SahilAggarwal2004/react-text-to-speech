@@ -35,7 +35,7 @@ This will have a [[delay=500]] half-second pause.
 
 Sets the pitch of the spoken text.
 
-- `number`: A number between 0 and 2.
+- `number`: A number between 0.1 and 2.
 - `default`: Resets the pitch to the default value (1).
 
 **Example:**

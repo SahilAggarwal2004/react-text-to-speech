@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "An easy-to-use React.js component that leverages the Web Speech API to convert text to speech.",
   "license": "MIT",
   "author": "Sahil Aggarwal <aggarwalsahil2004@gmail.com>",
@@ -34,7 +34,7 @@
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "tsup": "^8.4.0"
+    "tsup": "^8.5.0"
   },
   "keywords": [
     "component",
