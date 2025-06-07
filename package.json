@@ -16,12 +16,12 @@
     "update": "ncu -u -ws --root"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
-    "@types/react": "^19.1.4",
-    "@types/react-dom": "^19.1.5",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
     "concurrently": "^9.1.2",
     "prettier": "^3.5.3",
-    "prettier-plugin-tailwindcss": "^0.6.11",
+    "prettier-plugin-tailwindcss": "^0.6.12",
     "shx": "^0.4.0",
     "typescript": "^5.8.3"
   },
@@ -33,8 +33,9 @@
       "esbuild"
     ],
     "overrides": {
+      "cookie@<0.7.0": ">=0.7.0",
       "path-to-regexp@<0.1.12": ">=0.1.12",
-      "cookie@<0.7.0": ">=0.7.0"
+      "webpack-dev-server@<=5.2.0": ">=5.2.1"
     }
   }
 }

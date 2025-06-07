@@ -16,8 +16,8 @@
     "write-translations": "docusaurus write-translations"
   },
   "dependencies": {
-    "@docusaurus/core": "3.7.0",
-    "@docusaurus/preset-classic": "3.7.0",
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/preset-classic": "3.8.1",
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "prism-react-renderer": "^2.4.1",
@@ -31,15 +31,15 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.7.0",
-    "@docusaurus/theme-classic": "^3.7.0",
-    "@docusaurus/tsconfig": "3.7.0",
-    "@docusaurus/types": "3.7.0",
-    "@tailwindcss/postcss": "^4.1.7",
+    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/theme-classic": "^3.8.1",
+    "@docusaurus/tsconfig": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@tailwindcss/postcss": "^4.1.8",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.15.20",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.7"
+    "@types/node": "^22.15.30",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8"
   },
   "browserslist": {
     "production": [
