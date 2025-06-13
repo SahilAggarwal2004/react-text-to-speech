@@ -35,11 +35,11 @@
     "@docusaurus/theme-classic": "^3.8.1",
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
-    "@tailwindcss/postcss": "^4.1.8",
+    "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.15.30",
-    "postcss": "^8.5.4",
-    "tailwindcss": "^4.1.8"
+    "@types/node": "^24.0.1",
+    "postcss": "^8.5.5",
+    "tailwindcss": "^4.1.10"
   },
   "browserslist": {
     "production": [
