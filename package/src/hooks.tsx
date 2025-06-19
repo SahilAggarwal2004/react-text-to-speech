@@ -21,7 +21,18 @@ import {
   TextToChunks,
   ToText,
 } from "./modules/utils.js";
-import { DirectiveEvent, SpeakingWord, SpeechStatus, SpeechSynthesisEventName, SpeechSynthesisUtteranceProps, SpeechUtterancesQueue, State, UseSpeechOptions } from "./types.js";
+import {
+  DirectiveEvent,
+  SpeakingWord,
+  SpeakProps,
+  SpeechStatus,
+  SpeechSynthesisEventName,
+  SpeechSynthesisUtteranceProps,
+  SpeechUtterancesQueue,
+  State,
+  UseSpeakOptions,
+  UseSpeechOptions,
+} from "./types.js";
 
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
@@ -29,6 +40,19 @@ export function useQueue() {
   useEffect(() => subscribe(setQueue), []);
 
   return { queue, dequeue, clearQueue: clearQueueHook };
+}
+
+export function useSpeak(options?: UseSpeakOptions) {
+  const [speechProps, setSpeechProps] = useState<SpeakProps>({ text: "" });
+  const { start, ...speechInterface } = useSpeech({ ...speechProps, ...options, autoPlay: false });
+
+  const speak = useCallback((text: ReactNode, options: SpeechSynthesisUtteranceProps = {}) => setSpeechProps({ text, ...options }), []);
+
+  useEffect(() => {
+    if (speechProps.text) start();
+  }, [speechProps]);
+
+  return { speak, start, ...speechInterface };
 }
 
 export function useSpeech({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { useQueue, useSpeech, useVoices } from "./hooks.js";
+import { useQueue, useSpeak, useSpeech, useVoices } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 import { DivProps, SpeechProps } from "./types.js";
 
@@ -69,4 +69,4 @@ export default function Speech({
   );
 }
 
-export { useQueue, useSpeech, useVoices };
+export { useQueue, useSpeak, useSpeech, useVoices };

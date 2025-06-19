@@ -1,4 +1,8 @@
-# 2.0.0 (18-04-2025)
+# 2.1.0 (19-06-2025)
+
+- **feat:** `useSpeak` hook.
+
+## 2.0.0 (18-04-2025)
 
 - **breaking:** Removed the `event` parameter from all event handlers (`onStart`, `onResume`, `onPause`, `onStop`, `onBoundary`).
 - **feat:** Added support for `default` values in directives.

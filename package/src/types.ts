@@ -9,6 +9,8 @@ export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLS
 
 export type SpeakingWord = { index: string; charIndex: number; length: number } | null;
 
+export type SpeakProps = SpeechSynthesisUtteranceProps & { text: ReactNode };
+
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
 export type SpeechSynthesisErrorHandler = (error: Error) => any;
@@ -25,9 +27,7 @@ export type SpeechSynthesisUtteranceProps = {
   voiceURI?: string | string[];
 };
 
-export type UseSpeechOptions = SpeechSynthesisUtteranceProps & {
-  text: ReactNode;
-  autoPlay?: boolean;
+export type UseSpeakOptions = {
   preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
   showOnlyHighlightedText?: boolean;
@@ -43,6 +43,8 @@ export type UseSpeechOptions = SpeechSynthesisUtteranceProps & {
   onBoundary?: SpeechSynthesisEventHandler;
   onQueueChange?: QueueChangeEventHandler;
 };
+
+export type UseSpeechOptions = SpeakProps & UseSpeakOptions & { autoPlay?: boolean };
 
 // icons.tsx
 export type IconProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
@@ -75,9 +77,9 @@ export type SpeechProps = UseSpeechOptions & {
 // queue.ts
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 
-export type SpeechQueueItem = { text: string; utterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
-
 export type SpeechQueue = SpeechQueueItem[];
+
+export type SpeechQueueItem = { text: string; utterance: SpeechSynthesisUtterance; setSpeechStatus: SpeechStatusUpdater };
 
 export type SpeechStatusUpdater = (newStatus: SpeechStatus) => void;
 
