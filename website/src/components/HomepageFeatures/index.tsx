@@ -7,34 +7,33 @@ import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  svg: string;
+  image: string;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: "Text-to-speech conversion",
-    svg: getImageUrl("undraw_docusaurus_tree.svg"),
+    image: getImageUrl("1.svg"),
     description: <>react-text-to-speech converts text input to speech output using the WebSpeech API.</>,
   },
   {
     title: "Easy to Use, yet Fully Customizable",
-    svg: getImageUrl("undraw_docusaurus_mountain.svg"),
+    image: getImageUrl("2.png"),
     description: <>react-text-to-speech was designed from the ground up to be easily imported and used in your React.js app, while providing all possible customization options.</>,
   },
   {
     title: "Highlights words",
-    svg: getImageUrl("undraw_docusaurus_react.svg"),
+    image: getImageUrl("3.png"),
     description: <>react-text-to-speech provides an option to highlight words as they are read in speech utterance.</>,
   },
 ];
 
-function Feature({ title, svg, description }: FeatureItem) {
+function Feature({ title, image, description }: FeatureItem) {
   return (
     <div className={clsx("col col--4")}>
-      <div className="text--center">
-        <img src={svg} alt={title} className={styles.featureSvg} />
-        {/* <Svg className={styles.featureSvg} role="img" /> */}
+      <div className={styles.featureSvgWrapper}>
+        <img src={image} alt={title} className={styles.featureSvg} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

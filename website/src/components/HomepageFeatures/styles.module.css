@@ -5,7 +5,23 @@
   width: 100%;
 }
 
+.featureSvgWrapper {
+  display: flex;
+  justify-content: center;
+  padding-block: 1rem;
+}
+
 .featureSvg {
-  height: 200px;
   width: 200px;
+  height: 200px;
+}
+
+html[data-theme="light"] .featureSvg {
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));
+  -webkit-filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));
+}
+
+html[data-theme="dark"] .featureSvg {
+  filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.4));
+  -webkit-filter: drop-shadow(5px 5px 5px rgba(255, 255, 255, 0.4));
 }
