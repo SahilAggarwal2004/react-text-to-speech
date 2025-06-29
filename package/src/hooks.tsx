@@ -283,7 +283,7 @@ export function useSpeech({
         );
     }
     if (Array.isArray(node)) return node.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
-    if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { children: highlightedText(node.props.children, parentIndex) });
+    if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? parentIndex, children: highlightedText(node.props.children, parentIndex) });
     return !showOnlyHighlightedText && node;
   }
 
