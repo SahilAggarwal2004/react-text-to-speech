@@ -64,7 +64,7 @@ export default function App() {
   const text = \`${sanitizedText}\`;
 
   const reactContent = useRemark({ markdown: text, rehypePlugins: [rehypeRaw, rehypeSanitize], remarkPlugins: [remarkGfm], remarkToRehypeOptions: { allowDangerousHtml: true } });
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: reactContent, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}" });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: reactContent, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}", enableDirectives: "${enableDirectives}" });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>
@@ -91,7 +91,7 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const text = \`${sanitizedText}\`;
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}" });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text, pitch: ${pitch}, rate: ${rate}, volume: ${volume}, lang: "${lang}", voiceURI: "${voiceURI}", autoPlay: ${autoPlay}, highlightText: ${highlightText}, showOnlyHighlightedText: ${showOnlyHighlightedText}, highlightMode: "${highlightMode}", enableDirectives: "${enableDirectives} });
 
   return (
     <div style={{ margin: "1rem", whiteSpace: "pre-wrap" }}>

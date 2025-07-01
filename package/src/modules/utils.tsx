@@ -3,6 +3,7 @@ import { isValidElement, PropsWithChildren, ReactNode } from "react";
 import {
   chunkDelimiters,
   desktopChunkSize,
+  directiveRegex,
   lineDelimiter,
   minChunkSize,
   mobileChunkSize,
@@ -12,9 +13,9 @@ import {
   spaceDelimiter,
   specialSymbol,
   symbolMapping,
+  wordBoundarySeparator,
 } from "../constants.js";
 import { HighlightMode, Index, SpeakingWord, SpeechSynthesisEventName, State, Words } from "../types.js";
-import { TextToChunksDirective } from "./directiveUtils.js";
 import { setState } from "./state.js";
 
 export function NodeToWords(node: ReactNode): Words {
@@ -41,13 +42,30 @@ export function NodeToKey(node: ReactNode): string {
 
 export function TextToChunks(text: string, size?: number, enableDirectives?: boolean) {
   size = size ? Math.max(size, minChunkSize) : isMobile() ? mobileChunkSize : desktopChunkSize;
-  return enableDirectives ? TextToChunksDirective(text, size) : chunkBySizeWithDelimiters(text, size);
+  const regex = new RegExp(`${enableDirectives ? directiveRegex.source + "|" : ""}${wordBoundarySeparator}`, "g");
+  const chunks: string[] = [];
+  let currentIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(text)) !== null) {
+    const directiveIndex = match.index;
+    if (directiveIndex > currentIndex) {
+      const preDirectiveText = text.slice(currentIndex, directiveIndex);
+      chunks.push(...chunkBySizeWithDelimiters(preDirectiveText, size));
+    }
+    if (match[0] !== wordBoundarySeparator) chunks.push(match[0]);
+    currentIndex = regex.lastIndex;
+  }
+  if (currentIndex < text.length) {
+    const remainingText = text.slice(currentIndex);
+    chunks.push(...chunkBySizeWithDelimiters(remainingText, size));
+  }
+  return chunks;
 }
 
 export function ToText(node: ReactNode | Words): string {
   if (typeof node === "string") return node;
   if (typeof node === "number") return String(node);
-  if (Array.isArray(node)) return node.map(ToText).join(spaceDelimiter) + spaceDelimiter;
+  if (Array.isArray(node)) return node.map(ToText).join(wordBoundarySeparator);
   if (isValidElement<PropsWithChildren>(node)) return ToText(node.props.children);
   return "";
 }
@@ -87,13 +105,12 @@ export function findCharIndex(words: Words, index: number) {
   function recursiveSearch(currentWords: Words, parentIndex: Index = ""): string {
     if (typeof currentWords === "string") {
       const elementIndex = index - currentIndex;
-      return (currentIndex += currentWords.length + 1) > index ? getIndex(parentIndex, elementIndex) : "";
+      return (currentIndex += currentWords.length) > index ? getIndex(parentIndex, elementIndex) : "";
     }
     for (let i = 0; i < currentWords.length; i++) {
       const result = recursiveSearch(currentWords[i], i);
       if (result) return getIndex(parentIndex, result);
     }
-    currentIndex++;
     return "";
   }
   return recursiveSearch(words);

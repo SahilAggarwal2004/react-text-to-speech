@@ -1,4 +1,8 @@
-# 2.1.0 (19-06-2025)
+# 2.1.2 (01-07-2025)
+
+- **fix:** Resolve incorrect word highlighting when using both directives and JSX.
+
+## 2.1.0 (19-06-2025)
 
 - **feat:** `useSpeak` hook.
 

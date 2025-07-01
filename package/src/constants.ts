@@ -27,3 +27,5 @@ export const specialSymbol = "\u00A0";
 export const sanitizedRegex = new RegExp(` (?:${Object.values(symbolMapping).join("|")})${specialSymbol}`, "g");
 
 export const sentenceDelimiters = [lineDelimiter, ...punctuationDelimiters];
+
+export const wordBoundarySeparator = "\u200B";
