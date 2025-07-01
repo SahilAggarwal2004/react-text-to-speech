@@ -73,8 +73,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-remarkify:
-        specifier: ^0.3.0
-        version: 0.3.0(react@19.1.0)
+        specifier: ^0.4.0
+        version: 0.4.0(react@19.1.0)
       react-text-to-speech:
         specifier: workspace:*
         version: link:../package
@@ -4828,8 +4828,8 @@ packages:
       react-loadable: '*'
       webpack: '>=4.41.1 || 5.x'
 
-  react-remarkify@0.3.0:
-    resolution: {integrity: sha512-WVkx1dCNKYncVO7+LMLPOjYx+gmGO50Onhd/xGu99yEAPAAc1ssex6mPnuBheqwaTXhqIDTCwkxB1ErKiCPYcw==}
+  react-remarkify@0.4.0:
+    resolution: {integrity: sha512-ZYTcZubjiUArxg8aQX2VGJYf2k8gvPU8uhNoS6Ao2p/1UWgVfNhJYbdygmB334rvcRTxE4NHSl/4hR1Q1GD7TA==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -4944,6 +4944,9 @@ packages:
 
   remark-rehype@11.1.1:
     resolution: {integrity: sha512-g/osARvjkBXb6Wo0XvAeXQohVta8i84ACbenPpoSsxTOQH/Ae0/RGP4WZgnMH5pMLpsj4FG7OHmcIcXxpza8eQ==}
+
+  remark-rehype@11.1.2:
+    resolution: {integrity: sha512-Dh7l57ianaEoIpzbp0PC9UKAdCSVklD8E5Rpw7ETfbTl3FqcOOgq5q2LVDhgGCkaBv7p24JXikPdvhhmHvKMsw==}
 
   remark-stringify@11.0.0:
     resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
@@ -11572,12 +11575,12 @@ snapshots:
       react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.1.0)'
       webpack: 5.95.0
 
-  react-remarkify@0.3.0(react@19.1.0):
+  react-remarkify@0.4.0(react@19.1.0):
     dependencies:
       react: 19.1.0
       rehype-react: 8.0.0
       remark-parse: 11.0.0
-      remark-rehype: 11.1.1
+      remark-rehype: 11.1.2
       unified: 11.0.5
     transitivePeerDependencies:
       - supports-color
@@ -11756,6 +11759,14 @@ snapshots:
       - supports-color
 
   remark-rehype@11.1.1:
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      mdast-util-to-hast: 13.2.0
+      unified: 11.0.5
+      vfile: 6.0.3
+
+  remark-rehype@11.1.2:
     dependencies:
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4

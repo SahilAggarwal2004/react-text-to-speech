@@ -159,15 +159,15 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
-function MarkdownText({ text }) {
+function MarkdownText({ children }) {
   const [showMarkdown, setShowMarkdown] = useState(true);
   const reactContent = useRemark({
-    markdown: text,
+    markdown: children,
     rehypePlugins: [rehypeRaw, rehypeSanitize],
     remarkPlugins: [remarkGfm],
     remarkToRehypeOptions: { allowDangerousHtml: true },
   });
-  const mdText = showMarkdown ? reactContent : text;
+  const text = showMarkdown ? reactContent : children;
 
   return (
     <div className="flex flex-col space-y-3 p-4 text-justify">
@@ -175,20 +175,20 @@ function MarkdownText({ text }) {
         <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={() => setShowMarkdown((prev) => !prev)}>
           Toggle Markdown
         </button>
-        <Speech id="unique-id" text={mdText} highlightText={true} />
+        <Speech id="unique-id" text={text} highlightText={true} />
       </div>
       <HighlightedText
         id="unique-id"
         className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap"
       >
-        {mdText}
+        {text}
       </HighlightedText>
     </div>
   );
 }
 
 export default function App() {
-  return <MarkdownText text={`# react-text-to-speech\nThis library is awesome`} />;
+  return <MarkdownText>{`# react-text-to-speech\nThis library is **awesome** and works with _Markdown_ + ReactNode!`}</MarkdownText>;
 }
 ```
 
