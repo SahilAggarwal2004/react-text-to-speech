@@ -16,18 +16,18 @@
     "url": "https://github.com/SahilAggarwal2004/react-text-to-speech/issues"
   },
   "type": "module",
-  "sideEffects": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
     "./icons": "./dist/icons.js",
     "./types": "./dist/types.js"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "compile": "tsup",
     "dev": "tsup --watch"
   },
+  "sideEffects": false,
   "types": "dist/index.d.ts",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",

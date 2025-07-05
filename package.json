@@ -1,5 +1,6 @@
 {
   "name": "react-text-to-speech",
+  "version": "2.1.2",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -10,9 +11,11 @@
     "dev": "concurrently --kill-others \"pnpm run dev:package\" \"pnpm run dev:website\"",
     "dev:package": "pnpm --filter ./package run dev",
     "dev:website": "pnpm --filter ./website run start",
-    "prettier": "prettier-package-json --write package.json ./package/package.json ./website/package.json",
+    "dry-release": "release-it --ci --dry-run",
+    "prettier": "prettier-package-json --write package.json ./package/package.json ./website/package.json .release-it.json",
     "prod": "pnpm --filter ./website run build && pnpm --filter ./website run serve",
     "publish": "pnpm --filter ./package publish",
+    "release": "release-it --ci",
     "update": "ncu -u -ws --root"
   },
   "devDependencies": {
@@ -21,6 +24,7 @@
     "@types/react-dom": "^19.1.6",
     "concurrently": "^9.2.0",
     "prettier": "^3.6.2",
+    "prettier-package-json": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.6.13",
     "shx": "^0.4.0",
     "typescript": "^5.8.3"
