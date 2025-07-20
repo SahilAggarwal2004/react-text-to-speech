@@ -37,7 +37,7 @@
     "@docusaurus/types": "3.8.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.13",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11"
   },
