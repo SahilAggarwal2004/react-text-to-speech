@@ -7,6 +7,8 @@ The `useSpeak` hook is an imperative wrapper around the `useSpeech` hook. Unlike
 - `useSpeech` is **declarative**: you pass `text` and other props to the hook directly.
 - `useSpeak` is **imperative**: you call `speak(text, options)` to trigger speech.
 
+With `useSpeak`, the speech configuration options (`rate`, `pitch`, `volume`, `lang`, `voiceURI`) are moved from the hook parameters to the `speak()` function, while other props remain at the hook level.
+
 This makes `useSpeak` ideal for cases where speech content and configuration change frequently or are only known at runtime.
 
 ## Example
@@ -53,6 +55,6 @@ export default function App() {
 
 ## All Other Behavior is Identical to `useSpeech`
 
-The `useSpeak` hook supports everything `useSpeech` does — highlighting, directives, event handlers, queueing, etc. — it just moves configuration out of the hook and into the `speak()` function.
+The `useSpeak` hook supports everything `useSpeech` does — highlighting, directives, event handlers, queueing, etc. — it just moves the speech configuration to the `speak()` function.
 
 > For detailed usage of speech options, text highlighting, event handlers, and queueing, refer to the [useSpeech documentation](/docs/usage/useSpeech).
