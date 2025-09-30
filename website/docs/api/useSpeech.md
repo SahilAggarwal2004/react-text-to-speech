@@ -7,7 +7,7 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | Parameter                 | Type                                                          | Required | Default         | Description                                                                                                                                                                                                                                                |
 | ------------------------- | ------------------------------------------------------------- | -------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `text`                    | `React.ReactNode`                                             | Yes      | -               | It contains the text to be spoken by **Web Speech API**.                                                                                                                                                                                                   |
-| `pitch`                   | `number (0.1 to 2)`                                             | No       | `1`             | The pitch at which the utterance will be spoken.                                                                                                                                                                                                           |
+| `pitch`                   | `number (0.1 to 2)`                                           | No       | `1`             | The pitch at which the utterance will be spoken.                                                                                                                                                                                                           |
 | `rate`                    | `number (0.1 to 10)`                                          | No       | `1`             | The speed at which the utterance will be spoken.                                                                                                                                                                                                           |
 | `volume`                  | `number (0 to 1)`                                             | No       | `1`             | The volume at which the utterance will be spoken.                                                                                                                                                                                                          |
 | `lang`                    | `string`                                                      | No       | -               | The language in which the utterance will be spoken.                                                                                                                                                                                                        |
@@ -16,9 +16,9 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 | `preserveUtteranceQueue`  | `boolean`                                                     | No       | `false`         | Whether to maintain a queue of speech utterances (true) or clear previous utterances (false).                                                                                                                                                              |
 | `highlightText`           | `boolean`                                                     | No       | `false`         | Whether the words in the text should be highlighted as they are read or not.                                                                                                                                                                               |
 | `showOnlyHighlightedText` | `boolean`                                                     | No       | `false`         | If `true`, returns only the currently highlighted text.                                                                                                                                                                                                    |
-| `highlightMode`           | [`HighlightMode`](#hightlightmode)                            | No       | `word`          | Defines the level of text highlighting: `word`, `sentence` (highlights until `.`, `?`, `!`, or `\n`), `line` (splits only at `\n`), or `paragraph`.                                                                                                        |
-| `highlightProps`          | `React.DetailedHTMLProps`                                     | No       | -               | Props to customize the highlighted word, typically applied to the `<mark>` tag.                                                                                                                                                                            |
-| `enableDirectives`        | `boolean`                                                     | No       | `false`         | If `true`, enables support for inline processing controls like `[[delay=500]]`, `[[pitch=1.2]]`, etc., for dynamic control of parameters during processing. See [Directives](/docs/usage/directives) for details.                                          |
+| `highlightMode`           | [`HighlightMode`](#highlightmode)                             | No       | `word`          | Defines the level of text highlighting: `word`, `sentence` (highlights until `.`, `?`, `!`, or `\n`), `line` (splits only at `\n`), or `paragraph`.                                                                                                        |
+| `highlightProps`          | [`HighlightProps`](#highlightprops)                           | No       | -               | Props to customize the highlighted word, typically applied to the `<mark>` tag.                                                                                                                                                                            |
+| `enableDirectives`        | `boolean`                                                     | No       | `false`         | If `true`, enables inline processing controls for dynamically adjusting pitch, rate, volume, and other speech parameters, or inserting pauses directly within your text content. See [Directives](/docs/usage/directives).                                 |
 | `maxChunkSize`            | `number (minimum 50)`                                         | No       | 250             | Specifies the maximum size of each text chunk when dividing the text. This helps manage the Web Speech API's text limit, avoiding issues related to large text inputs.                                                                                     |
 | `onError`                 | [`SpeechSynthesisErrorHandler`](#speechsynthesiserrorhandler) | No       | `console.error` | Function to be executed if browser doesn't support **Web Speech API**.                                                                                                                                                                                     |
 | `onStart`                 | [`SpeechSynthesisEventHandler`](#speechsynthesiseventhandler) | No       | -               | Function to be executed when speech utterance is started.                                                                                                                                                                                                  |
@@ -30,10 +30,25 @@ Here is the full API for the `useSpeech` hook, these options can be passed as pa
 
 ## Types
 
-### HightlightMode
+### HighlightMode
 
 ```typescript
 type HighlightMode = "word" | "sentence" | "line" | "paragraph";
+```
+
+### HighlightProps
+
+```typescript
+import { DetailedHTMLProps, HTMLAttributes } from "react";
+
+type HighlightProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+```
+
+### QueueChangeEventHandler
+
+```typescript
+type SpeechUtterancesQueue = Partial<SpeechSynthesisUtterance>[];
+type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 ```
 
 ### SpeechSynthesisErrorHandler
@@ -46,11 +61,4 @@ type SpeechSynthesisErrorHandler = (error: Error) => any;
 
 ```typescript
 type SpeechSynthesisEventHandler = () => any;
-```
-
-### QueueChangeEventHandler
-
-```typescript
-type SpeechUtterancesQueue = Partial<SpeechSynthesisUtterance>[];
-type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
 ```

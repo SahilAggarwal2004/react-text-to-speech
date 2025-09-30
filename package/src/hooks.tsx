@@ -1,28 +1,16 @@
-import React, { cloneElement, isValidElement, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { cloneElement, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { renderToString } from "react-dom/server";
 
-import { defaults, directiveRegex, spaceDelimiter, specialSymbol } from "./constants.js";
-import { StripDirectives } from "./modules/directiveUtils.js";
+import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants.js";
+import { composeProps } from "./modules/dom.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
+import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./modules/react.js";
 import { setState, state } from "./modules/state.js";
-import {
-  calculateOriginalTextLength,
-  cancel,
-  findCharIndex,
-  getIndex,
-  isMobile,
-  isParent,
-  NodeToKey,
-  NodeToWords,
-  parent,
-  parse,
-  sanitize,
-  shouldHighlightNextPart,
-  splitNode,
-  TextToChunks,
-  ToText,
-} from "./modules/utils.js";
+import { calculateOriginalTextLength, cancel, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
 import {
   DirectiveEvent,
+  DivProps,
+  NodeProps,
   SpeakingWord,
   SpeakProps,
   SpeechStatus,
@@ -32,6 +20,8 @@ import {
   State,
   UseSpeakOptions,
   UseSpeechOptions,
+  UseSpeechOptionsInternal,
+  VoidFunction,
 } from "./types.js";
 
 export function useQueue() {
@@ -55,7 +45,15 @@ export function useSpeak(options?: UseSpeakOptions) {
   return { speak, start, ...speechInterface };
 }
 
-export function useSpeech({
+export function useSpeech(speechProps: UseSpeechOptions) {
+  const { uniqueId, reactContent, indexedText, ...speechInterface } = useSpeechInternal(speechProps);
+
+  return speechInterface;
+}
+
+/** @internal */
+export function useSpeechInternal({
+  id,
   text,
   pitch = defaults.pitch,
   rate = defaults.rate,
@@ -77,23 +75,25 @@ export function useSpeech({
   onStop,
   onBoundary,
   onQueueChange,
-}: UseSpeechOptions) {
+}: UseSpeechOptionsInternal) {
   const [speechStatus, speechStatusRef, setSpeechStatus] = useStateRef<SpeechStatus>("stopped");
   const [speakingWord, speakingWordRef, setSpeakingWord] = useStateRef<SpeakingWord>(null);
   const { utteranceRef, updateProps } = useSpeechSynthesisUtterance();
-  const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: Function }>({ event: null, delay: 0 });
+  const highlightRef = useRef(false);
+  const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: VoidFunction }>({ event: null, delay: 0 });
 
-  const key = useMemo(() => NodeToKey(text), [text]);
-  const stringifiedVoices = useMemo(() => JSON.stringify(voiceURI), [voiceURI]);
-  const { sanitizedText, strippedText, words } = useMemo(() => {
-    const strippedText = enableDirectives ? StripDirectives(text) : text;
-    const words = NodeToWords(strippedText);
-    return { sanitizedText: `${spaceDelimiter}${sanitize(ToText(enableDirectives ? text : words))}`, strippedText, words };
+  const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
+  const key = useMemo(() => nodeToKey(text), [text]);
+  const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
+  const { indexedText, sanitizedText, words } = useMemo(() => {
+    const strippedText = enableDirectives ? stripDirectives(text) : text;
+    const words = nodeToWords(strippedText);
+    return { indexedText: indexText(strippedText, uniqueId), sanitizedText: `${spaceDelimiter}${sanitize(toText(enableDirectives ? text : words))}`, words };
   }, [enableDirectives, key]);
-  const chunks = useMemo(() => TextToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
+  const chunks = useMemo(() => textToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
 
-  const reactContent = useMemo(() => highlightedText(strippedText), [speakingWord, highlightText, showOnlyHighlightedText, strippedText]);
-  const Text = useCallback(() => reactContent, [reactContent]);
+  const reactContent = useMemo(() => (showOnlyHighlightedText ? highlightedText(indexedText) : indexedText), [speakingWord, showOnlyHighlightedText, highlightMode, indexedText]);
+  const Text = useCallback((props: DivProps) => <div {...composeProps(uniqueId, props)}>{reactContent}</div>, [reactContent]);
 
   function reset(event: DirectiveEvent = null) {
     directiveRef.current.abortDelay?.();
@@ -160,10 +160,9 @@ export function useSpeech({
 
     async function stopEventHandler() {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
-        let continueSpeech = !enableDirectives;
         processedTextLength += calculateOriginalTextLength(currentText);
         currentText = chunks[++currentChunk];
-        if (enableDirectives) continueSpeech = handleDirectives();
+        const continueSpeech = !enableDirectives || handleDirectives();
         if (continueSpeech) {
           utterance.text = currentText.trimStart();
           offset = processedTextLength + currentText.length - utterance.text.length;
@@ -203,6 +202,7 @@ export function useSpeech({
     utterance.onstart = () => {
       window.addEventListener("beforeunload", clearQueueUnload);
       setState({ stopReason: "auto" });
+      highlightRef.current = true;
       if (!directiveRef.current.delay) {
         if (!directiveRef.current.event) return onStart?.();
         if (directiveRef.current.event === "pause") resumeEventHandler();
@@ -224,7 +224,7 @@ export function useSpeech({
     };
 
     if (!preserveUtteranceQueue) clearQueue();
-    addToQueue({ text: StripDirectives(sanitizedText) as string, utterance, setSpeechStatus }, onQueueChange);
+    addToQueue({ text: stripDirectives(sanitizedText) as string, utterance, setSpeechStatus }, onQueueChange);
     setSpeechStatus("started");
     if (!synth.speaking) return speakFromQueue();
     if (preserveUtteranceQueue && speechStatus !== "started") return setSpeechStatus("queued");
@@ -254,43 +254,54 @@ export function useSpeech({
   }
 
   function highlightedText(node: ReactNode, parentIndex = ""): ReactNode {
-    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return !showOnlyHighlightedText && node;
+    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return;
     switch (typeof node) {
       case "number":
         node = String(node);
       case "string":
-        if (!highlightText || !speakingWord) return node;
-        const { index } = speakingWord;
-        if (highlightMode === "paragraph")
-          return (
-            <mark key={index} {...highlightProps}>
-              {node}
-            </mark>
-          );
-        const [before, highlighted, after] = splitNode(highlightMode, node as string, speakingWord);
-        if (showOnlyHighlightedText)
-          return (
-            <mark key={index} {...highlightProps}>
-              {highlighted}
-            </mark>
-          );
+        const highlighted = splitNode(highlightMode, node as string, speakingWord)[1];
         return (
-          <span key={index}>
-            {before}
+          <span>
             <mark {...highlightProps}>{highlighted}</mark>
-            {after}
           </span>
         );
     }
     if (Array.isArray(node)) return node.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
-    if (isValidElement<PropsWithChildren>(node)) return cloneElement(node, { key: node.key ?? parentIndex, children: highlightedText(node.props.children, parentIndex) });
-    return !showOnlyHighlightedText && node;
+    if (isValidElement<NodeProps>(node)) return cloneElement(node, { children: highlightedText(node.props.children, parentIndex) });
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    highlightRef.current = false;
     if (autoPlay) start();
     return () => stop({ status: speechStatusRef.current });
   }, [autoPlay, enableDirectives, key]);
+
+  useLayoutEffect(() => {
+    if (!highlightText || !highlightRef.current || showOnlyHighlightedText || !speakingWord) return;
+
+    const parts = speakingWord.index.split("-");
+    const parentIndex = parts.slice(0, -1).join("-");
+
+    const elements = Array.from(document.getElementsByClassName(`${uniqueId}${parentIndex}`));
+    const elementSnapshots = elements.map((element) => {
+      const originalTextContent = element.textContent;
+      const [before, highlighted, after] = splitNode(highlightMode, element.textContent, speakingWord);
+
+      element.innerHTML = renderToString(
+        <span>
+          {before}
+          <mark {...highlightProps}>{highlighted}</mark>
+          {after}
+        </span>,
+      );
+
+      return [element, originalTextContent] as const;
+    });
+
+    return () => {
+      if (highlightRef.current) elementSnapshots.forEach(([element, originalTextContent]) => (element.textContent = originalTextContent));
+    };
+  }, [speakingWord, highlightText, highlightMode]);
 
   useEffect(() => {
     if (speechStatusRef.current !== "started") return;
@@ -304,6 +315,9 @@ export function useSpeech({
   }, [pitch, rate, volume, lang, stringifiedVoices]);
 
   return {
+    uniqueId,
+    reactContent,
+    indexedText,
     Text,
     speechStatus,
     isInQueue: speechStatus === "started" || speechStatus === "queued",
@@ -349,8 +363,11 @@ function useStateRef<T>(init: T) {
   const ref = useRef(init);
 
   function setStateRef(value: T) {
-    ref.current = value;
-    setState(value);
+    setState((prev) => {
+      const next = isSetStateFunction(value) ? value(prev) : value;
+      ref.current = next;
+      return next;
+    });
   }
 
   return [state, ref, setStateRef] as const;

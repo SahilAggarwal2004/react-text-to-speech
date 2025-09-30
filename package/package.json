@@ -1,7 +1,7 @@
 {
   "name": "react-text-to-speech",
   "version": "2.1.2",
-  "description": "An easy-to-use React.js component that leverages the Web Speech API to convert text to speech.",
+  "description": "An easy-to-use React.js library that leverages the Web Speech API to convert text to speech.",
   "license": "MIT",
   "author": "Sahil Aggarwal <aggarwalsahil2004@gmail.com>",
   "contributors": [
@@ -22,7 +22,9 @@
     "./types": "./dist/types.js"
   },
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "compile": "tsup",
     "dev": "tsup --watch"

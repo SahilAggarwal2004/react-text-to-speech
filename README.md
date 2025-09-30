@@ -1,6 +1,6 @@
 # react-text-to-speech
 
-An easy-to-use React.js component that leverages the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) to convert text to speech.
+An easy-to-use React.js library that leverages the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) to convert text to speech.
 
 ## Features
 
@@ -46,7 +46,7 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const {
-    Text, // Component that renders the processed text
+    Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
     speechStatus, // Current speech status
     isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
     start, // Starts or queues the speech

@@ -1,71 +1,97 @@
-import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import React, { useLayoutEffect } from "react";
+import { renderToString } from "react-dom/server";
 
-import { useQueue, useSpeak, useSpeech, useVoices } from "./hooks.js";
+import { highlightedTextIdSuffix, idPrefix } from "./constants.js";
+import { useQueue, useSpeak, useSpeech, useSpeechInternal, useVoices } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
-import { DivProps, SpeechProps } from "./types.js";
+import { composeProps, hideElement, showElement } from "./modules/dom.js";
+import { HighlightedTextProps, SpeechProps } from "./types.js";
 
-export function HighlightedText({ id, children, ...props }: DivProps) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+export function HighlightedText({ id, children, ...props }: HighlightedTextProps) {
+  const uniqueId = `${idPrefix}${id}`;
 
   return (
-    <div id={`rtts-${id}`} {...props}>
-      {loading && (typeof children === "string" ? <span>{children}</span> : children)}
-    </div>
+    <>
+      <div {...composeProps(uniqueId, props)} />
+      <div {...composeProps(`${uniqueId}${highlightedTextIdSuffix}`, props)} />
+    </>
   );
 }
 
 export default function Speech({
-  id,
   startBtn = <HiVolumeUp />,
   pauseBtn = <HiVolumeOff />,
   stopBtn = <HiMiniStop />,
   useStopOverPause = false,
+  enableConditionalHighlight = false,
   props = {},
   children,
   ...hookProps
 }: SpeechProps) {
-  const [highlightContainer, setHighlightContainer] = useState<HTMLDivElement | null>(null);
-  const { Text, ...childrenOptions } = useSpeech(hookProps);
+  const { Text, uniqueId, reactContent, indexedText, speechStatus, ...childrenOptions } = useSpeechInternal(hookProps);
   const { isInQueue, start, pause, stop } = childrenOptions;
 
-  useEffect(() => {
-    if (hookProps.highlightText) setHighlightContainer(document.getElementById(`rtts-${id}`) as HTMLDivElement);
-    else setHighlightContainer(null);
-  }, [hookProps.highlightText]);
+  useLayoutEffect(() => {
+    const containers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
+    const renderedString = renderToString(indexedText);
 
-  return (
-    <>
-      {typeof children === "function" ? (
-        children(childrenOptions)
+    containers.forEach((container) => (container.innerHTML = renderedString));
+
+    if (!enableConditionalHighlight) return;
+
+    const observer = new MutationObserver(() => {
+      const newContainers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
+      newContainers.forEach((container) => {
+        if (!container.innerHTML) container.innerHTML = renderedString;
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [indexedText, uniqueId]);
+
+  useLayoutEffect(() => {
+    const containers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
+    if (!containers.length) return;
+
+    const highlightedTextContainers = Array.from(document.getElementsByClassName(`${uniqueId}${highlightedTextIdSuffix}`)) as HTMLDivElement[];
+    if (hookProps.showOnlyHighlightedText) {
+      const renderedString = renderToString(reactContent);
+      containers.forEach(hideElement);
+      highlightedTextContainers.forEach((container) => {
+        showElement(container);
+        container.innerHTML = renderedString;
+      });
+    } else {
+      highlightedTextContainers.forEach(hideElement);
+      containers.forEach(showElement);
+    }
+  }, [reactContent, uniqueId]);
+
+  return typeof children === "function" ? (
+    children(childrenOptions)
+  ) : (
+    <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
+      {!isInQueue ? (
+        <span role="button" onClick={start}>
+          {startBtn}
+        </span>
+      ) : useStopOverPause ? (
+        <span role="button" onClick={stop}>
+          {stopBtn}
+        </span>
       ) : (
-        <div style={{ display: "flex", columnGap: "1rem" }} {...props}>
-          {!isInQueue ? (
-            <span role="button" onClick={start}>
-              {startBtn}
-            </span>
-          ) : useStopOverPause ? (
-            <span role="button" onClick={stop}>
-              {stopBtn}
-            </span>
-          ) : (
-            <span role="button" onClick={pause}>
-              {pauseBtn}
-            </span>
-          )}
-          {!useStopOverPause && stopBtn && (
-            <span role="button" onClick={stop}>
-              {stopBtn}
-            </span>
-          )}
-        </div>
+        <span role="button" onClick={pause}>
+          {pauseBtn}
+        </span>
       )}
-      {highlightContainer && createPortal(<Text />, highlightContainer)}
-    </>
+      {!useStopOverPause && stopBtn && (
+        <span role="button" onClick={stop}>
+          {stopBtn}
+        </span>
+      )}
+    </div>
   );
 }
 

@@ -13,11 +13,11 @@ export default function App() {
 
 ## Highlight Text
 
-Like `useSpeech` hook, the `<Speech>` component can also be used to highlight text. <a href="/docs/usage/useSpeech#highlight-text" target="_blank">Refer Here</a>
+Like the `useSpeech` hook, the `<Speech>` component can also highlight text. <a href="/docs/usage/useSpeech#highlight-text" target="_blank">Refer Here</a>
 
-With `<Speech>` component, `<HighlightedText>` component exported by **react-text-to-speech** can be used to display the highlighted text.
+With `<Speech>`, the `<HighlightedText>` component exported by **react-text-to-speech** can be used to display the highlighted text.
 
-**NOTE:** `id` of both `<Speech>` and `<HighlightedText>` should be same to link them together. Additionally, `text` should be included as children within the `<HighlightedText>` component as demonstrated below. This helps prevent initial [layout shift](https://web.dev/articles/cls) issues that may arise while **react-text-to-speech** links both components based on their respective `id`. It's important to note that the children added in this manner are temporary and will be replaced once the components are successfully linked.
+**NOTE:** The `id` of both `<Speech>` and `<HighlightedText>` must be the same to link them together.
 
 ```tsx
 import React, { useMemo } from "react";
@@ -79,7 +79,7 @@ export default function App() {
 
 ## Multiple Instance Usage
 
-Like `useSpeech` hook, the `<Speech>` component can also be used to handle multiple speech instances. <a href="/docs/usage/useSpeech#multiple-instance-usage" target="_blank">Refer Here</a>
+Like `useSpeech` hook, `<Speech>` can handle multiple speech instances. <a href="/docs/usage/useSpeech#multiple-instance-usage" target="_blank">Refer Here</a>
 
 ```tsx
 import React, { useMemo } from "react";
@@ -104,7 +104,6 @@ function NewsItem({ title, desc }) {
 }
 
 export default function App() {
-  // 'news' holds response from some News API
   const news = [
     { id: "1", title: "First random title.", desc: "First random description." },
     { id: "2", title: "Second random title.", desc: "Second random description." },
@@ -123,7 +122,7 @@ export default function App() {
 
 ## Full Customization
 
-Using Function as Children(FaC) in the `<Speech>` component.
+Using Function as Children (FaC) in `<Speech>`:
 
 ```tsx
 import React from "react";
@@ -143,13 +142,13 @@ export default function App() {
 }
 ```
 
-> You can also optionally enable inline processing controls using the `enableDirectives` option — useful for dynamically adjusting things like pitch, rate, volume, or inserting pauses directly within your text content.  
-> Example: `[[rate=1.2]] This is spoken faster.`  
+> You can optionally enable inline processing controls using the `enableDirectives` option - useful for dynamically adjusting pitch, rate, volume, and other speech parameters, or inserting pauses directly within your text content.<br />
+> Example: `[[rate=1.2]] This is spoken faster.`<br />
 > See [Directives](/docs/usage/directives) for all supported options.
 
 ## Usage with Markdown
 
-Like `useSpeech` hook, the `<Speech>` component can also be used along with markdown. <a href="/docs/usage/useSpeech#usage-with-markdown" target="_blank">Refer Here</a>
+Like `useSpeech` hook, `<Speech>` can also be used along with markdown. <a href="/docs/usage/useSpeech#usage-with-markdown" target="_blank">Refer Here</a>
 
 ```tsx title="Custom MarkdownText Component"
 import { useState } from "react";

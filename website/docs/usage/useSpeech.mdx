@@ -11,7 +11,7 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const {
-    Text, // Component that returns the modified text property
+    Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
     speechStatus, // String that stores current speech status
     isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
     start, // Function to start the speech or put it in queue
@@ -297,9 +297,7 @@ function MarkdownText({ children }) {
         </div>
       </div>
 
-      <div className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap">
-        <Text />
-      </div>
+      <Text className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap" />
     </div>
   );
 }

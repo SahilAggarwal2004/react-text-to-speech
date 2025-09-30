@@ -20,7 +20,7 @@ import { useSpeak } from "react-text-to-speech";
 export default function App() {
   const {
     speak, // Function to start speech with provided text and options
-    Text, // Component that returns the modified text property
+    Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
     speechStatus, // String that stores current speech status
     isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
     start, // Function to start the speech or put it in queue

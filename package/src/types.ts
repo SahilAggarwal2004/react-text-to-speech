@@ -1,11 +1,13 @@
-import { DetailedHTMLProps, HTMLAttributes, JSX, ReactNode } from "react";
+import { DetailedHTMLProps, HTMLAttributes, JSX, PropsWithChildren, ReactNode } from "react";
 
 // hooks.tsx
 export type DirectiveEvent = "change" | "pause" | null;
 
 export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 
-export type SpanProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+export type HighlightProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+export type NodeProps = PropsWithChildren<{ key?: string; className?: string }>;
 
 export type SpeakingWord = { index: string; charIndex: number; length: number } | null;
 
@@ -32,7 +34,7 @@ export type UseSpeakOptions = {
   highlightText?: boolean;
   showOnlyHighlightedText?: boolean;
   highlightMode?: HighlightMode;
-  highlightProps?: SpanProps;
+  highlightProps?: HighlightProps;
   enableDirectives?: boolean;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
@@ -46,6 +48,8 @@ export type UseSpeakOptions = {
 
 export type UseSpeechOptions = SpeakProps & UseSpeakOptions & { autoPlay?: boolean };
 
+export type UseSpeechOptionsInternal = UseSpeechOptions & { id?: string };
+
 // icons.tsx
 export type IconProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
@@ -57,22 +61,26 @@ export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 export type ChildrenOptions = {
   speechStatus?: SpeechStatus;
   isInQueue?: boolean;
-  start?: Function;
-  pause?: Function;
-  stop?: Function;
+  start?: VoidFunction;
+  pause?: VoidFunction;
+  stop?: VoidFunction;
 };
 
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
-export type SpeechProps = UseSpeechOptions & {
-  id?: string;
+export type HighlightedTextProps = DivProps & { id: string };
+
+export type SpeechProps = UseSpeechOptionsInternal & {
   startBtn?: Button;
   pauseBtn?: Button;
   stopBtn?: Button;
   useStopOverPause?: boolean;
+  enableConditionalHighlight?: boolean;
   props?: DivProps;
   children?: Children;
 };
+
+export type VoidFunction = () => void;
 
 // queue.ts
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
