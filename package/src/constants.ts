@@ -14,9 +14,19 @@ export const directiveRegex = /\[\[(\w+)=([^\]=]+)\]\] ?/;
 
 export const directiveRegexGlobal = new RegExp(directiveRegex.source, "g");
 
+export const highlightedTextIdSuffix = "-highlighted-text";
+
+export const idPrefix = "rtts-";
+
+export const iosRegex = /iPhone|iPad|iPod/i;
+
+export const lineSplitRegex = /(.*?)(\n)(.*)/;
+
 export const minChunkSize = 50;
 
 export const mobileChunkSize = 250;
+
+export const mobileRegex = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i;
 
 export const symbolMapping = { "<": "lessthan", ">": "greaterthan" };
 
@@ -27,5 +37,9 @@ export const specialSymbol = "\u00A0";
 export const sanitizedRegex = new RegExp(` (?:${Object.values(symbolMapping).join("|")})${specialSymbol}`, "g");
 
 export const sentenceDelimiters = [lineDelimiter, ...punctuationDelimiters];
+
+export const sentenceSplitRegex = /(.*?)(\n|[.!?]\s)(.*)/;
+
+export const trailingSpacesRegex = /[ \t]+$/;
 
 export const wordBoundarySeparator = "\u200B";
