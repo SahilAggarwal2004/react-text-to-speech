@@ -66,6 +66,7 @@ export function useSpeechInternal({
   showOnlyHighlightedText = false,
   highlightMode = "word",
   highlightProps,
+  highlightContainerProps,
   enableDirectives = false,
   maxChunkSize,
   onError = console.error,
@@ -261,7 +262,7 @@ export function useSpeechInternal({
       case "string":
         const highlighted = splitNode(highlightMode, node as string, speakingWord)[1];
         return (
-          <span>
+          <span {...highlightContainerProps}>
             <mark {...highlightProps}>{highlighted}</mark>
           </span>
         );
@@ -288,7 +289,7 @@ export function useSpeechInternal({
       const [before, highlighted, after] = splitNode(highlightMode, element.textContent, speakingWord);
 
       element.innerHTML = renderToString(
-        <span>
+        <span {...highlightContainerProps}>
           {before}
           <mark {...highlightProps}>{highlighted}</mark>
           {after}

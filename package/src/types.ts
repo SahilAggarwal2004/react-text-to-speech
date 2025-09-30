@@ -35,6 +35,7 @@ export type UseSpeakOptions = {
   showOnlyHighlightedText?: boolean;
   highlightMode?: HighlightMode;
   highlightProps?: HighlightProps;
+  highlightContainerProps?: HighlightProps;
   enableDirectives?: boolean;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
