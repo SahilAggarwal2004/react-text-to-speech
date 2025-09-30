@@ -1,3 +1,30 @@
+# Changelog
+
+## [3.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v2.1.2...v3.0.0) (2025-09-30)
+
+### ⚠ BREAKING CHANGES
+
+* Wrap `Text` prop in `<div>` instead of rendering directly.
+
+### Chores
+
+* **deps:** bump @ianvs/prettier-plugin-sort-imports, prettier-plugin-tailwindcss, @types/node.  ([84a09d5](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/84a09d59db185cc63f49ceec5298b45c7f1e335d))
+* **deps:** Bump Docusaurus, TailwindCSS.  ([05eb22b](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/05eb22bc69ae8002fc6bc5801ea7822b9608b6ac))
+* **release:** Upgrade release-it setup with custom changelog transform.  ([61b9333](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/61b9333c3a7c7a68009eeea57e296b1cb2f1795b))
+
+### Features
+
+* Add `highlightContainerProps` prop in `useSpeech` hook and `<Speech>` component.  ([b2ea68e](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/b2ea68edb67a768dd48ad75c6f4381914afa6090))
+
+### Documentation
+
+* clarify `useSpeak` vs `useSpeech`.  ([7899e9f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/7899e9fe767f4141086cfd5c2862ceafddd1b733))
+
+### Code Refactoring
+
+* Reorganized internal modules for better modularity and maintainability.  ([3eb9b2a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/3eb9b2aa3017d2cfb70946c03e1fa0cc1d434b5d))
+* Wrap `Text` prop in `<div>` instead of rendering directly. This may affect existing styles or DOM expectations. Highlighting logic now directly manipulates the DOM, improving performance for large `text` inputs when JSX is passed. Add `enableConditionalHighlight` prop in `<Speech>` component. ([27184d7](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/27184d78291ec94087fb3c869ea7efd48ad3760a))
+
 ## 2.1.2 (2025-07-01)
 
 - **fix:** Resolve incorrect word highlighting when using both directives and JSX.
