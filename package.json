@@ -1,6 +1,6 @@
 {
-  "name": "react-text-to-speech",
-  "version": "2.1.2",
+  "name": "react-text-to-speech-monorepo",
+  "version": "0.0.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -19,15 +19,18 @@
     "update": "ncu -u -ws --root"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.5.1",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "concurrently": "^9.2.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@release-it/bumper": "^7.0.5",
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@types/react": "^19.1.14",
+    "@types/react-dom": "^19.1.9",
+    "concurrently": "^9.2.1",
     "prettier": "^3.6.2",
     "prettier-package-json": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "release-it": "^19.0.5",
     "shx": "^0.4.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -37,7 +40,6 @@
       "esbuild"
     ],
     "overrides": {
-      "webpack-dev-server@<=5.2.0": ">=5.2.1",
       "on-headers@<1.1.0": ">=1.1.0"
     }
   }
