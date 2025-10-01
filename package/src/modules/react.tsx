@@ -74,8 +74,14 @@ export function nodeToWords(node: ReactNode): Words {
 export function normalizeChildren(node: ReactNode) {
   if (Array.isArray(node))
     return node.map((element, i) => {
-      if (typeof element === "string" || typeof element === "number") return <span key={i}>{element}</span>;
-      return element;
+      switch (typeof element) {
+        case "string":
+          if (!element.trim()) return null;
+        case "number":
+          return <span key={i}>{element}</span>;
+        default:
+          return element;
+      }
     });
   if (isValidElement<NodeProps>(node)) return [node];
   return node;
