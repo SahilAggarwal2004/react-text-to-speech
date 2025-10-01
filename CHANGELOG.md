@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.0.0...v3.0.1) (2025-10-01)
+
+### Chores
+
+* **deps:** update TypeScript, TailwindCSS.  ([e338b2f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e338b2f0aa22cd84ea2fee9e7d3ef9b14361cc79))
+* **release-it:** update after:release hook to run deploy and publish.  ([02b343a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/02b343a52d6fc0318ad3d97d6cb40d70ea95f05b))
+
+### Bug Fixes
+
+* **demo:** Align copied code with `<Text>` wrapper update from v3.0.0.  ([3935b7a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/3935b7a597ade2fc7dc53a32fc4ad474b14bb4a9))
+* **react-utils:** Skip empty strings when normalizing React children.  ([7aaf184](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/7aaf184fc5ff1022dd9a6155958964445aaebb40))
+
 ## [3.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v2.1.2...v3.0.0) (2025-09-30)
 
 ### ⚠ BREAKING CHANGES
