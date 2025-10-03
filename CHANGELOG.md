@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.0.1...v3.1.0) (2025-10-03)
+
+### Chores
+
+* **deps:** Bump React.js.  ([0a208ed](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/0a208ed7b3309dbebb93976180947ff052ac901a))
+
+### Features
+
+* Add speech progress tracking for speech synthesis.  ([55b68b4](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/55b68b43cc37af9939e7869b678f68f6c121864e))
+
 ## [3.0.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.0.0...v3.0.1) (2025-10-01)
 
 ### Chores
