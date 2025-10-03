@@ -113,20 +113,20 @@ export default function App() {
     onError: (error) => {
       alert(error.message);
     },
-    onStart: (event) => {
-      console.log("Speech Started:", event);
+    onStart: () => {
+      console.log("Speech Started");
     },
-    onResume: (event) => {
-      console.log("Speech Resumed:", event);
+    onResume: () => {
+      console.log("Speech Resumed");
     },
-    onPause: (event) => {
-      console.log("Speech Paused:", event);
+    onPause: () => {
+      console.log("Speech Paused");
     },
-    onStop: (event) => {
-      console.log("Speech Stopped:", event);
+    onStop: () => {
+      console.log("Speech Stopped");
     },
     onBoundary: (event) => {
-      console.log("Boundary:", event);
+      console.log("Speech Progress:", event.progress);
     },
     onQueueChange: (queue) => {
       console.log("Queue updated:", queue);

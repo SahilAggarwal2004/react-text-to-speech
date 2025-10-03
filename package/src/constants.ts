@@ -34,8 +34,6 @@ export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}
 
 export const specialSymbol = "\u00A0";
 
-export const sanitizedRegex = new RegExp(` (?:${Object.values(symbolMapping).join("|")})${specialSymbol}`, "g");
-
 export const sentenceDelimiters = [lineDelimiter, ...punctuationDelimiters];
 
 export const sentenceSplitRegex = /(.*?)(\n|[.!?]\s)(.*)/;

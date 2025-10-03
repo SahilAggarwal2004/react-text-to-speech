@@ -15,9 +15,13 @@ export type SpeakProps = SpeechSynthesisUtteranceProps & { text: ReactNode };
 
 export type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 
-export type SpeechSynthesisErrorHandler = (error: Error) => any;
+export type SpeechSynthesisBoundaryEvent = { progress: number };
 
-export type SpeechSynthesisEventHandler = () => any;
+export type SpeechSynthesisBoundaryEventHandler = (event: SpeechSynthesisBoundaryEvent) => void;
+
+export type SpeechSynthesisErrorHandler = (error: Error) => void;
+
+export type SpeechSynthesisEventHandler = () => void;
 
 export type SpeechSynthesisEventName = "word" | "sentence";
 
@@ -43,7 +47,7 @@ export type UseSpeakOptions = {
   onResume?: SpeechSynthesisEventHandler;
   onPause?: SpeechSynthesisEventHandler;
   onStop?: SpeechSynthesisEventHandler;
-  onBoundary?: SpeechSynthesisEventHandler;
+  onBoundary?: SpeechSynthesisBoundaryEventHandler;
   onQueueChange?: QueueChangeEventHandler;
 };
 
@@ -84,7 +88,7 @@ export type SpeechProps = UseSpeechOptionsInternal & {
 export type VoidFunction = () => void;
 
 // queue.ts
-export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => any;
+export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => void;
 
 export type SpeechQueue = SpeechQueueItem[];
 

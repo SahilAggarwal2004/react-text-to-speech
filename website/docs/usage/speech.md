@@ -66,11 +66,11 @@ export default function App() {
     <Speech
       text="This library can handle different errors and speech events!"
       onError={(error) => alert(error.message)}
-      onStart={(event) => console.log("Speech Started:", event)}
-      onResume={(event) => console.log("Speech Resumed:", event)}
-      onPause={(event) => console.log("Speech Paused:", event)}
-      onStop={(event) => console.log("Speech Stopped:", event)}
-      onBoundary={(event) => console.log("Boundary:", event)}
+      onStart={() => console.log("Speech Started")}
+      onResume={() => console.log("Speech Resumed")}
+      onPause={() => console.log("Speech Paused")}
+      onStop={() => console.log("Speech Stopped")}
+      onBoundary={(event) => console.log("Speech Progress:", event.progress)}
       onQueueChange={(queue) => console.log("Queue updated:", queue)}
     />
   );

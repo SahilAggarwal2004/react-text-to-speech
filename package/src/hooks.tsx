@@ -6,7 +6,7 @@ import { composeProps } from "./modules/dom.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
 import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./modules/react.js";
 import { setState, state } from "./modules/state.js";
-import { calculateOriginalTextLength, cancel, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
+import { cancel, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
 import {
   DirectiveEvent,
   DivProps,
@@ -86,10 +86,12 @@ export function useSpeechInternal({
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
   const key = useMemo(() => nodeToKey(text), [text]);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
-  const { indexedText, sanitizedText, words } = useMemo(() => {
+  const { indexedText, sanitizedText, speechText, words } = useMemo(() => {
     const strippedText = enableDirectives ? stripDirectives(text) : text;
     const words = nodeToWords(strippedText);
-    return { indexedText: indexText(strippedText, uniqueId), sanitizedText: `${spaceDelimiter}${sanitize(toText(enableDirectives ? text : words))}`, words };
+    const sanitizedText = `${spaceDelimiter}${sanitize(toText(enableDirectives ? text : words))}`;
+    const speechText = (stripDirectives(sanitizedText) as string).trimStart();
+    return { indexedText: indexText(strippedText, uniqueId), sanitizedText, speechText, words };
   }, [enableDirectives, key]);
   const chunks = useMemo(() => textToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
 
@@ -125,6 +127,7 @@ export function useSpeechInternal({
     const utterance = utteranceRef.current!;
     utterance.text = currentText.trimStart();
     let offset = processedTextLength + currentText.length - utterance.text.length;
+    let specialSymbolOffset = 0;
     updateProps({ pitch, rate, volume, lang, voiceURI });
 
     function handleDirectives() {
@@ -133,7 +136,7 @@ export function useSpeechInternal({
         const match = directiveRegex.exec(currentText);
         if (!match) {
           if (!skip) return true;
-          processedTextLength += calculateOriginalTextLength(currentText);
+          processedTextLength += currentText.length;
         } else {
           const key = match[1];
           const value = parse(match[2]);
@@ -161,7 +164,7 @@ export function useSpeechInternal({
 
     async function stopEventHandler() {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
-        processedTextLength += calculateOriginalTextLength(currentText);
+        processedTextLength += currentText.length;
         currentText = chunks[++currentChunk];
         const continueSpeech = !enableDirectives || handleDirectives();
         if (continueSpeech) {
@@ -185,6 +188,7 @@ export function useSpeechInternal({
         }
         return speakFromQueue();
       }
+      if (state.stopReason === "auto") onBoundary?.({ progress: 100 });
       if (synth.paused) cancel();
       window.removeEventListener("beforeunload", clearQueueUnload);
       setSpeechStatus("stopped");
@@ -217,15 +221,15 @@ export function useSpeechInternal({
     utterance.onboundary = (event) => {
       const { charIndex, charLength, name } = event as SpeechSynthesisEvent & { name: SpeechSynthesisEventName };
       const isSpecialSymbol = +(utterance.text[charIndex + charLength] === specialSymbol);
-      const index = findCharIndex(words, offset + charIndex - isSpecialSymbol);
+      const index = findCharIndex(words, offset + specialSymbolOffset + charIndex - isSpecialSymbol);
       if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex) || parent(index) !== parent(speakingWordRef.current?.index))
         setSpeakingWord({ index, charIndex: isSpecialSymbol ? charIndex + charLength + 1 : charIndex, length: isSpecialSymbol || charLength });
-      if (isSpecialSymbol) offset -= charLength + 1;
-      onBoundary?.();
+      if (isSpecialSymbol) specialSymbolOffset -= charLength + 1;
+      onBoundary?.({ progress: Math.floor(((offset + charIndex + charLength) / speechText.length) * 100) });
     };
 
     if (!preserveUtteranceQueue) clearQueue();
-    addToQueue({ text: stripDirectives(sanitizedText) as string, utterance, setSpeechStatus }, onQueueChange);
+    addToQueue({ text: speechText, utterance, setSpeechStatus }, onQueueChange);
     setSpeechStatus("started");
     if (!synth.speaking) return speakFromQueue();
     if (preserveUtteranceQueue && speechStatus !== "started") return setSpeechStatus("queued");

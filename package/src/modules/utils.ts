@@ -8,7 +8,6 @@ import {
   minChunkSize,
   mobileChunkSize,
   mobileRegex,
-  sanitizedRegex,
   sanitizeRegex,
   sentenceDelimiters,
   sentenceSplitRegex,
@@ -20,8 +19,6 @@ import {
 } from "../constants.js";
 import { HighlightMode, SpeakingWord, SpeechSynthesisEventName, State } from "../types.js";
 import { setState } from "./state.js";
-
-export const calculateOriginalTextLength = (sanitizedText: string) => sanitizedText.replace(sanitizedRegex, spaceDelimiter).length;
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
   if (typeof window === "undefined") return;
