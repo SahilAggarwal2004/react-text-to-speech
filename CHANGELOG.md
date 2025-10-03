@@ -4,8 +4,8 @@
 
 ### Chores
 
-* **deps:** update TypeScript, TailwindCSS.  ([e338b2f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e338b2f0aa22cd84ea2fee9e7d3ef9b14361cc79))
-* **release-it:** update after:release hook to run deploy and publish.  ([02b343a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/02b343a52d6fc0318ad3d97d6cb40d70ea95f05b))
+* **deps:** Update TypeScript, TailwindCSS.  ([e338b2f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e338b2f0aa22cd84ea2fee9e7d3ef9b14361cc79))
+* **release-it:** Update `after:release` hook to run deploy and publish.  ([02b343a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/02b343a52d6fc0318ad3d97d6cb40d70ea95f05b))
 
 ### Bug Fixes
 
