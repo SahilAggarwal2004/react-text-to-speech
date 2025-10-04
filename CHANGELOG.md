@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.0...v3.1.1) (2025-10-04)
+
+### Bug Fixes
+
+* Ensure consistent `onBoundary` progress reporting across utterance events.  ([a5c4ff5](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/a5c4ff55fee6955ef20388dacca0c927466ab5a6))
+
 ## [3.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.0.1...v3.1.0) (2025-10-03)
 
 ### Chores
