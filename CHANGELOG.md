@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.1.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.1...v3.1.2) (2025-10-04)
+
+### Bug Fixes
+
+* **react-utils:** Preserve whitespace strings to maintain layout.  ([5382347](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/538234778523d5ae074969293e83902fcd83a47e))
+
+### Documentation
+
+* Improve demo layout and TailwindCSS prose styling.  ([4471402](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/44714029cbdf66537e136d45fbd152cdc4dfd65c))
+
 ## [3.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.0...v3.1.1) (2025-10-04)
 
 ### Bug Fixes
