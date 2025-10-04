@@ -49,7 +49,7 @@ export default function App() {
   return (
     <>
       <Speech id="unique-id" text={text} highlightText={true} />
-      <HighlightedText id="unique-id">{text}</HighlightedText>
+      <HighlightedText id="unique-id" />
     </>
   );
 }
@@ -169,7 +169,7 @@ function MarkdownText({ children }) {
   const text = showMarkdown ? reactContent : children;
 
   return (
-    <div className="flex flex-col space-y-3 p-4 text-justify">
+    <div className="flex flex-col space-y-3 p-4">
       <div className="flex w-fit flex-col items-center space-y-2">
         <button className="rounded-sm border-2 border-black bg-gray-100 px-1 py-0.5 text-sm" onClick={() => setShowMarkdown((prev) => !prev)}>
           Toggle Markdown
@@ -178,10 +178,8 @@ function MarkdownText({ children }) {
       </div>
       <HighlightedText
         id="unique-id"
-        className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-1 prose-pre:my-1 grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap"
-      >
-        {text}
-      </HighlightedText>
+        className="prose prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-2 prose-pre:my-2 prose-table:my-2 prose-table:block prose-table:overflow-x-auto grid max-w-full grid-cols-1 whitespace-pre-wrap break-words *:my-0 *:w-full *:whitespace-pre-wrap"
+      />
     </div>
   );
 }
