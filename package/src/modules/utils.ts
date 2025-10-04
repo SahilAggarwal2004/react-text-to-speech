@@ -48,6 +48,8 @@ export function chunkBySizeWithDelimiters(text: string, size: number) {
 
 export const cloneRegex = (regex: RegExp) => new RegExp(regex.source, regex.flags);
 
+export const getProgress = (current: number, total: number) => total && Math.floor((current / total) * 100);
+
 export function isMobile(iOS = true) {
   let result = (navigator as any).userAgentData?.mobile as boolean | undefined;
   result ??= mobileRegex.test(navigator.userAgent) || (iOS && iosRegex.test(navigator.userAgent));

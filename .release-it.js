@@ -27,7 +27,7 @@ module.exports = {
   },
   hooks: {
     "after:bump": "pnpm run compile",
-    "after:release": "pnpm run deploy && pnpm run publish",
+    "after:release": "pnpm run deploy",
   },
   npm: {
     publish: false,

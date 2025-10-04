@@ -6,7 +6,7 @@ import { composeProps } from "./modules/dom.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
 import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./modules/react.js";
 import { setState, state } from "./modules/state.js";
-import { cancel, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
+import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
 import {
   DirectiveEvent,
   DivProps,
@@ -208,6 +208,7 @@ export function useSpeechInternal({
       window.addEventListener("beforeunload", clearQueueUnload);
       setState({ stopReason: "auto" });
       highlightRef.current = true;
+      onBoundary?.({ progress: getProgress(offset, speechText.length) });
       if (!directiveRef.current.delay) {
         if (!directiveRef.current.event) return onStart?.();
         if (directiveRef.current.event === "pause") resumeEventHandler();
@@ -225,7 +226,7 @@ export function useSpeechInternal({
       if (shouldHighlightNextPart(highlightMode, name, utterance, charIndex) || parent(index) !== parent(speakingWordRef.current?.index))
         setSpeakingWord({ index, charIndex: isSpecialSymbol ? charIndex + charLength + 1 : charIndex, length: isSpecialSymbol || charLength });
       if (isSpecialSymbol) specialSymbolOffset -= charLength + 1;
-      onBoundary?.({ progress: Math.floor(((offset + charIndex + charLength) / speechText.length) * 100) });
+      onBoundary?.({ progress: getProgress(offset + charIndex + charLength, speechText.length) });
     };
 
     if (!preserveUtteranceQueue) clearQueue();

@@ -41,6 +41,8 @@
   "keywords": [
     "component",
     "highlight",
+    "hook",
+    "library",
     "queue",
     "react",
     "react-text-to-speech",
