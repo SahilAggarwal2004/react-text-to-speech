@@ -108,6 +108,7 @@
   .main {
     flex-direction: column;
     position: relative;
+    align-items: center;
   }
   .text {
     padding-bottom: 1.5rem;

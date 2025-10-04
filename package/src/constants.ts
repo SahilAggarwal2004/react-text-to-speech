@@ -28,6 +28,8 @@ export const mobileChunkSize = 250;
 
 export const mobileRegex = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i;
 
+export const nonWhitespaceRegex = /\S/;
+
 export const symbolMapping = { "<": "lessthan", ">": "greaterthan" };
 
 export const sanitizeRegex = new RegExp(`[${Object.keys(symbolMapping).join("")}]|(&[^\s;]+);`, "g");

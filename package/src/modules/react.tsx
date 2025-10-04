@@ -1,6 +1,6 @@
 import React, { cloneElement, Fragment, isValidElement, ReactNode, SetStateAction } from "react";
 
-import { directiveRegexGlobal, wordBoundarySeparator } from "../constants.js";
+import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "../constants.js";
 import { Index, NodeProps, Words } from "../types.js";
 import { composeClass } from "./dom.js";
 
@@ -74,14 +74,8 @@ export function nodeToWords(node: ReactNode): Words {
 export function normalizeChildren(node: ReactNode) {
   if (Array.isArray(node))
     return node.map((element, i) => {
-      switch (typeof element) {
-        case "string":
-          if (!element.trim()) return null;
-        case "number":
-          return <span key={i}>{element}</span>;
-        default:
-          return element;
-      }
+      if (typeof element === "number" || (typeof element === "string" && nonWhitespaceRegex.test(element))) return <span key={i}>{element}</span>;
+      return element;
     });
   if (isValidElement<NodeProps>(node)) return [node];
   return node;
