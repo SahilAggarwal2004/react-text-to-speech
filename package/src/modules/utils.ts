@@ -17,7 +17,7 @@ import {
   trailingSpacesRegex,
   wordBoundarySeparator,
 } from "../constants.js";
-import { HighlightMode, SpeakingWord, SpeechSynthesisEventName, State } from "../types.js";
+import { HighlightMode, SpeakingWord, State } from "../types.js";
 import { setState } from "./state.js";
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
@@ -67,12 +67,11 @@ export function parse(value: string): number | boolean | string {
 export const sanitize = (text: string) =>
   text.replace(sanitizeRegex, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
 
-export function shouldHighlightNextPart(highlightMode: HighlightMode, name: SpeechSynthesisEventName, utterance: SpeechSynthesisUtterance, charIndex: number) {
-  if (name === "word" && (highlightMode === "word" || !charIndex)) return true;
+export function shouldHighlightNextPart(highlightMode: HighlightMode, utterance: SpeechSynthesisUtterance, charIndex: number) {
+  if (highlightMode === "word" || !charIndex) return true;
   const text = utterance.text.slice(0, charIndex).replace(trailingSpacesRegex, spaceDelimiter).slice(-2);
   if (highlightMode === "sentence" && (text[1] === lineDelimiter || (sentenceDelimiters.includes(text[0]) && text[1] === spaceDelimiter))) return true;
   if (highlightMode === "line" && (text[1] === lineDelimiter || (text[0] === lineDelimiter && text[1] === spaceDelimiter))) return true;
-  if (highlightMode === "paragraph" && name === "sentence") return true;
   return false;
 }
 
