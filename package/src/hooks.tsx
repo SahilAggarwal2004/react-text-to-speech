@@ -1,8 +1,7 @@
 import React, { cloneElement, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { renderToString } from "react-dom/server";
 
 import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants.js";
-import { composeProps } from "./modules/dom.js";
+import { composeProps, createElementWithProps } from "./modules/dom.js";
 import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
 import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./modules/react.js";
 import { setState, state } from "./modules/state.js";
@@ -293,13 +292,16 @@ export function useSpeechInternal({
       const originalTextContent = element.textContent;
       const [before, highlighted, after] = splitNode(highlightMode, element.textContent, speakingWord);
 
-      element.innerHTML = renderToString(
-        <span {...highlightContainerProps}>
-          {before}
-          <mark {...highlightProps}>{highlighted}</mark>
-          {after}
-        </span>,
-      );
+      const container = createElementWithProps("span", highlightContainerProps);
+      const mark = createElementWithProps("mark", highlightProps);
+      mark.textContent = highlighted;
+
+      if (before) container.appendChild(document.createTextNode(before));
+      container.appendChild(mark);
+      if (after) container.appendChild(document.createTextNode(after));
+
+      element.textContent = "";
+      element.appendChild(container);
 
       return [element, originalTextContent] as const;
     });

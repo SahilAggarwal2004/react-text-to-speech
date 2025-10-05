@@ -5,7 +5,12 @@ export type DirectiveEvent = "change" | "pause" | null;
 
 export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 
-export type HighlightProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+export type HighlightProps = {
+  className?: string;
+  id?: string;
+  style?: React.CSSProperties;
+  title?: string;
+};
 
 export type NodeProps = PropsWithChildren<{ key?: string; className?: string }>;
 
