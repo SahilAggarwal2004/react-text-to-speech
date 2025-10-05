@@ -85,13 +85,14 @@ export function useSpeechInternal({
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
   const key = useMemo(() => nodeToKey(text), [text]);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
+  const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [key]);
   const { indexedText, sanitizedText, speechText, words } = useMemo(() => {
-    const strippedText = enableDirectives ? stripDirectives(text) : text;
+    const strippedText = enableDirectives ? stripDirectives(normalizedText) : normalizedText;
     const words = nodeToWords(strippedText);
-    const sanitizedText = `${spaceDelimiter}${sanitize(toText(enableDirectives ? text : words))}`;
+    const sanitizedText = `${spaceDelimiter}${sanitize(toText(enableDirectives ? normalizedText : words))}`;
     const speechText = (stripDirectives(sanitizedText) as string).trimStart();
     return { indexedText: indexText(strippedText, uniqueId), sanitizedText, speechText, words };
-  }, [enableDirectives, key]);
+  }, [enableDirectives, normalizedText]);
   const chunks = useMemo(() => textToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
 
   const reactContent = useMemo(() => (showOnlyHighlightedText ? highlightedText(indexedText) : indexedText), [speakingWord, showOnlyHighlightedText, highlightMode, indexedText]);
@@ -279,7 +280,7 @@ export function useSpeechInternal({
     highlightRef.current = false;
     if (autoPlay) start();
     return () => stop({ status: speechStatusRef.current });
-  }, [autoPlay, enableDirectives, key]);
+  }, [autoPlay, enableDirectives, normalizedText]);
 
   useLayoutEffect(() => {
     if (!highlightText || !highlightRef.current || showOnlyHighlightedText || !speakingWord) return;
