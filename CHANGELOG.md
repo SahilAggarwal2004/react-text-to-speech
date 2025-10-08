@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.2...v4.0.0) (2025-10-08)
+
+### ⚠ BREAKING CHANGES
+
+* Narrow HighlightProps types for significant bundle size reduction
+
+### Chores
+
+* **deps:** Update @types/react, @types/node.  ([db662ec](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/db662ec75600dd2a7a8d774cb678054d8df08469))
+
+### Bug Fixes
+
+* Normalize React text nodes before processing to prevent inconsistencies with single element inputs.  ([f44d015](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/f44d0153a6b7e34502219592503f5f96eb4ed285))
+
+### Code Refactoring
+
+* Narrow HighlightProps types for significant bundle size reduction.  ([7719716](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/7719716da967af99345f40e72387b9c48dd2afb9))
+* Optimize `<Speech>` component to cut the bundle size.  ([2401dd8](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/2401dd899ef35f8e305a63c700b5dfd37fa7dfeb))
+* Simplify onboundary handling by processing only `word` events.  ([b1378ec](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/b1378ec8d2af566aace5223c9c041d2d98c57fe1))
+
 ## [3.1.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.1...v3.1.2) (2025-10-04)
 
 ### Bug Fixes
