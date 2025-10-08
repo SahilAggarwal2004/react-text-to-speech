@@ -45,7 +45,7 @@ export function useSpeak(options?: UseSpeakOptions) {
 }
 
 export function useSpeech(speechProps: UseSpeechOptions) {
-  const { uniqueId, reactContent, indexedText, ...speechInterface } = useSpeechInternal(speechProps);
+  const { uniqueId, normalizedText, reactContent, ...speechInterface } = useSpeechInternal(speechProps);
 
   return speechInterface;
 }
@@ -327,8 +327,8 @@ export function useSpeechInternal({
 
   return {
     uniqueId,
+    normalizedText,
     reactContent,
-    indexedText,
     Text,
     speechStatus,
     isInQueue: speechStatus === "started" || speechStatus === "queued",

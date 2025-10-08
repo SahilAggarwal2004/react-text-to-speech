@@ -53,7 +53,7 @@ export default function Demo() {
   function copy() {
     const sanitizedText = text.replace(/(?<!\\)(`|\$)/g, "\\$1");
     if (showMarkdown)
-      var code = `import { useState } from "react";
+      var code = `import React, { useState } from "react";
 import { useRemark } from "react-remarkify";
 import { useSpeech } from "react-text-to-speech";
 import rehypeRaw from "rehype-raw";

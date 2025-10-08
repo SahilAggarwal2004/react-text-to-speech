@@ -1,5 +1,4 @@
-import React, { useLayoutEffect } from "react";
-import { renderToString } from "react-dom/server";
+import React, { useLayoutEffect, useRef } from "react";
 
 import { highlightedTextIdSuffix, idPrefix } from "./constants.js";
 import { useSpeechInternal } from "./hooks.js";
@@ -28,40 +27,42 @@ export default function Speech({
   children,
   ...hookProps
 }: SpeechProps) {
-  const { Text, uniqueId, reactContent, indexedText, speechStatus, ...childrenOptions } = useSpeechInternal(hookProps);
+  const { uniqueId, normalizedText, reactContent, Text, speechStatus, ...childrenOptions } = useSpeechInternal(hookProps);
   const { isInQueue, start, pause, stop } = childrenOptions;
+  const sourceRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const containers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
-    const renderedString = renderToString(indexedText);
+    const containers = Array.from(document.getElementsByClassName(uniqueId)).filter((container) => container !== sourceRef.current) as HTMLDivElement[];
+    if (!containers.length) return;
 
-    containers.forEach((container) => (container.innerHTML = renderedString));
+    const sourceHTML = sourceRef.current!.innerHTML;
+    containers.forEach((container) => (container.innerHTML = sourceHTML));
 
     if (!enableConditionalHighlight) return;
 
     const observer = new MutationObserver(() => {
-      const newContainers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
-      newContainers.forEach((container) => {
-        if (!container.innerHTML) container.innerHTML = renderedString;
+      const observedContainers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
+      observedContainers.forEach((container) => {
+        if (!container.innerHTML) container.innerHTML = sourceHTML;
       });
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
-  }, [indexedText, uniqueId]);
+  }, [normalizedText, uniqueId]);
 
   useLayoutEffect(() => {
-    const containers = Array.from(document.getElementsByClassName(uniqueId)) as HTMLDivElement[];
+    const containers = Array.from(document.getElementsByClassName(uniqueId)).filter((container) => container !== sourceRef.current) as HTMLDivElement[];
     if (!containers.length) return;
 
     const highlightedTextContainers = Array.from(document.getElementsByClassName(`${uniqueId}${highlightedTextIdSuffix}`)) as HTMLDivElement[];
     if (hookProps.showOnlyHighlightedText) {
-      const renderedString = renderToString(reactContent);
+      const sourceHTML = sourceRef.current!.innerHTML;
       containers.forEach(hideElement);
       highlightedTextContainers.forEach((container) => {
+        container.innerHTML = sourceHTML;
         showElement(container);
-        container.innerHTML = renderedString;
       });
     } else {
       highlightedTextContainers.forEach(hideElement);
@@ -91,6 +92,7 @@ export default function Speech({
           {stopBtn}
         </span>
       )}
+      <Text ref={sourceRef} style={{ display: "none" }} />
     </div>
   );
 }
