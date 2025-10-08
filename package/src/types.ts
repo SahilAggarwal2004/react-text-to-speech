@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes, JSX, PropsWithChildren, ReactNode } from "react";
+import { CSSProperties, DetailedHTMLProps, HTMLAttributes, JSX, PropsWithChildren, ReactNode } from "react";
 
 // hooks.tsx
 export type DirectiveEvent = "change" | "pause" | null;
@@ -8,7 +8,7 @@ export type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 export type HighlightProps = {
   className?: string;
   id?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   title?: string;
 };
 

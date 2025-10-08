@@ -17,7 +17,10 @@ Like the `useSpeech` hook, the `<Speech>` component can also highlight text. <a 
 
 With `<Speech>`, the `<HighlightedText>` component exported by **react-text-to-speech** can be used to display the highlighted text.
 
-**NOTE:** The `id` of both `<Speech>` and `<HighlightedText>` must be the same to link them together.
+**NOTE:**
+
+- The `id` of both `<Speech>` and `<HighlightedText>` must be the same to link them together.
+- The `<Speech>` component uses rendering optimizations to sync content with `<HighlightedText>` components. As a result, features such as event handlers (`onClick`, `onChange`, etc.), refs, and controlled inputs in the `text` prop will not work in `<HighlightedText>`. For interactive content, use the <a href="/docs/usage/useSpeech" target="_blank">`useSpeech` hook</a> instead.
 
 ```tsx
 import React, { useMemo } from "react";

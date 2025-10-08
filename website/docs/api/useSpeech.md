@@ -40,9 +40,14 @@ type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 ### HighlightProps
 
 ```typescript
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { CSSProperties } from "react";
 
-type HighlightProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+type HighlightProps = {
+  className?: string;
+  id?: string;
+  style?: CSSProperties;
+  title?: string;
+};
 ```
 
 ### QueueChangeEventHandler
