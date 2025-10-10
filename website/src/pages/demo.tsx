@@ -33,6 +33,7 @@ export default function Demo() {
     rehypePlugins: [rehypeRaw, rehypeSanitize],
     remarkPlugins: [remarkGfm],
     remarkToRehypeOptions: { allowDangerousHtml: true },
+    debounceDelay: 50,
   });
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: showMarkdown ? reactContent : text,

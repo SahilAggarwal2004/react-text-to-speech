@@ -23,6 +23,17 @@ import {
   VoidFunction,
 } from "./types.js";
 
+function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 export function useQueue() {
   const [queue, setQueue] = useState<SpeechUtterancesQueue>([]);
 
@@ -67,6 +78,7 @@ export function useSpeechInternal({
   highlightProps,
   highlightContainerProps,
   enableDirectives = false,
+  debounceDelay = 0,
   maxChunkSize,
   onError = console.error,
   onStart,
@@ -83,9 +95,10 @@ export function useSpeechInternal({
   const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: VoidFunction }>({ event: null, delay: 0 });
 
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
-  const key = useMemo(() => nodeToKey(text), [text]);
+  const debouncedText = debounceDelay ? useDebounce(text, debounceDelay) : text;
+  const key = useMemo(() => nodeToKey(debouncedText), [debouncedText]);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
-  const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [key]);
+  const normalizedText = useMemo(() => (isValidElement(debouncedText) ? [debouncedText] : debouncedText), [key]);
   const { indexedText, sanitizedText, speechText, words } = useMemo(() => {
     const strippedText = enableDirectives ? stripDirectives(normalizedText) : normalizedText;
     const words = nodeToWords(strippedText);

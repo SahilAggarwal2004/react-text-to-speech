@@ -46,6 +46,7 @@ export type UseSpeakOptions = {
   highlightProps?: HighlightProps;
   highlightContainerProps?: HighlightProps;
   enableDirectives?: boolean;
+  debounceDelay?: number;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;
