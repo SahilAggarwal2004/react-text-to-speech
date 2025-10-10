@@ -312,7 +312,7 @@ export function useSpeechInternal({
     return () => {
       if (highlightRef.current) elementSnapshots.forEach(([element, originalTextContent]) => (element.textContent = originalTextContent));
     };
-  }, [speakingWord, highlightText, highlightMode]);
+  }, [speakingWord, highlightText, showOnlyHighlightedText, highlightMode]);
 
   useEffect(() => {
     if (speechStatusRef.current !== "started") return;
