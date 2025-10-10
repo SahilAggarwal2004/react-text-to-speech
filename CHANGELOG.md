@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.0.0...v4.1.0) (2025-10-10)
+
+### Features
+
+* Add `debounceDelay` option to reduce redundant text processing during rapid updates.  ([c7dd3f7](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/c7dd3f7f5c06ca556c35fa59c5ead5d1a55dff21))
+
+### Bug Fixes
+
+* Ensure immediate word highlights when `showOnlyHighlightedText` is toggled from true to false.  ([5f76e9a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/5f76e9a5729533b7143bf38265ac6683e2709b62))
+
+### Documentation
+
+* Update HighlightProps type and document Highlight Text limitations in `<Speech>` component.  ([599db3d](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/599db3dbb6f9722a68943847ddb21ce346148e81))
+
 ## [4.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v3.1.2...v4.0.0) (2025-10-08)
 
 ### ⚠ BREAKING CHANGES
