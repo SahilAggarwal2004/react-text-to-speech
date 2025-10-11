@@ -22,12 +22,12 @@ export function findCharIndex(words: Words, index: number) {
 
 export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 
-export function indexText(node: ReactNode, id: string, parentIndex = ""): ReactNode {
+export function indexText(node: ReactNode, id: string, index = ""): ReactNode {
   if (typeof node == "string" || typeof node == "number") return node;
-  if (Array.isArray(node)) return node.map((child, index) => indexText(child, id, getIndex(parentIndex, index)));
+  if (Array.isArray(node)) return node.map((child, i) => indexText(child, id, getIndex(index, i)));
   if (isValidElement<NodeProps>(node)) {
-    const props: NodeProps = { key: node.key ?? Math.random().toString(), children: indexText(normalizeChildren(node.props.children), id, parentIndex) };
-    if (node.type !== Fragment) props.className = composeClass(`${id}${parentIndex}`, node.props);
+    const props: NodeProps = { key: node.key ?? index, children: indexText(normalizeChildren(node.props.children), id, index) };
+    if (node.type !== Fragment) props.className = composeClass(`${id}${index}`, node.props);
     return cloneElement(node, props);
   }
   return node;

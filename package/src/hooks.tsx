@@ -275,8 +275,8 @@ export function useSpeechInternal({
     cancel(stopReason);
   }
 
-  function highlightedText(node: ReactNode, parentIndex = ""): ReactNode {
-    if (!highlightText || !isParent(parentIndex, speakingWord?.index)) return;
+  function highlightedText(node: ReactNode, index = ""): ReactNode {
+    if (!highlightText || !isParent(index, speakingWord?.index)) return;
     switch (typeof node) {
       case "number":
         node = String(node);
@@ -288,8 +288,8 @@ export function useSpeechInternal({
           </span>
         );
     }
-    if (Array.isArray(node)) return node.map((child, index) => highlightedText(child, getIndex(parentIndex, index)));
-    if (isValidElement<NodeProps>(node)) return cloneElement(node, { children: highlightedText(node.props.children, parentIndex) });
+    if (Array.isArray(node)) return node.map((child, i) => highlightedText(child, getIndex(index, i)));
+    if (isValidElement<NodeProps>(node)) return cloneElement(node, { children: highlightedText(node.props.children, index) });
   }
 
   useLayoutEffect(() => {
