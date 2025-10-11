@@ -85,8 +85,8 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
       react-remarkify:
-        specifier: ^0.5.0
-        version: 0.5.0(react@19.2.0)
+        specifier: ^0.5.2
+        version: 0.5.2(react@19.2.0)
       react-text-to-speech:
         specifier: workspace:*
         version: link:../package
@@ -5683,8 +5683,8 @@ packages:
       react-loadable: '*'
       webpack: '>=4.41.1 || 5.x'
 
-  react-remarkify@0.5.0:
-    resolution: {integrity: sha512-h0TERLNGmy5pXKrAxDJoxTrV8wIXQ388YugmEyO9x2X//wmzGCIrXv5b7nZ4lkEoncd5bHGqAnyIgs90r95y9w==}
+  react-remarkify@0.5.2:
+    resolution: {integrity: sha512-uEYer2A6PugBpW16044ivsoEnmDvegdUy1dejzxIZBnUkHQshK6SHsc5b8l/ZnJoXqwjlrBFEy7A3TW0V8nt2w==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -13537,7 +13537,7 @@ snapshots:
       react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.0)'
       webpack: 5.101.3
 
-  react-remarkify@0.5.0(react@19.2.0):
+  react-remarkify@0.5.2(react@19.2.0):
     dependencies:
       react: 19.2.0
       rehype-react: 8.0.0
