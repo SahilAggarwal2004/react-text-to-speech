@@ -85,8 +85,8 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
       react-remarkify:
-        specifier: ^0.5.2
-        version: 0.5.2(react@19.2.0)
+        specifier: ^0.6.3
+        version: 0.6.3(react@19.2.0)
       react-text-to-speech:
         specifier: workspace:*
         version: link:../package
@@ -2224,8 +2224,8 @@ packages:
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
-  '@types/node@22.18.8':
-    resolution: {integrity: sha512-pAZSHMiagDR7cARo/cch1f3rXy0AEXwsVsVH09FcyeJVAzCnGgmYis7P3JidtTUjyadhTeSo8TgRPswstghDaw==}
+  '@types/node@22.18.9':
+    resolution: {integrity: sha512-5yBtK0k/q8PjkMXbTfeIEP/XVYnz1R9qZJ3yUicdEW7ppdDJfe+MqXEhpqDL3mtn4Wvs1u0KLEG0RXzCgNpsSg==}
 
   '@types/node@24.7.1':
     resolution: {integrity: sha512-CmyhGZanP88uuC5GpWU9q+fI61j2SkhO3UGMUdfYRE6Bcy0ccyzn1Rqj9YAB/ZY4kOXmNf0ocah5GtphmLMP6Q==}
@@ -5683,8 +5683,8 @@ packages:
       react-loadable: '*'
       webpack: '>=4.41.1 || 5.x'
 
-  react-remarkify@0.5.2:
-    resolution: {integrity: sha512-uEYer2A6PugBpW16044ivsoEnmDvegdUy1dejzxIZBnUkHQshK6SHsc5b8l/ZnJoXqwjlrBFEy7A3TW0V8nt2w==}
+  react-remarkify@0.6.3:
+    resolution: {integrity: sha512-nPrhUabCvpWYI42ml6SYItFzubEWkd1HJckR+FI4Junv23XYFZXzsNr4jKxV/1np4hZ63gzIymThtYbhXQ/JkQ==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -9314,11 +9314,11 @@ snapshots:
   '@simple-libs/child-process-utils@1.0.1':
     dependencies:
       '@simple-libs/stream-utils': 1.1.0
-      '@types/node': 22.18.8
+      '@types/node': 22.18.9
 
   '@simple-libs/stream-utils@1.1.0':
     dependencies:
-      '@types/node': 22.18.8
+      '@types/node': 22.18.9
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -9620,7 +9620,7 @@ snapshots:
 
   '@types/node@17.0.45': {}
 
-  '@types/node@22.18.8':
+  '@types/node@22.18.9':
     dependencies:
       undici-types: 6.21.0
 
@@ -13537,7 +13537,7 @@ snapshots:
       react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.0)'
       webpack: 5.101.3
 
-  react-remarkify@0.5.2(react@19.2.0):
+  react-remarkify@0.6.3(react@19.2.0):
     dependencies:
       react: 19.2.0
       rehype-react: 8.0.0
