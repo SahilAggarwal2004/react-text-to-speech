@@ -48,6 +48,8 @@ export default function Demo() {
     showOnlyHighlightedText,
     highlightMode,
     enableDirectives,
+    updateMode: "debounce",
+    updateDelay: 50,
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
   });
