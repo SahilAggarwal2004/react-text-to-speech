@@ -27,11 +27,12 @@ function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
+    if (delay <= 0) return;
     const timeout = setTimeout(() => setDebouncedValue(value), delay);
     return () => clearTimeout(timeout);
   }, [value, delay]);
 
-  return debouncedValue;
+  return delay <= 0 ? value : debouncedValue;
 }
 
 export function useQueue() {
@@ -95,7 +96,7 @@ export function useSpeechInternal({
   const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: VoidFunction }>({ event: null, delay: 0 });
 
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
-  const debouncedText = debounceDelay ? useDebounce(text, debounceDelay) : text;
+  const debouncedText = useDebounce(text, debounceDelay);
   const key = useMemo(() => nodeToKey(debouncedText), [debouncedText]);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
   const normalizedText = useMemo(() => (isValidElement(debouncedText) ? [debouncedText] : debouncedText), [key]);
