@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.1.1...v5.0.0) (2025-10-11)
+
+### ⚠ BREAKING CHANGES
+
+* Replace `debounceDelay` with `updateMode` and `updateDelay` in `useSpeech` hook and `<Speech>` component to support throttling and debouncing of text updates
+
+### Chores
+
+* **deps:** Update react-remarkify.  ([27a9090](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/27a9090787d6c86d062e4a4988d3049e28b72391))
+
+### Features
+
+* Replace `debounceDelay` with `updateMode` and `updateDelay` in `useSpeech` hook and `<Speech>` component to support throttling and debouncing of text updates.  ([e7db234](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e7db234f99d79c13baa336f797da5fbd87d6c1bb))
+
 ## [4.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.1.0...v4.1.1) (2025-10-11)
 
 ### Chores
