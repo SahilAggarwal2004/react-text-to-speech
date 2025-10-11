@@ -17,22 +17,34 @@ import {
   SpeechSynthesisUtteranceProps,
   SpeechUtterancesQueue,
   State,
+  UpdateMode,
   UseSpeakOptions,
   UseSpeechOptions,
   UseSpeechOptionsInternal,
   VoidFunction,
 } from "./types.js";
 
-function useDebounce<T>(value: T, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
+  const [stableValue, setStableValue] = useState(value);
+  const lastUpdated = useRef(0);
+  const isImmediate = mode === "immediate" || delay <= 0;
 
   useEffect(() => {
-    if (delay <= 0) return;
-    const timeout = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(timeout);
-  }, [value, delay]);
+    if (isImmediate) return;
 
-  return delay <= 0 ? value : debouncedValue;
+    if (mode === "throttle") {
+      const now = Date.now();
+      if (now - lastUpdated.current >= delay) {
+        setStableValue(value);
+        lastUpdated.current = now;
+      }
+    } else if (mode === "debounce") {
+      const timeout = setTimeout(() => setStableValue(value), delay);
+      return () => clearTimeout(timeout);
+    }
+  }, [value, mode, delay]);
+
+  return isImmediate ? value : stableValue;
 }
 
 export function useQueue() {
@@ -79,7 +91,8 @@ export function useSpeechInternal({
   highlightProps,
   highlightContainerProps,
   enableDirectives = false,
-  debounceDelay = 0,
+  updateMode = "immediate",
+  updateDelay = 0,
   maxChunkSize,
   onError = console.error,
   onStart,
@@ -97,9 +110,9 @@ export function useSpeechInternal({
 
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
   const key = useMemo(() => nodeToKey(text), [text]);
-  const debouncedKey = useDebounce(key, debounceDelay);
+  const stableKey = useStableValue(key, updateMode, updateDelay);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
-  const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [debouncedKey]);
+  const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [stableKey]);
   const { indexedText, sanitizedText, speechText, words } = useMemo(() => {
     const strippedText = enableDirectives ? stripDirectives(normalizedText) : normalizedText;
     const words = nodeToWords(strippedText);

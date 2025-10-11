@@ -38,6 +38,8 @@ export type SpeechSynthesisUtteranceProps = {
   voiceURI?: string | string[];
 };
 
+export type UpdateMode = "immediate" | "throttle" | "debounce";
+
 export type UseSpeakOptions = {
   preserveUtteranceQueue?: boolean;
   highlightText?: boolean;
@@ -46,7 +48,8 @@ export type UseSpeakOptions = {
   highlightProps?: HighlightProps;
   highlightContainerProps?: HighlightProps;
   enableDirectives?: boolean;
-  debounceDelay?: number;
+  updateMode?: UpdateMode;
+  updateDelay?: number;
   maxChunkSize?: number;
   onError?: SpeechSynthesisErrorHandler;
   onStart?: SpeechSynthesisEventHandler;

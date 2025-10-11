@@ -33,7 +33,8 @@ export default function Demo() {
     rehypePlugins: [rehypeRaw, rehypeSanitize],
     remarkPlugins: [remarkGfm],
     remarkToRehypeOptions: { allowDangerousHtml: true },
-    debounceDelay: 50,
+    udpateMode: "debounce",
+    updateDelay: 100,
   });
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: showMarkdown ? reactContent : text,
