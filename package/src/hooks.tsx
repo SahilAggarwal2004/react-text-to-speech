@@ -96,10 +96,10 @@ export function useSpeechInternal({
   const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: VoidFunction }>({ event: null, delay: 0 });
 
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
-  const debouncedText = useDebounce(text, debounceDelay);
-  const key = useMemo(() => nodeToKey(debouncedText), [debouncedText]);
+  const key = useMemo(() => nodeToKey(text), [text]);
+  const debouncedKey = useDebounce(key, debounceDelay);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
-  const normalizedText = useMemo(() => (isValidElement(debouncedText) ? [debouncedText] : debouncedText), [key]);
+  const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [debouncedKey]);
   const { indexedText, sanitizedText, speechText, words } = useMemo(() => {
     const strippedText = enableDirectives ? stripDirectives(normalizedText) : normalizedText;
     const words = nodeToWords(strippedText);
