@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.1.0...v4.1.1) (2025-10-11)
+
+### Chores
+
+* **deps:** Update react-remarkify.  ([30a2e98](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/30a2e988ecc56ca59d19cc68c3180af3c428752b))
+
+### Bug Fixes
+
+* Debounce `key` instead of `text` in `useSpeechInternal` to prevent starvation.  ([2994e2b](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/2994e2bd5d2a01471d3ead3f61f4e61f84f796aa))
+* Ensure `useDebounce` follows React.js rules of hooks.  ([61545a7](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/61545a7059b945cadd41d1c759fbe02cd84e02a6))
+
+### Code Refactoring
+
+* Rename `parentIndex` to `index` in `indexText` and `highlightedText` for clarity.  ([8853d7e](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/8853d7e7e19d7c2259e42075578392bca73cc4f4))
+
 ## [4.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.0.0...v4.1.0) (2025-10-10)
 
 ### Features
