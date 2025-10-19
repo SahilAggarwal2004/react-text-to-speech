@@ -23,11 +23,11 @@
     "@release-it/bumper": "^7.0.5",
     "@release-it/conventional-changelog": "^10.0.1",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "concurrently": "^9.2.1",
     "prettier": "^3.6.2",
     "prettier-package-json": "^2.8.0",
-    "prettier-plugin-tailwindcss": "^0.6.14",
+    "prettier-plugin-tailwindcss": "^0.7.1",
     "release-it": "^19.0.5",
     "shx": "^0.4.0",
     "typescript": "^5.9.3"
