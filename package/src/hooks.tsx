@@ -1,4 +1,4 @@
-import React, { cloneElement, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { cloneElement, forwardRef, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants.js";
 import { composeProps, createElementWithProps } from "./modules/dom.js";
@@ -123,7 +123,14 @@ export function useSpeechInternal({
   const chunks = useMemo(() => textToChunks(sanitizedText, maxChunkSize, enableDirectives), [enableDirectives, maxChunkSize, sanitizedText]);
 
   const reactContent = useMemo(() => (showOnlyHighlightedText ? highlightedText(indexedText) : indexedText), [speakingWord, showOnlyHighlightedText, highlightMode, indexedText]);
-  const Text = useCallback((props: DivProps) => <div {...composeProps(uniqueId, props)}>{reactContent}</div>, [reactContent]);
+  const Text = useCallback(
+    forwardRef<HTMLDivElement, DivProps>((props, ref) => (
+      <div ref={ref} {...composeProps(uniqueId, props)}>
+        {reactContent}
+      </div>
+    )),
+    [reactContent],
+  );
 
   function reset(event: DirectiveEvent = null) {
     directiveRef.current.abortDelay?.();
