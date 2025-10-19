@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.0...v5.0.1) (2025-10-19)
+
+### Chores
+
+* **demo:** Add debounce to useSpeech input.  ([611199e](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/611199eed18e18d4f86c4cec39c2af7006e752c4))
+* **deps:** Update @types/react-dom, @types/node, and Docusaurus.  ([8268ef2](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/8268ef235ff97abaf89b9715096b0f2eafa2f98f))
+
+### Bug Fixes
+
+* Add forwardRef to `Text` component to correctly forward ref to DOM node.  ([a196655](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/a196655a134324c5ebe7fd79b47a5a19ccc6be37))
+
 ## [5.0.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v4.1.1...v5.0.0) (2025-10-11)
 
 ### ⚠ BREAKING CHANGES
