@@ -27,24 +27,29 @@ import {
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
   const lastUpdated = useRef(0);
-  const isImmediate = mode === "immediate" || delay <= 0;
 
   useEffect(() => {
-    if (isImmediate) return;
-
-    if (mode === "throttle") {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    if (mode === "immediate" || delay <= 0) timeout = setTimeout(() => setStableValue(value), 0);
+    else if (mode === "debounce") timeout = setTimeout(() => setStableValue(value), delay);
+    else if (mode === "throttle") {
       const now = Date.now();
-      if (now - lastUpdated.current >= delay) {
-        setStableValue(value);
-        lastUpdated.current = now;
-      }
-    } else if (mode === "debounce") {
-      const timeout = setTimeout(() => setStableValue(value), delay);
-      return () => clearTimeout(timeout);
+      const elapsed = now - lastUpdated.current;
+      timeout = setTimeout(
+        () => {
+          setStableValue(value);
+          lastUpdated.current = Date.now();
+        },
+        Math.max(0, delay - elapsed),
+      );
     }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
   }, [value, mode, delay]);
 
-  return isImmediate ? value : stableValue;
+  return stableValue;
 }
 
 export function useQueue() {

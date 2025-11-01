@@ -33,8 +33,6 @@ export default function Demo() {
     rehypePlugins: [rehypeRaw, rehypeSanitize],
     remarkPlugins: [remarkGfm],
     remarkToRehypeOptions: { allowDangerousHtml: true },
-    udpateMode: "debounce",
-    updateDelay: 100,
   });
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: showMarkdown ? reactContent : text,
@@ -48,8 +46,6 @@ export default function Demo() {
     showOnlyHighlightedText,
     highlightMode,
     enableDirectives,
-    updateMode: "debounce",
-    updateDelay: 50,
     onStart: () => setDisabled(true),
     onStop: () => setDisabled(false),
   });
