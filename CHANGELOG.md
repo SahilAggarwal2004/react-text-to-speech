@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.1...v5.0.2) (2025-11-01)
+
+### Chores
+
+* **deps:** Update react-remarkify, Tailwind, and @types/node.  ([81269da](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/81269da1fc42d4993e15455a5dbf67c8abaff03c))
+
+### Bug Fixes
+
+* Ensure `throttle` mode in `useStableValue` performs a trailing update to prevent missing the final value update.  ([716e8ff](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/716e8ffd4979bce09e74cfbde6bb578a3847c9d0))
+
 ## [5.0.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.0...v5.0.1) (2025-10-19)
 
 ### Chores
