@@ -157,7 +157,8 @@ export function useSpeechInternal({
     if (!synth) return onError(new Error("Browser not supported! Try some other browser."));
     if (speechStatusRef.current === "paused") {
       if (directiveRef.current.event === "pause") speakFromQueue();
-      return synth.resume();
+      synth.resume();
+      return resumeEventHandler();
     }
     if (speechStatusRef.current === "queued") return;
     let currentChunk = 0;
@@ -201,6 +202,15 @@ export function useSpeechInternal({
       return false;
     }
 
+    function startEventHandler() {
+      window.addEventListener("beforeunload", clearQueueUnload);
+      setState({ stopReason: "auto" });
+      highlightRef.current = true;
+      onBoundary?.({ progress: getProgress(offset, speechText.length) });
+      if (directiveRef.current.event || directiveRef.current.delay) return reset();
+      onStart?.();
+    }
+
     async function stopEventHandler() {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
         processedTextLength += currentText.length;
@@ -233,8 +243,6 @@ export function useSpeechInternal({
       setSpeechStatus("stopped");
       setSpeakingWord(null);
       utterance.onstart = null;
-      utterance.onresume = null;
-      utterance.onpause = null;
       utterance.onend = null;
       utterance.onerror = null;
       utterance.onboundary = null;
@@ -243,22 +251,7 @@ export function useSpeechInternal({
       onStop?.();
     }
 
-    utterance.onstart = () => {
-      window.addEventListener("beforeunload", clearQueueUnload);
-      setState({ stopReason: "auto" });
-      highlightRef.current = true;
-      onBoundary?.({ progress: getProgress(offset, speechText.length) });
-      if (!directiveRef.current.delay) {
-        if (!directiveRef.current.event) return onStart?.();
-        if (directiveRef.current.event === "pause") resumeEventHandler();
-      }
-      reset();
-    };
-    utterance.onresume = resumeEventHandler;
-    utterance.onpause = pauseEventHandler;
-    utterance.onend = stopEventHandler;
-    utterance.onerror = stopEventHandler;
-    utterance.onboundary = (event) => {
+    function boundaryEventHandler(event: SpeechSynthesisEvent) {
       const { charIndex, charLength, name } = event as SpeechSynthesisEvent & { name: SpeechSynthesisEventName };
       if (name === "word") {
         const isSpecialSymbol = +(utterance.text[charIndex + charLength] === specialSymbol);
@@ -268,7 +261,12 @@ export function useSpeechInternal({
         if (isSpecialSymbol) specialSymbolOffset -= charLength + 1;
       }
       onBoundary?.({ progress: getProgress(offset + charIndex + charLength, speechText.length) });
-    };
+    }
+
+    utterance.onstart = startEventHandler;
+    utterance.onend = stopEventHandler;
+    utterance.onerror = stopEventHandler;
+    utterance.onboundary = boundaryEventHandler;
 
     if (!preserveUtteranceQueue) clearQueue();
     addToQueue({ text: speechText, utterance, setSpeechStatus }, onQueueChange);
@@ -281,8 +279,8 @@ export function useSpeechInternal({
   function pause() {
     if (isMobile(false) || speechStatusRef.current === "queued") return stop();
     if (speechStatusRef.current === "started") {
-      if (!directiveRef.current.delay) return window.speechSynthesis?.pause();
-      reset("pause");
+      if (directiveRef.current.delay) reset("pause");
+      else window.speechSynthesis?.pause();
       pauseEventHandler();
     }
   }
