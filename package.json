@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech-monorepo",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "license": "MIT",
   "type": "module",
   "scripts": {

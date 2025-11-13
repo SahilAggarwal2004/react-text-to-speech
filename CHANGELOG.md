@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.4](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.3...v5.0.4) (2025-11-13)
+
+### Chores
+
+* Sync npm and GitHub versions.  ([060841b](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/060841b912097329d86e5ace94a8ee6e189858af))
+
 ## [5.0.3](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.2...v5.0.3) (2025-11-13)
 
 ### Chores
