@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.3](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.2...v5.0.3) (2025-11-13)
+
+### Chores
+
+* **deps:** Update release-it, @types/react and @types/react-dom.  ([5baa7f6](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/5baa7f6ef0fba7061628a653325c1863d064844e))
+
+### Bug Fixes
+
+* Manually handle speech pause/resume to fix locale-specific event firing issues.  ([39b9d4d](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/39b9d4d213d190e3939386c6d5f5aab462d7f094))
+
 ## [5.0.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.1...v5.0.2) (2025-11-01)
 
 ### Chores
