@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.5](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.4...v5.0.5) (2025-11-14)
+
+### Chores
+
+* **deps:** Update tsup, tailwind and @types/node.  ([4865812](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/486581228666f29f2746e5d2ebe4f4db4c5df008))
+
+### Bug Fixes
+
+* Ensure onBoundary is always fired after onStart.  ([e99ae89](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e99ae89063894bb8f810693b74f1720471ad9662))
+
 ## [5.0.4](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.3...v5.0.4) (2025-11-13)
 
 ### Chores
