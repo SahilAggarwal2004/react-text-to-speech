@@ -206,9 +206,9 @@ export function useSpeechInternal({
       window.addEventListener("beforeunload", clearQueueUnload);
       setState({ stopReason: "auto" });
       highlightRef.current = true;
+      if (directiveRef.current.event || directiveRef.current.delay) reset();
+      else onStart?.();
       onBoundary?.({ progress: getProgress(offset, speechText.length) });
-      if (directiveRef.current.event || directiveRef.current.delay) return reset();
-      onStart?.();
     }
 
     async function stopEventHandler() {
