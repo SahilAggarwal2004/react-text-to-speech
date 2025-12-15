@@ -30,6 +30,7 @@ export default function Demo() {
   const { languages, voices } = useVoices();
   const reactContent = useRemark({
     markdown: text,
+    stableMarkdown: true,
     rehypePlugins: [rehypeRaw, rehypeSanitize],
     remarkPlugins: [remarkGfm],
     remarkToRehypeOptions: { allowDangerousHtml: true },

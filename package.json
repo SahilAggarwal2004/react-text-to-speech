@@ -21,26 +21,15 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@release-it/bumper": "^7.0.5",
-    "@release-it/conventional-changelog": "^10.0.2",
+    "@release-it/conventional-changelog": "^10.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "concurrently": "^9.2.1",
-    "prettier": "^3.7.1",
+    "prettier": "^3.7.4",
     "prettier-package-json": "^2.8.0",
-    "prettier-plugin-tailwindcss": "^0.7.1",
-    "release-it": "^19.0.6",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "release-it": "^19.1.0",
     "shx": "^0.4.0",
     "typescript": "^5.9.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@tailwindcss/oxide",
-      "core-js",
-      "core-js-pure",
-      "esbuild"
-    ],
-    "overrides": {
-      "node-forge@<1.3.2": ">=1.3.2"
-    }
   }
 }
