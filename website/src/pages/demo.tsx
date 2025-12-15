@@ -37,6 +37,7 @@ export default function Demo() {
   });
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text: showMarkdown ? reactContent : text,
+    stableText: true,
     pitch,
     rate,
     volume,

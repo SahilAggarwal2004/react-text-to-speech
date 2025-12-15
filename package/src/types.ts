@@ -60,7 +60,7 @@ export type UseSpeakOptions = {
   onQueueChange?: QueueChangeEventHandler;
 };
 
-export type UseSpeechOptions = SpeakProps & UseSpeakOptions & { autoPlay?: boolean };
+export type UseSpeechOptions = SpeakProps & UseSpeakOptions & { stableText?: boolean; autoPlay?: boolean };
 
 export type UseSpeechOptionsInternal = UseSpeechOptions & { id?: string };
 

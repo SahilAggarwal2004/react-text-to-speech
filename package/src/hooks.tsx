@@ -62,7 +62,7 @@ export function useQueue() {
 
 export function useSpeak(options?: UseSpeakOptions) {
   const [speechProps, setSpeechProps] = useState<SpeakProps>({ text: "" });
-  const { start, ...speechInterface } = useSpeech({ ...speechProps, ...options, autoPlay: false });
+  const { start, ...speechInterface } = useSpeech({ ...speechProps, ...options, stableText: true, autoPlay: false });
 
   const speak = useCallback((text: ReactNode, options: SpeechSynthesisUtteranceProps = {}) => setSpeechProps({ text, ...options }), []);
 
@@ -83,6 +83,7 @@ export function useSpeech(speechProps: UseSpeechOptions) {
 export function useSpeechInternal({
   id,
   text,
+  stableText = false,
   pitch = defaults.pitch,
   rate = defaults.rate,
   volume = defaults.volume,
@@ -114,7 +115,7 @@ export function useSpeechInternal({
   const directiveRef = useRef<{ event: DirectiveEvent; delay: number; abortDelay?: VoidFunction }>({ event: null, delay: 0 });
 
   const uniqueId = useMemo(() => `${idPrefix}${id ?? crypto.randomUUID()}`, [id]);
-  const key = useMemo(() => nodeToKey(text), [text]);
+  const key = useMemo(() => (stableText ? text : nodeToKey(text)), [text, stableText]);
   const stableKey = useStableValue(key, updateMode, updateDelay);
   const stringifiedVoices = useMemo(() => voiceURI.toString(), [voiceURI]);
   const normalizedText = useMemo(() => (isValidElement(text) ? [text] : text), [stableKey]);

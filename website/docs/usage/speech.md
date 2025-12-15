@@ -7,7 +7,7 @@ import React from "react";
 import Speech from "react-text-to-speech";
 
 export default function App() {
-  return <Speech text="This library is awesome!" />;
+  return <Speech text="This library is awesome!" stableText={true} />; // Enable stableText if 'text' is stable across renders for better performance
 }
 ```
 

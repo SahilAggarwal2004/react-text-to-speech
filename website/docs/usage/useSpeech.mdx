@@ -1,5 +1,5 @@
-import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
 
 # useSpeech Hook
 
@@ -17,7 +17,10 @@ export default function App() {
     start, // Function to start the speech or put it in queue
     pause, // Function to pause the speech
     stop, // Function to stop the speech or remove it from queue
-  } = useSpeech({ text: "This library is awesome!" });
+  } = useSpeech({
+    text: "This library is awesome!",
+    stableText: true, // Enable if 'text' is stable across renders for better performance
+  });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
@@ -41,7 +44,7 @@ The `highlightText`, `showOnlyHighlightedText`, `highlightMode`, `highlightProps
 
 - **`highlightText`**: Enables or disables text highlighting while the speech is active.
 - **`showOnlyHighlightedText`**: If set to `true`, only the currently highlighted text is returned (useful when you want to isolate the highlighted portion of text).
-- **`highlightMode`**: Controls the level of text highlighting, with options:  
+- **`highlightMode`**: Controls the level of text highlighting, with options:
   - `word`: Highlights one word at a time.
   - `sentence`: Highlights text until the next sentence-ending punctuation (e.g., `.`, `?`, `!`, or `\n`).
   - `line`: Highlights text until the next newline (`\n`).
@@ -49,9 +52,9 @@ The `highlightText`, `showOnlyHighlightedText`, `highlightMode`, `highlightProps
 - **`highlightProps`**: Defines the styling for the highlighted text.
 - **`highlightContainerProps`**: Defines the styling for the container wrapping the highlighted text (useful for adding padding, borders, or background effects).
 
-Here, you can enhance both presentation and flexibility by passing a `ReactNode` instead of a plain string to the `text` property, and **react-text-to-speech** fully supports this feature!  
+Here, you can enhance both presentation and flexibility by passing a `ReactNode` instead of a plain string to the `text` property, and **react-text-to-speech** fully supports this feature!
 
-**NOTE:** It is recommended to memoize the `ReactNode` before passing it to the `text` property to improve performance.  
+**NOTE:** It is recommended to memoize the `ReactNode` before passing it to the `text` property to improve performance.
 
 ```tsx
 import React, { useMemo, useState } from "react";
@@ -78,7 +81,7 @@ export default function App() {
         </div>
       </div>
     ),
-    []
+    [],
   );
   const { Text, speechStatus, start, pause, stop } = useSpeech({
     text,
@@ -165,7 +168,7 @@ function NewsItem({ title, desc }) {
         <div style={{ marginBottom: "0.5rem" }}>{desc}</div>
       </>
     ),
-    [title, desc]
+    [title, desc],
   );
   const { Text, speechStatus, isInQueue, start, stop } = useSpeech({ text, preserveUtteranceQueue: true });
 
@@ -227,26 +230,18 @@ To use `react-text-to-speech` seamlessly with markdown text, it is recommended t
 ### Installation
 
 <Tabs>
-<TabItem value="npm" label="npm">
-```bash
-npm install react-remarkify rehype-raw rehype-sanitize remark-gfm --save
-```
-</TabItem>
-<TabItem value="yarn" label="yarn">
-```bash
-yarn add react-remarkify rehype-raw rehype-sanitize remark-gfm
-```
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-```bash
-pnpm add react-remarkify rehype-raw rehype-sanitize remark-gfm
-```
-</TabItem>
-<TabItem value="bun" label="bun">
-```bash
-bun add react-remarkify rehype-raw rehype-sanitize remark-gfm
-```
-</TabItem>
+  <TabItem value="npm" label="npm">
+    ```bash npm install react-remarkify rehype-raw rehype-sanitize remark-gfm --save ```
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+    ```bash yarn add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+    ```bash pnpm add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+  </TabItem>
+  <TabItem value="bun" label="bun">
+    ```bash bun add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+  </TabItem>
 </Tabs>
 
 Optionally, we also recommend setting up [TailwindCSS](https://tailwindcss.com/docs/installation) and [TailwindCSS Typography](https://github.com/tailwindlabs/tailwindcss-typography) for styling purposes.
@@ -285,13 +280,7 @@ function MarkdownText({ children }) {
         </button>
 
         <div className="flex space-x-4">
-          <span role="button">
-            {speechStatus !== "started" ? (
-              <HiVolumeUp title="Start speech" onClick={start} />
-            ) : (
-              <HiVolumeOff title="Pause speech" onClick={pause} />
-            )}
-          </span>
+          <span role="button">{speechStatus !== "started" ? <HiVolumeUp title="Start speech" onClick={start} /> : <HiVolumeOff title="Pause speech" onClick={pause} />}</span>
           <span role="button">
             <HiMiniStop title="Stop speech" onClick={stop} />
           </span>
