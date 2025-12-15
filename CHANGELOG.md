@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.1.0](///compare/v5.0.5...v5.1.0) (2025-12-15)
+
+### Chores
+
+* **deps:** Update prettier, @types/react, @release-it/conventional-changelog.  a378e3a
+* **deps:** Update release-it, prettier, react and react-remarkify.  239d6dd
+
+### Features
+
+* Add `stableText` option to skip unnecessary key calculation and improve performance.  1c3470a
+
 ## [5.0.5](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.4...v5.0.5) (2025-11-14)
 
 ### Chores
