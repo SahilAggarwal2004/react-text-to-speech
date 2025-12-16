@@ -1,11 +1,11 @@
 import React, { cloneElement, forwardRef, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants.js";
-import { composeProps, createElementWithProps } from "./modules/dom.js";
-import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./modules/queue.js";
-import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./modules/react.js";
-import { setState, state } from "./modules/state.js";
-import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./modules/utils.js";
+import { composeProps, createElementWithProps } from "./lib/dom.js";
+import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./lib/queue.js";
+import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./lib/react.js";
+import { setState, state } from "./lib/state.js";
+import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./lib/utils.js";
 import {
   DirectiveEvent,
   DivProps,

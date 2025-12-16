@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import { highlightedTextIdSuffix, idPrefix } from "./constants.js";
 import { useSpeechInternal } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
-import { composeProps, hideElement, showElement } from "./modules/dom.js";
+import { composeProps, hideElement, showElement } from "./lib/dom.js";
 import { HighlightedTextProps, SpeechProps } from "./types.js";
 
 export function HighlightedText({ id, children, ...props }: HighlightedTextProps) {
