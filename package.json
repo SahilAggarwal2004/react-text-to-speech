@@ -17,7 +17,7 @@
     "dry-release": "release-it --ci --dry-run",
     "prettier": "prettier-package-json --write package.json ./package/package.json ./website/package.json",
     "prod": "pnpm --filter ./website run build && pnpm --filter ./website run serve",
-    "publish": "pnpm --filter ./package publish",
+    "publish": "pnpm login && pnpm --filter ./package publish",
     "release": "release-it --ci",
     "update": "ncu -u -ws --root"
   },

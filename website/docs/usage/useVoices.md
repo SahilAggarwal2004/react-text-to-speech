@@ -10,7 +10,7 @@ export default function App() {
   const { languages, voices } = useVoices();
   const [lang, setLang] = useState("");
   const [voiceURI, setVoiceURI] = useState("");
-  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: "This library is awesome!", lang, voiceURI });
+  const { Text, speechStatus, start, pause, stop } = useSpeech({ text: "This library is awesome!", stableText: true, lang, voiceURI });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>

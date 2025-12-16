@@ -47,12 +47,12 @@ import { useSpeech } from "react-text-to-speech";
 export default function App() {
   const {
     Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
-    speechStatus, // Current speech status
+    speechStatus, // String that stores current speech status
     isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
-    start, // Starts or queues the speech
-    pause, // Pauses the speech
-    stop, // Stops or removes the speech from the queue
-  } = useSpeech({ text: "This library is awesome!" });
+    start, // Function to start the speech or put it in queue
+    pause, // Function to pause the speech
+    stop, // Function to stop the speech or remove it from queue
+  } = useSpeech({ text: "This library is awesome!", stableText: true });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
@@ -79,7 +79,7 @@ import React from "react";
 import Speech from "react-text-to-speech";
 
 export default function App() {
-  return <Speech text="This library is awesome!" />;
+  return <Speech text="This library is awesome!" stableText={true} />;
 }
 ```
 
