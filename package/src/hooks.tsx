@@ -316,10 +316,13 @@ export function useSpeechInternal({
     if (isValidElement<NodeProps>(node)) return cloneElement(node, { children: highlightedText(node.props.children, index) });
   }
 
+  useEffect(() => {
+    return () => stop({ status: speechStatusRef.current });
+  }, [enableDirectives, key]);
+
   useLayoutEffect(() => {
     highlightRef.current = false;
     if (autoPlay) start();
-    return () => stop({ status: speechStatusRef.current });
   }, [autoPlay, enableDirectives, normalizedText]);
 
   useLayoutEffect(() => {
