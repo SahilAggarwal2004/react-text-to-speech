@@ -1,15 +1,15 @@
 # Changelog
 
-## [5.1.0](///compare/v5.0.5...v5.1.0) (2025-12-15)
+## [5.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.5...v5.1.0) (2025-12-15)
 
 ### Chores
 
-* **deps:** Update prettier, @types/react, @release-it/conventional-changelog.  a378e3a
-* **deps:** Update release-it, prettier, react and react-remarkify.  239d6dd
+* **deps:** Update prettier, @types/react, @release-it/conventional-changelog.  ([a378e3a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/a378e3a4008250aa8452fd75c2ef7fe174922299))
+* **deps:** Update release-it, prettier, react and react-remarkify.  ([239d6dd](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/239d6dd56edc805f9bb162e1d23499912df7ec5e))
 
 ### Features
 
-* Add `stableText` option to skip unnecessary key calculation and improve performance.  1c3470a
+* Add `stableText` option to skip unnecessary key calculation and improve performance.  ([1c3470a](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/1c3470a2f0108de934ba3bddfb3f1dd8ef593047))
 
 ## [5.0.5](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.4...v5.0.5) (2025-11-14)
 
