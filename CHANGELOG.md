@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.0...v5.1.1) (2025-12-16)
+
+### Bug Fixes
+
+* Fix broken compare links in release-it changelog.  ([e40e785](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e40e7854b79cdf8b70d15ecd4f5c4dd8b53707b5))
+* Stop speech immediately on content key change.  ([de81515](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/de815153bf301aac62487442c3a667f57c083608))
+
+### Code Refactoring
+
+* Move utility files from src/modules to src/lib.  ([bdb9d12](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/bdb9d1279015d4237efe7dc77d9a11ef1aaf2870))
+
 ## [5.1.0](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.0.5...v5.1.0) (2025-12-15)
 
 ### Chores
