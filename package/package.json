@@ -1,6 +1,6 @@
 {
   "name": "react-text-to-speech",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "An easy-to-use React.js library that leverages the Web Speech API to convert text to speech.",
   "license": "MIT",
   "author": "Sahil Aggarwal <aggarwalsahil2004@gmail.com>",

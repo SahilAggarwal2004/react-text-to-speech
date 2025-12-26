@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.1.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.1...v5.1.2) (2025-12-26)
+
+### Chores
+
+* **deps:** Update @release-it/conventional-changelog and @types/node.  ([fcc5e3f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/fcc5e3fd122b6391b51b1631fd92cd8219e2d78d))
+* **deps:** Update release-it.  ([f1d0460](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/f1d0460834a819b0e6ae6519e7e781e926a3a407))
+
+### Performance Improvements
+
+* Stabilize default props reference to avoid unnecessary rerenders.  ([64aa2a7](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/64aa2a762b1364658841a96ab55ca288eb85dcaa))
+
+### Documentation
+
+* Update README with latest usage examples for `useSpeech` hook and `<Speech>` component.  ([e748a31](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/e748a318436d9732990e7337a5939e44f39c4b7e))
+
 ## [5.1.1](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.0...v5.1.1) (2025-12-16)
 
 ### Bug Fixes
