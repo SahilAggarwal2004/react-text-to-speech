@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react";
 
-import { highlightedTextIdSuffix, idPrefix } from "./constants.js";
+import { defaults, highlightedTextIdSuffix, idPrefix } from "./constants.js";
 import { useSpeechInternal } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 import { composeProps, hideElement, showElement } from "./lib/dom.js";
@@ -23,7 +23,7 @@ export default function Speech({
   stopBtn = <HiMiniStop />,
   useStopOverPause = false,
   enableConditionalHighlight = false,
-  props = {},
+  props = defaults.props,
   children,
   ...hookProps
 }: SpeechProps) {

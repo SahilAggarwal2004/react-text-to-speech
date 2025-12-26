@@ -1,8 +1,8 @@
 import { DivProps, HighlightProps } from "../types.js";
 
-export const composeClass = (id: string, props: DivProps) => `${id}${props?.className ? " " + props.className : ""}`;
+export const composeClass = (baseClass: string, props?: DivProps) => `${baseClass}${props?.className ? " " + props.className : ""}`;
 
-export const composeProps = (id: string, props: DivProps) => ({ ...props, className: composeClass(id, props) });
+export const composeProps = (baseClass: string, props?: DivProps) => ({ ...props, className: composeClass(baseClass, props) });
 
 export function createElementWithProps<K extends keyof HTMLElementTagNameMap>(tag: K, props: HighlightProps = {}): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag);
