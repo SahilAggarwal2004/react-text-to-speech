@@ -31,7 +31,7 @@
     "prettier": "^3.7.4",
     "prettier-package-json": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "release-it": "^19.1.0",
+    "release-it": "^19.2.1",
     "shx": "^0.4.0",
     "typescript": "^5.9.3"
   }
