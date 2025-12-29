@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.1.3](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.2...v5.1.3) (2025-12-29)
+
+### Chores
+
+* **deps:** Update release-it.  ([49fedda](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/49feddafce01cafe572d39607b965a23fc59e263))
+
+### Code Refactoring
+
+* Use ReactNode consistently for renderable props.  ([c293443](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/c29344305083ff766bdad9d851c7be58716a8243))
+
 ## [5.1.2](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.1...v5.1.2) (2025-12-26)
 
 ### Chores
