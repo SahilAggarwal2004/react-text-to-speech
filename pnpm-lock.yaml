@@ -13,10 +13,10 @@ importers:
         version: 4.7.0(prettier@3.7.4)
       '@release-it/bumper':
         specifier: ^7.0.5
-        version: 7.0.5(release-it@19.2.1(@types/node@25.0.3))
+        version: 7.0.5(release-it@19.2.2(@types/node@25.0.3))
       '@release-it/conventional-changelog':
         specifier: ^10.0.4
-        version: 10.0.4(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.2.1)(release-it@19.2.1(@types/node@25.0.3))
+        version: 10.0.4(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.2.1)(release-it@19.2.2(@types/node@25.0.3))
       '@types/react':
         specifier: ^19.2.7
         version: 19.2.7
@@ -36,8 +36,8 @@ importers:
         specifier: ^0.7.2
         version: 0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.7.4))(prettier@3.7.4)
       release-it:
-        specifier: ^19.2.1
-        version: 19.2.1(@types/node@25.0.3)
+        specifier: ^19.2.2
+        version: 19.2.2(@types/node@25.0.3)
       shx:
         specifier: ^0.4.0
         version: 0.4.0
@@ -5704,8 +5704,8 @@ packages:
     resolution: {integrity: sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog==}
     engines: {node: '>= 0.10'}
 
-  release-it@19.2.1:
-    resolution: {integrity: sha512-Tu9kZKtCJkrLG6nD0OLbVdVP8wHgpQBpRvtZQmdEgGHDwg0FiiHmdnnPskTQllPWJFMtpHo3O7MHtr8/AWEFbA==}
+  release-it@19.2.2:
+    resolution: {integrity: sha512-57TBUTBbBXLJsPufYS+Hsb1dSZKZ0ktiYgPkNc3Pmlq/QQtH9X0oD0SG2ib5CsXHTI11m19pyK60NXmvtE6cLg==}
     engines: {node: ^20.12.0 || >=22.0.0}
     hasBin: true
 
@@ -9086,7 +9086,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@release-it/bumper@7.0.5(release-it@19.2.1(@types/node@25.0.3))':
+  '@release-it/bumper@7.0.5(release-it@19.2.2(@types/node@25.0.3))':
     dependencies:
       '@iarna/toml': 3.0.0
       cheerio: 1.1.2
@@ -9095,10 +9095,10 @@ snapshots:
       ini: 5.0.0
       js-yaml: 4.1.1
       lodash-es: 4.17.21
-      release-it: 19.2.1(@types/node@25.0.3)
+      release-it: 19.2.2(@types/node@25.0.3)
       semver: 7.7.3
 
-  '@release-it/conventional-changelog@10.0.4(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.2.1)(release-it@19.2.1(@types/node@25.0.3))':
+  '@release-it/conventional-changelog@10.0.4(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.2.1)(release-it@19.2.2(@types/node@25.0.3))':
     dependencies:
       '@conventional-changelog/git-client': 2.5.1(conventional-commits-filter@5.0.0)(conventional-commits-parser@6.2.1)
       concat-stream: 2.0.0
@@ -9106,7 +9106,7 @@ snapshots:
       conventional-changelog-angular: 8.1.0
       conventional-changelog-conventionalcommits: 9.1.0
       conventional-recommended-bump: 11.2.0
-      release-it: 19.2.1(@types/node@25.0.3)
+      release-it: 19.2.2(@types/node@25.0.3)
       semver: 7.7.3
     transitivePeerDependencies:
       - conventional-commits-filter
@@ -13482,7 +13482,7 @@ snapshots:
 
   relateurl@0.2.7: {}
 
-  release-it@19.2.1(@types/node@25.0.3):
+  release-it@19.2.2(@types/node@25.0.3):
     dependencies:
       '@nodeutils/defaults-deep': 1.1.0
       '@octokit/rest': 22.0.1
