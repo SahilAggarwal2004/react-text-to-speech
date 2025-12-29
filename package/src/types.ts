@@ -1,4 +1,4 @@
-import { CSSProperties, DetailedHTMLProps, HTMLAttributes, JSX, PropsWithChildren, ReactNode } from "react";
+import { CSSProperties, DetailedHTMLProps, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 
 // hooks.tsx
 export type DirectiveEvent = "change" | "pause" | null;
@@ -68,8 +68,6 @@ export type UseSpeechOptionsInternal = UseSpeechOptions & { id?: string };
 export type IconProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
 // index.tsx
-export type Button = JSX.Element | string | null;
-
 export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 
 export type ChildrenOptions = {
@@ -85,9 +83,9 @@ export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDiv
 export type HighlightedTextProps = DivProps & { id: string };
 
 export type SpeechProps = UseSpeechOptionsInternal & {
-  startBtn?: Button;
-  pauseBtn?: Button;
-  stopBtn?: Button;
+  startBtn?: ReactNode;
+  pauseBtn?: ReactNode;
+  stopBtn?: ReactNode;
   useStopOverPause?: boolean;
   enableConditionalHighlight?: boolean;
   props?: DivProps;
