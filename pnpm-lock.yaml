@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  qs@<6.14.1: '>=6.14.1'
+
 importers:
 
   .:
@@ -82,8 +85,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(react@19.2.3)
       react-remarkify:
-        specifier: ^0.8.1
-        version: 0.8.1(react@19.2.3)
+        specifier: ^0.8.2
+        version: 0.8.2(react@19.2.3)
       react-text-to-speech:
         specifier: workspace:*
         version: link:../package
@@ -5537,8 +5540,8 @@ packages:
     resolution: {integrity: sha512-LjgDO2zPtoXP2wJpDjZrGdojii1uqO0cnwKoIoUzkfS98HDmbeiGmYiXo3lXeFlq2xvne1QFQhwYXSUCLKtEuA==}
     engines: {node: '>=12.20'}
 
-  qs@6.14.0:
-    resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
+  qs@6.14.1:
+    resolution: {integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ==}
     engines: {node: '>=0.6'}
 
   queue-microtask@1.2.3:
@@ -5594,8 +5597,8 @@ packages:
       react-loadable: '*'
       webpack: '>=4.41.1 || 5.x'
 
-  react-remarkify@0.8.1:
-    resolution: {integrity: sha512-Jhufhzs15XP2N8+UeV6c8TQi+z7RmvNmYO/utMA8XQyaXgQ2qnFwFBSnIrjG5Q6ummQhfrnUUTVeE36hOK/jrg==}
+  react-remarkify@0.8.2:
+    resolution: {integrity: sha512-hA+znkEIEBVV617ePQ+sxUGvFQLMKBJZwdFvB1RKVoIG2vsvW1XZAdA1KFNIHTag6qxCvyDuaV07QppW+FY7Qg==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -9876,7 +9879,7 @@ snapshots:
       http-errors: 2.0.1
       iconv-lite: 0.4.24
       on-finished: 2.4.1
-      qs: 6.14.0
+      qs: 6.14.1
       raw-body: 2.5.3
       type-is: 1.6.18
       unpipe: 1.0.0
@@ -10869,7 +10872,7 @@ snapshots:
       parseurl: 1.3.3
       path-to-regexp: 0.1.12
       proxy-addr: 2.0.7
-      qs: 6.14.0
+      qs: 6.14.1
       range-parser: 1.2.1
       safe-buffer: 5.2.1
       send: 0.19.1
@@ -13265,7 +13268,7 @@ snapshots:
     dependencies:
       escape-goat: 4.0.0
 
-  qs@6.14.0:
+  qs@6.14.1:
     dependencies:
       side-channel: 1.1.0
 
@@ -13319,8 +13322,9 @@ snapshots:
       react-loadable: '@docusaurus/react-loadable@6.0.0(react@19.2.3)'
       webpack: 5.103.0
 
-  react-remarkify@0.8.1(react@19.2.3):
+  react-remarkify@0.8.2(react@19.2.3):
     dependencies:
+      hast-util-to-jsx-runtime: 2.3.6
       react: 19.2.3
       rehype-react: 8.0.0
       remark-parse: 11.0.0

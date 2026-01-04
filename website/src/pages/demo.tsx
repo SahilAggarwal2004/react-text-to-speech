@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRemark } from "react-remarkify";
 import { useSpeech, useVoices } from "react-text-to-speech";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "react-text-to-speech/icons";
-import { HighlightMode } from "react-text-to-speech/types";
+import type { HighlightMode } from "react-text-to-speech/types";
 import { toast, ToastContainer } from "react-toastify";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";

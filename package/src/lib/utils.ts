@@ -17,7 +17,7 @@ import {
   trailingSpacesRegex,
   wordBoundarySeparator,
 } from "../constants.js";
-import { HighlightMode, SpeakingWord, State } from "../types.js";
+import type { HighlightMode, SpeakingWord, State } from "../types.js";
 import { setState } from "./state.js";
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
@@ -26,7 +26,7 @@ export function cancel(stopReason: State["stopReason"] = "manual") {
   window.speechSynthesis?.cancel();
 }
 
-export function chunkBySizeWithDelimiters(text: string, size: number) {
+export function chunkBySizeWithDelimiters(text: string, size: number): string[] {
   const length = text.length;
   const result: string[] = [];
   let startIndex = 0;
@@ -46,11 +46,11 @@ export function chunkBySizeWithDelimiters(text: string, size: number) {
   return result;
 }
 
-export const cloneRegex = (regex: RegExp) => new RegExp(regex.source, regex.flags);
+export const cloneRegex = (regex: RegExp): RegExp => new RegExp(regex.source, regex.flags);
 
-export const getProgress = (current: number, total: number) => total && Math.floor((current / total) * 100);
+export const getProgress = (current: number, total: number): number => total && Math.floor((current / total) * 100);
 
-export function isMobile(iOS = true) {
+export function isMobile(iOS = true): boolean {
   let result = (navigator as any).userAgentData?.mobile as boolean | undefined;
   result ??= mobileRegex.test(navigator.userAgent) || (iOS && iosRegex.test(navigator.userAgent));
   return result;
@@ -64,10 +64,10 @@ export function parse(value: string): number | boolean | string {
   return value;
 }
 
-export const sanitize = (text: string) =>
+export const sanitize = (text: string): string =>
   text.replace(sanitizeRegex, (match, group) => (group ? group + ")" : ` ${symbolMapping[match as keyof typeof symbolMapping]}${specialSymbol}`));
 
-export function shouldHighlightNextPart(highlightMode: HighlightMode, utterance: SpeechSynthesisUtterance, charIndex: number) {
+export function shouldHighlightNextPart(highlightMode: HighlightMode, utterance: SpeechSynthesisUtterance, charIndex: number): boolean {
   if (highlightMode === "word" || !charIndex) return true;
   const text = utterance.text.slice(0, charIndex).replace(trailingSpacesRegex, spaceDelimiter).slice(-2);
   if (highlightMode === "sentence" && (text[1] === lineDelimiter || (sentenceDelimiters.includes(text[0]) && text[1] === spaceDelimiter))) return true;
@@ -88,7 +88,7 @@ export function splitNode(highlightMode: HighlightMode, node: string, speakingWo
   return [before, sentence, node.slice(sentence.length)];
 }
 
-export function textToChunks(text: string, size?: number, enableDirectives?: boolean) {
+export function textToChunks(text: string, size?: number, enableDirectives?: boolean): string[] {
   size = size ? Math.max(size, minChunkSize) : isMobile() ? mobileChunkSize : desktopChunkSize;
   const regex = new RegExp(`${enableDirectives ? directiveRegex.source + "|" : ""}${wordBoundarySeparator}`, "g");
   const chunks: string[] = [];

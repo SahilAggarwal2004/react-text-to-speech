@@ -1,4 +1,4 @@
-import { CSSProperties, DetailedHTMLProps, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
+import type { CSSProperties, DetailedHTMLProps, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 
 // hooks.tsx
 export type DirectiveEvent = "change" | "pause" | null;
@@ -73,14 +73,16 @@ export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 export type ChildrenOptions = {
   speechStatus?: SpeechStatus;
   isInQueue?: boolean;
-  start?: VoidFunction;
-  pause?: VoidFunction;
-  stop?: VoidFunction;
+  start?: SpeechActionHandler;
+  pause?: SpeechActionHandler;
+  stop?: SpeechActionHandler;
 };
 
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 export type HighlightedTextProps = DivProps & { id: string };
+
+export type SpeechActionHandler = VoidFunction;
 
 export type SpeechProps = UseSpeechOptionsInternal & {
   startBtn?: ReactNode;
@@ -95,6 +97,8 @@ export type SpeechProps = UseSpeechOptionsInternal & {
 export type VoidFunction = () => void;
 
 // queue.ts
+export type CleanupHandler = VoidFunction;
+
 export type QueueChangeEventHandler = (queue: SpeechUtterancesQueue) => void;
 
 export type SpeechQueue = SpeechQueueItem[];

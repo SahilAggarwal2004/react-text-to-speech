@@ -1,10 +1,10 @@
 import React, { cloneElement, Fragment, isValidElement, ReactNode, SetStateAction } from "react";
 
 import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "../constants.js";
-import { Index, NodeProps, Words } from "../types.js";
+import type { Index, NodeProps, Words } from "../types.js";
 import { composeClass } from "./dom.js";
 
-export function findCharIndex(words: Words, index: number) {
+export function findCharIndex(words: Words, index: number): string {
   let currentIndex = 0;
   function recursiveSearch(currentWords: Words, parentIndex: Index = ""): string {
     if (typeof currentWords === "string") {
@@ -20,7 +20,7 @@ export function findCharIndex(words: Words, index: number) {
   return recursiveSearch(words);
 }
 
-export const getIndex = (parentIndex: Index, index: Index) => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
+export const getIndex = (parentIndex: Index, index: Index): string => `${parentIndex === "" ? "" : parentIndex + "-"}${index}`;
 
 export function indexText(node: ReactNode, id: string, index = ""): ReactNode {
   if (typeof node == "string" || typeof node == "number") return node;
@@ -33,7 +33,7 @@ export function indexText(node: ReactNode, id: string, index = ""): ReactNode {
   return node;
 }
 
-export function isParent(parentIndex: string, index?: string) {
+export function isParent(parentIndex: string, index?: string): boolean {
   if (!index?.startsWith(parentIndex)) return false;
   if (parentIndex) {
     const indexParts = index.split("-");
@@ -71,7 +71,7 @@ export function nodeToWords(node: ReactNode): Words {
   return "";
 }
 
-export function normalizeChildren(node: ReactNode) {
+export function normalizeChildren(node: ReactNode): ReactNode {
   if (Array.isArray(node))
     return node.map((element, i) => {
       if (typeof element === "number" || (typeof element === "string" && nonWhitespaceRegex.test(element))) return <span key={i}>{element}</span>;
@@ -81,7 +81,7 @@ export function normalizeChildren(node: ReactNode) {
   return node;
 }
 
-export function parent(index?: string) {
+export function parent(index?: string): string {
   if (!index) return "";
   const lastIndex = index.lastIndexOf("-");
   return lastIndex === -1 ? "" : index.slice(0, lastIndex);

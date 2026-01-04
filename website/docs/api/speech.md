@@ -45,16 +45,17 @@ Here is the full API for the `<Speech>` component, these properties can be set o
 ### Children
 
 ```typescript
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type SpeechStatus = "started" | "paused" | "stopped" | "queued";
 type VoidFunction = () => void;
+type SpeechActionHandler = VoidFunction;
 type ChildrenOptions = {
   speechStatus?: SpeechStatus;
   isInQueue?: boolean;
-  start?: VoidFunction;
-  pause?: VoidFunction;
-  stop?: VoidFunction;
+  start?: SpeechActionHandler;
+  pause?: SpeechActionHandler;
+  stop?: SpeechActionHandler;
 };
 type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 ```
@@ -62,7 +63,7 @@ type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 ### DivProps
 
 ```typescript
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import type { DetailedHTMLProps, HTMLAttributes } from "react";
 
 type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 ```
@@ -76,7 +77,7 @@ type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 ### HighlightProps
 
 ```typescript
-import { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 type HighlightProps = {
   className?: string;

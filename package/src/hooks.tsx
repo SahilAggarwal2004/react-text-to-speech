@@ -6,7 +6,7 @@ import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit
 import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./lib/react.js";
 import { setState, state } from "./lib/state.js";
 import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./lib/utils.js";
-import {
+import type {
   DirectiveEvent,
   DivProps,
   NodeProps,

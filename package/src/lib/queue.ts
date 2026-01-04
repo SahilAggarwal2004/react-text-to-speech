@@ -1,4 +1,4 @@
-import { QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "../types.js";
+import type { CleanupHandler, QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "../types.js";
 import { cancel } from "./utils.js";
 
 const queue: SpeechQueue = [];
@@ -50,7 +50,7 @@ export function speakFromQueue() {
   if (item) window.speechSynthesis.speak(item.utterance);
 }
 
-export function subscribe(callback: QueueChangeEventHandler) {
+export function subscribe(callback: QueueChangeEventHandler): CleanupHandler {
   queueListeners.push(callback);
   return () => {
     const index = queueListeners.indexOf(callback);

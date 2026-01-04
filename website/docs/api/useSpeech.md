@@ -43,7 +43,7 @@ type HighlightMode = "word" | "sentence" | "line" | "paragraph";
 ### HighlightProps
 
 ```typescript
-import { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 type HighlightProps = {
   className?: string;

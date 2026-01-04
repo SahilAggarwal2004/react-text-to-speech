@@ -1,5 +1,7 @@
-import { State } from "../types.js";
+import type { State } from "../types.js";
 
 export const state: State = { stopReason: "manual" };
 
-export const setState = (newState: Partial<State>) => Object.assign(state, newState);
+export function setState(newState: Partial<State>) {
+  Object.assign(state, newState);
+}

@@ -1,10 +1,10 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { ReactNode, useLayoutEffect, useRef } from "react";
 
 import { defaults, highlightedTextIdSuffix, idPrefix } from "./constants.js";
 import { useSpeechInternal } from "./hooks.js";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "./icons.js";
 import { composeProps, hideElement, showElement } from "./lib/dom.js";
-import { HighlightedTextProps, SpeechProps } from "./types.js";
+import type { HighlightedTextProps, SpeechProps } from "./types.js";
 
 export function HighlightedText({ id, children, ...props }: HighlightedTextProps) {
   const uniqueId = `${idPrefix}${id}`;
@@ -26,7 +26,7 @@ export default function Speech({
   props = defaults.props,
   children,
   ...hookProps
-}: SpeechProps) {
+}: SpeechProps): ReactNode {
   const { uniqueId, normalizedText, reactContent, Text, speechStatus, ...childrenOptions } = useSpeechInternal(hookProps);
   const { isInQueue, start, pause, stop } = childrenOptions;
   const sourceRef = useRef<HTMLDivElement>(null);
