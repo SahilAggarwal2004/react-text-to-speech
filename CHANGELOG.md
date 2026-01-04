@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.1.4](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.3...v5.1.4) (2026-01-04)
+
+### Code Refactoring
+
+* Improve TypeScript types and usage.  ([869ff65](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/869ff654a6004c004f33d3396619a0d8082c6a57))
+
 ## [5.1.3](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.2...v5.1.3) (2025-12-29)
 
 ### Chores
