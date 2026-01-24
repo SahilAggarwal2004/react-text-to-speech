@@ -8,4 +8,6 @@ onlyBuiltDependencies:
   - esbuild
 
 overrides:
-  qs@<6.14.1: '>=6.14.1'
+  lodash-es@>=4.0.0 <=4.17.22: '>=4.17.23'
+  lodash@>=4.0.0 <=4.17.22: '>=4.17.23'
+  undici@>=7.0.0 <7.18.2: '>=7.18.2'

@@ -25,13 +25,13 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@release-it/bumper": "^7.0.5",
     "@release-it/conventional-changelog": "^10.0.4",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "concurrently": "^9.2.1",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.1",
     "prettier-package-json": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "release-it": "^19.2.2",
+    "release-it": "^19.2.4",
     "shx": "^0.4.0",
     "typescript": "^5.9.3"
   }
