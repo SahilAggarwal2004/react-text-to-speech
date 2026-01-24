@@ -67,7 +67,7 @@ export type UseSpeechOptionsInternal = UseSpeechOptions & { id?: string };
 // icons.tsx
 export type IconProps = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
-// index.tsx
+// index.ts
 export type Children = (childrenOptions: ChildrenOptions) => ReactNode;
 
 export type ChildrenOptions = {
