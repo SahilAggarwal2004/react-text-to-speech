@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.5](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.4...v5.1.5) (2026-02-13)
+
+### Chores
+
+* **deps:** Update @ianvs/prettier-plugin-sort-imports, @release-it/conventional-changelog, @types/react, react, react-dom and types/node.  ([9bcc202](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/9bcc2021e32e0d0bf610032241f6e2717e9554b1))
+* **deps:** Update @types/node, @types/react, prettier and release-it.  ([8162c20](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/8162c201d826b373573d4b4018255f3dbf033d96))
+* Rename `index.tsx` to `index.ts`.  ([ae1249e](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/ae1249e1779a3c0895b5aa969707e8267cac065a))
+
 ## [5.1.4](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.3...v5.1.4) (2026-01-04)
 
 ### Code Refactoring
