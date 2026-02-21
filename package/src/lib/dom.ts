@@ -1,4 +1,4 @@
-import type { DivProps, HighlightProps } from "../types.js";
+import type { DivProps, HighlightProps } from "../types";
 
 export const composeClass = (baseClass: string, props?: DivProps): string => `${baseClass}${props?.className ? " " + props.className : ""}`;
 

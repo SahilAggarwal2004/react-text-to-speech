@@ -1,11 +1,11 @@
 import React, { cloneElement, forwardRef, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants.js";
-import { composeProps, createElementWithProps } from "./lib/dom.js";
-import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./lib/queue.js";
-import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./lib/react.js";
-import { setState, state } from "./lib/state.js";
-import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./lib/utils.js";
+import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants";
+import { composeProps, createElementWithProps } from "./lib/dom";
+import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./lib/queue";
+import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./lib/react";
+import { setState, state } from "./lib/state";
+import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./lib/utils";
 import type {
   DirectiveEvent,
   DivProps,
@@ -22,7 +22,7 @@ import type {
   UseSpeechOptions,
   UseSpeechOptionsInternal,
   VoidFunction,
-} from "./types.js";
+} from "./types";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
@@ -430,7 +430,7 @@ export function useVoices() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
   function setData(voices: SpeechSynthesisVoice[]) {
-    setLanguages([...new Set(voices.map(({ lang }) => lang))]);
+    setLanguages(Array.from(new Set(voices.map(({ lang }) => lang))));
     setVoices(voices);
   }
 

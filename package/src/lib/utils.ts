@@ -16,9 +16,9 @@ import {
   symbolMapping,
   trailingSpacesRegex,
   wordBoundarySeparator,
-} from "../constants.js";
-import type { HighlightMode, SpeakingWord, State } from "../types.js";
-import { setState } from "./state.js";
+} from "../constants";
+import type { HighlightMode, SpeakingWord, State } from "../types";
+import { setState } from "./state";
 
 export function cancel(stopReason: State["stopReason"] = "manual") {
   if (typeof window === "undefined") return;

@@ -1,3 +1,3 @@
-export { default } from "./components.js";
-export { HighlightedText } from "./components.js";
-export { useQueue, useSpeak, useSpeech, useVoices } from "./hooks.js";
+export { default } from "./components";
+export { HighlightedText } from "./components";
+export { useQueue, useSpeak, useSpeech, useVoices } from "./hooks";

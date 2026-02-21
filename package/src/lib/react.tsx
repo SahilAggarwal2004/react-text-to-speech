@@ -1,8 +1,8 @@
 import React, { cloneElement, Fragment, isValidElement, ReactNode, SetStateAction } from "react";
 
-import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "../constants.js";
-import type { Index, NodeProps, Words } from "../types.js";
-import { composeClass } from "./dom.js";
+import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "../constants";
+import type { Index, NodeProps, Words } from "../types";
+import { composeClass } from "./dom";
 
 export function findCharIndex(words: Words, index: number): string {
   let currentIndex = 0;

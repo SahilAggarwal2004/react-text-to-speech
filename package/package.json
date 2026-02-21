@@ -17,17 +17,17 @@
   },
   "type": "module",
   "exports": {
-    ".": "./dist/index.js",
-    "./icons": "./dist/icons.js",
-    "./types": "./dist/types.js"
+    ".": "./dist/index.mjs",
+    "./icons": "./dist/icons.mjs",
+    "./types": "./dist/types.mjs"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "files": [
     "dist"
   ],
   "scripts": {
-    "compile": "tsup",
-    "dev": "tsup --watch"
+    "compile": "tsdown",
+    "dev": "tsdown --watch"
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "tsup": "^8.5.1"
+    "tsdown": "^0.20.3"
   },
   "keywords": [
     "component",
