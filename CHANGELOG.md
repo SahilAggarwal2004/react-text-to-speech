@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.1.6](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.5...v5.1.6) (2026-02-21)
+
+### Chores
+
+* **deps:** Update react-remarkify, @tailwindcss/postcss, @types/node and tailwindcss.  ([ea289a2](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/ea289a24af55b5330c92bd836059a1c65fed6227))
+
+### Build System
+
+* Migrate from tsup to tsdown for library bundling.  ([279aa38](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/279aa38a946164e5fb22edb5f133da86f457630e))
+
 ## [5.1.5](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.4...v5.1.5) (2026-02-13)
 
 ### Chores
