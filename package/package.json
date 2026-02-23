@@ -21,7 +21,6 @@
     "./icons": "./dist/icons.mjs",
     "./types": "./dist/types.mjs"
   },
-  "main": "dist/index.mjs",
   "files": [
     "dist"
   ],
@@ -30,7 +29,7 @@
     "dev": "tsdown --watch"
   },
   "sideEffects": false,
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
