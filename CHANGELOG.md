@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.1.7](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.6...v5.1.7) (2026-03-04)
+
+### Chores
+
+* **deps:** Update @tailwindcss/postcss and tailwindcss.  ([782c8c8](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/782c8c8ebd33abe9dda1ecd9771cdd08873a4f4d))
+* **deps:** Update @types/node and postcss.  ([b058951](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/b058951c05eae865ad7a1f57a63f47f2a000dbc1))
+* **deps:** Update @types/node.  ([bea65ac](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/bea65ac562890ef0f60825a0f7779668ab163bf9))
+
+### Bug Fixes
+
+* Flatten nested children arrays in normalizeChildren to ensure stable traversal.  ([27952bf](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/27952bf67094df10f7f7c13a15e475b984f8cdb8))
+
 ## [5.1.6](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.5...v5.1.6) (2026-02-21)
 
 ### Chores
