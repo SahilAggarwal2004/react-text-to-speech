@@ -73,7 +73,7 @@ export function nodeToWords(node: ReactNode): Words {
 
 export function normalizeChildren(node: ReactNode): ReactNode {
   if (Array.isArray(node))
-    return node.map((element, i) => {
+    return node.flat().map((element, i) => {
       if (typeof element === "number" || (typeof element === "string" && nonWhitespaceRegex.test(element))) return <span key={i}>{element}</span>;
       return element;
     });
