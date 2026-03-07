@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.1.8](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.7...v5.1.8) (2026-03-07)
+
+### Chores
+
+* **deps:** Update tsdown, react-remarkify and @types/node.  ([93f59e6](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/93f59e61bff15c62b7bc170d1f5a88acf7d6dce1))
+
 ## [5.1.7](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.6...v5.1.7) (2026-03-04)
 
 ### Chores
