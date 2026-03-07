@@ -29,13 +29,13 @@
     "dev": "tsdown --watch"
   },
   "sideEffects": false,
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.21.0"
   },
   "keywords": [
     "component",

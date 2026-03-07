@@ -23,7 +23,7 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-remarkify": "^0.8.3",
+    "react-remarkify": "^0.8.4",
     "react-text-to-speech": "workspace:*",
     "react-toastify": "^11.0.5",
     "rehype-raw": "^7.0.0",
@@ -37,7 +37,7 @@
     "@docusaurus/types": "3.9.2",
     "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.3.5",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1"
   },
