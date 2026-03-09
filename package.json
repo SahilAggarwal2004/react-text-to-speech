@@ -9,7 +9,7 @@
   "scripts": {
     "build": "pnpm i && pnpm run copy && pnpm run compile",
     "compile": "pnpm --filter ./package run compile",
-    "copy": "shx cp README.md LICENSE package/",
+    "copy": "shx cp LICENSE package/",
     "deploy": "pnpm --filter ./website run deploy",
     "dev": "concurrently --kill-others \"pnpm run dev:package\" \"pnpm run dev:website\"",
     "dev:package": "pnpm --filter ./package run dev",

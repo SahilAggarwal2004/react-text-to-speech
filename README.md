@@ -1,44 +1,70 @@
 # react-text-to-speech
 
-An easy-to-use React.js library that leverages the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) to convert text to speech.
+[![npm version](https://img.shields.io/npm/v/react-text-to-speech)](https://www.npmjs.com/package/react-text-to-speech)
+[![npm downloads](https://img.shields.io/npm/dm/react-text-to-speech)](https://www.npmjs.com/package/react-text-to-speech)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/react-text-to-speech)](https://bundlephobia.com/package/react-text-to-speech)
+[![license](https://img.shields.io/npm/l/react-text-to-speech)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+A React.js text-to-speech library with **real-time text highlighting**, **dynamic speech controls**, and **unlimited text length**, powered by the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Documentation](#documentation)
+- [Demo](#demo)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
-- **Text-to-Speech:** Converts text to speech using the Web Speech API.
-- **Text Highlighting:** Highlights text as it’s read aloud using the [`useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text) or [`Speech` component](https://rtts.vercel.app/docs/usage/speech#highlight-text).
-- **Error and Event Handling:** Provides APIs for managing errors and events via [`useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events) or [`Speech` component](https://rtts.vercel.app/docs/usage/speech#handling-errors-and-events).
-- **Multiple Speech Instances:** Supports multiple speech instances using [`useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage) or [`Speech` component](https://rtts.vercel.app/docs/usage/speech#multiple-instance-usage).
-- **Customization:** Fully customizable through the [`useSpeech` hook](https://rtts.vercel.app/docs/usage/useSpeech) or [`Speech` component](https://rtts.vercel.app/docs/usage/speech#full-customization).
-- **Directives:** Control playback behavior inline through special text syntax using [Directives](https://rtts.vercel.app/docs/usage/directives).
-- **Dynamic Controls:** Programmatically adjust `pitch`, `rate`, `volume`, `lang`, and `voiceURI` during speech.
-- **Unlimited Text Input:** Overcomes the [Web Speech API’s text length limit](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/text) for continuous speech.
-- **Auto Cleanup:** Automatically stops speech when the component unmounts.
+**🔊 Text-to-Speech**
+Converts text to speech using the browser's built-in Web Speech API. No external API keys or services required.
+
+**🖊️ Text Highlighting**
+Highlights text in real time as it is spoken. Works with both the `useSpeech` hook and the `<Speech>` component. ([docs](https://rtts.vercel.app/docs/usage/useSpeech#highlight-text))
+
+**🎛️ Dynamic Controls**
+Adjust `pitch`, `rate`, `volume`, `lang`, and `voiceURI` programmatically, even while speech is already playing.
+
+**♾️ Unlimited Text Input**
+The Web Speech API has a hard limit on utterance length. This library automatically splits long text into chunks and stitches the speech back together seamlessly. ([MDN reference](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/text))
+
+**📋 Directives**
+Embed inline playback instructions directly in your text to pause, stop, or modify behavior mid-utterance without touching your component code. ([docs](https://rtts.vercel.app/docs/usage/directives))
+
+**🔁 Multiple Instances**
+Run multiple independent speech instances at the same time, each with its own queue and controls. ([docs](https://rtts.vercel.app/docs/usage/useSpeech#multiple-instance-usage))
+
+**🧹 Auto Cleanup**
+Speech is cancelled automatically when the component unmounts. No lingering audio, no memory leaks.
+
+**⚠️ Error and Event Handling**
+Exposes speech lifecycle events and error callbacks so you can respond to interruptions, failures, and state changes. ([docs](https://rtts.vercel.app/docs/usage/useSpeech#handling-errors-and-events))
 
 ## Installation
 
-Install `react-text-to-speech` using your preferred package manager:
-
 ```bash
-# Using npm:
+# npm
 npm install react-text-to-speech --save
 
-# Using Yarn:
+# yarn
 yarn add react-text-to-speech
 
-# Using pnpm:
+# pnpm
 pnpm add react-text-to-speech
 
-# Using Bun:
+# bun
 bun add react-text-to-speech
 ```
 
 ## Usage
 
-**react-text-to-speech** provides two primary methods to integrate text-to-speech functionality into your React.js applications: the `useSpeech` hook and the `<Speech>` component.
-
 ### `useSpeech` Hook
 
-#### Basic Usage
+Use the hook when you want to build your own UI around speech state and controls.
 
 ```tsx
 import React from "react";
@@ -46,19 +72,23 @@ import { useSpeech } from "react-text-to-speech";
 
 export default function App() {
   const {
-    Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
-    speechStatus, // String that stores current speech status
-    isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
-    start, // Function to start the speech or put it in queue
-    pause, // Function to pause the speech
-    stop, // Function to stop the speech or remove it from queue
+    Text,          // Component that renders speech text in a <div>; supports standard HTML div props
+    speechStatus,  // "started" | "paused" | "stopped"
+    isInQueue,     // true when speech is playing or waiting in queue
+    start,         // Start speech or add to queue
+    pause,         // Pause current speech
+    stop,          // Stop speech or remove from queue
   } = useSpeech({ text: "This library is awesome!", stableText: true });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
       <Text />
       <div style={{ display: "flex", columnGap: "0.5rem" }}>
-        {speechStatus !== "started" ? <button onClick={start}>Start</button> : <button onClick={pause}>Pause</button>}
+        {speechStatus !== "started" ? (
+          <button onClick={start}>Start</button>
+        ) : (
+          <button onClick={pause}>Pause</button>
+        )}
         <button onClick={stop}>Stop</button>
       </div>
     </div>
@@ -66,13 +96,11 @@ export default function App() {
 }
 ```
 
-#### Detailed Usage
-
-For more details on using the `useSpeech` hook, [refer to the documentation](https://rtts.vercel.app/docs/usage/useSpeech).
+For more details, refer to the [useSpeech hook documentation](https://rtts.vercel.app/docs/usage/useSpeech).
 
 ### `<Speech>` Component
 
-#### Basic Usage
+Use the component when you want speech playback in JSX with minimal setup.
 
 ```tsx
 import React from "react";
@@ -83,22 +111,30 @@ export default function App() {
 }
 ```
 
-#### Detailed Usage
-
-For more details on using the `<Speech>` component, [refer to the documentation](https://rtts.vercel.app/docs/usage/speech).
-
-## Demo
-
-[Check out the live demo](https://rtts.vercel.app/demo) to see it in action.
+For more details, refer to the [Speech component documentation](https://rtts.vercel.app/docs/usage/speech).
 
 ## Documentation
 
-Explore the [documentation](https://rtts.vercel.app/docs/) to get started quickly.
+Full documentation with all props, hook return values, advanced examples, and edge cases:
 
-## Contribute
+**[rtts.vercel.app/docs](https://rtts.vercel.app/docs/)**
 
-Show your ❤️ and support by giving a ⭐ on [GitHub](https://github.com/SahilAggarwal2004/react-text-to-speech). You can also support the project by upvoting and sharing it on [Product Hunt](https://www.producthunt.com/posts/react-text-to-speech). Any suggestions are welcome! Take a look at the [contributing guide](CONTRIBUTING.md).
+## Demo
+
+See all features in action on the live demo page:
+
+**[rtts.vercel.app/demo](https://rtts.vercel.app/demo)**
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome!
+
+- ⭐ [Star this repo](https://github.com/SahilAggarwal2004/react-text-to-speech) if you find it useful
+- 🐛 [Open an issue](https://github.com/SahilAggarwal2004/react-text-to-speech/issues) for bugs or unexpected behavior
+- 💡 [Start a discussion](https://github.com/SahilAggarwal2004/react-text-to-speech/discussions) for feature ideas or questions
+- 🔧 [Read the contributing guide](CONTRIBUTING.md) before submitting a pull request
+- 📣 [Upvote on Product Hunt](https://www.producthunt.com/posts/react-text-to-speech) to help spread the word
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+[MIT](LICENSE) © [Sahil Aggarwal](https://github.com/SahilAggarwal2004)
