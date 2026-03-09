@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.1.9](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.8...v5.1.9) (2026-03-09)
+
+### Chores
+
+* **deps:** Update tsdown.  ([f52bd15](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/f52bd15d3553f84d2e6fa62e7dbd6ce9a4a3eb46))
+
+### Documentation
+
+* Differentiate npm and GitHub READMEs.  ([bc62d2f](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/bc62d2f4d1590a04fba5d87230bba676fe7568be))
+
 ## [5.1.8](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.7...v5.1.8) (2026-03-07)
 
 ### Chores
