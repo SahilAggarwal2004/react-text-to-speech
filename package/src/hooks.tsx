@@ -1,11 +1,9 @@
-import React, { cloneElement, forwardRef, isValidElement, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-
-import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "./constants";
-import { composeProps, createElementWithProps } from "./lib/dom";
-import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "./lib/queue";
-import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "./lib/react";
-import { setState, state } from "./lib/state";
-import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "./lib/utils";
+import { defaults, directiveRegex, idPrefix, spaceDelimiter, specialSymbol } from "@/constants";
+import { composeProps, createElementWithProps } from "@/lib/dom";
+import { addToQueue, clearQueue, clearQueueHook, clearQueueUnload, dequeue, emit, removeFromQueue, speakFromQueue, subscribe } from "@/lib/queue";
+import { findCharIndex, getIndex, indexText, isParent, isSetStateFunction, nodeToKey, nodeToWords, parent, stripDirectives, toText } from "@/lib/react";
+import { setState, state } from "@/lib/state";
+import { cancel, getProgress, isMobile, parse, sanitize, shouldHighlightNextPart, splitNode, textToChunks } from "@/lib/utils";
 import type {
   DirectiveEvent,
   DivProps,
@@ -22,7 +20,8 @@ import type {
   UseSpeechOptions,
   UseSpeechOptionsInternal,
   VoidFunction,
-} from "./types";
+} from "@/types";
+import React, { cloneElement, forwardRef, isValidElement, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);
@@ -180,7 +179,7 @@ export function useSpeechInternal({
           processedTextLength += currentText.length;
         } else {
           const key = match[1];
-          const value = parse(match[2]);
+          const value = parse(match[2] ?? "");
           switch (key) {
             case "delay":
               directiveRef.current.delay += value as number;
@@ -197,7 +196,7 @@ export function useSpeechInternal({
               break;
           }
         }
-        currentText = chunks[++currentChunk];
+        currentText = chunks[++currentChunk] ?? "";
       }
 
       return false;
@@ -215,7 +214,7 @@ export function useSpeechInternal({
     async function stopEventHandler() {
       if (state.stopReason === "auto" && currentChunk < chunks.length - 1) {
         processedTextLength += currentText.length;
-        currentText = chunks[++currentChunk];
+        currentText = chunks[++currentChunk] ?? "";
         const continueSpeech = !enableDirectives || handleDirectives();
         if (continueSpeech) {
           utterance.text = currentText.trimStart();

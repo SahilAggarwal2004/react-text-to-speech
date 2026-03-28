@@ -1,8 +1,7 @@
-import React, { cloneElement, Fragment, isValidElement, ReactNode, SetStateAction } from "react";
-
-import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "../constants";
-import type { Index, NodeProps, Words } from "../types";
-import { composeClass } from "./dom";
+import { directiveRegexGlobal, nonWhitespaceRegex, wordBoundarySeparator } from "@/constants";
+import { composeClass } from "@/lib/dom";
+import type { Index, NodeProps, Words } from "@/types";
+import React, { cloneElement, Fragment, isValidElement, type ReactNode, type SetStateAction } from "react";
 
 export function findCharIndex(words: Words, index: number): string {
   let currentIndex = 0;
@@ -12,7 +11,7 @@ export function findCharIndex(words: Words, index: number): string {
       return (currentIndex += currentWords.length) > index ? getIndex(parentIndex, elementIndex) : "";
     }
     for (let i = 0; i < currentWords.length; i++) {
-      const result = recursiveSearch(currentWords[i], i);
+      const result = recursiveSearch(currentWords[i]!, i);
       if (result) return getIndex(parentIndex, result);
     }
     return "";

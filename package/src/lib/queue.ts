@@ -1,5 +1,5 @@
-import type { CleanupHandler, QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "../types";
-import { cancel } from "./utils";
+import { cancel } from "@/lib/utils";
+import type { CleanupHandler, QueueChangeEventHandler, SpeechQueue, SpeechQueueItem } from "@/types";
 
 const queue: SpeechQueue = [];
 

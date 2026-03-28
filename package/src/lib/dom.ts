@@ -1,4 +1,4 @@
-import type { DivProps, HighlightProps } from "../types";
+import type { DivProps, HighlightProps } from "@/types";
 
 export const composeClass = (baseClass: string, props?: DivProps): string => `${baseClass}${props?.className ? " " + props.className : ""}`;
 
@@ -19,11 +19,11 @@ export function createElementWithProps<K extends keyof HTMLElementTagNameMap>(ta
 }
 
 export function hideElement(element: HTMLElement) {
-  if (!element.dataset.originalDisplay) element.dataset.originalDisplay = element.style.display || getComputedStyle(element).display || "block";
+  if (!element.dataset["originalDisplay"]) element.dataset["originalDisplay"] = element.style.display || getComputedStyle(element).display || "block";
   Object.assign(element.style, { display: "none" });
 }
 
 export function showElement(element: HTMLElement) {
-  const display = element.dataset.originalDisplay;
+  const display = element.dataset["originalDisplay"];
   if (display) Object.assign(element.style, { display });
 }
