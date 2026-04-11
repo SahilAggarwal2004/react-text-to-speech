@@ -28,7 +28,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "concurrently": "^9.2.1",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.2",
     "prettier-package-json": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "release-it": "^19.2.4",
