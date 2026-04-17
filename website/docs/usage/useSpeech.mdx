@@ -229,18 +229,27 @@ To use `react-text-to-speech` seamlessly with markdown text, it is recommended t
 
 ### Installation
 
+{/* prettier-ignore */}
 <Tabs>
   <TabItem value="npm" label="npm">
-    ```bash npm install react-remarkify rehype-raw rehype-sanitize remark-gfm --save ```
+    ```bash
+    npm install react-remarkify rehype-raw rehype-sanitize remark-gfm --save
+    ```
   </TabItem>
   <TabItem value="yarn" label="yarn">
-    ```bash yarn add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+    ```bash
+    yarn add react-remarkify rehype-raw rehype-sanitize remark-gfm
+    ```
   </TabItem>
   <TabItem value="pnpm" label="pnpm">
-    ```bash pnpm add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+    ```bash
+    pnpm add react-remarkify rehype-raw rehype-sanitize remark-gfm
+    ```
   </TabItem>
   <TabItem value="bun" label="bun">
-    ```bash bun add react-remarkify rehype-raw rehype-sanitize remark-gfm ```
+    ```bash
+    bun add react-remarkify rehype-raw rehype-sanitize remark-gfm
+    ```
   </TabItem>
 </Tabs>
 
@@ -287,7 +296,7 @@ function MarkdownText({ children }) {
         </div>
       </div>
 
-      <Text className="prose prose-table:my-2 prose-table:block prose-table:overflow-x-auto prose-th:w-screen prose-th:max-w-full prose-th:border prose-td:border prose-th:p-2 prose-td:p-2 prose-ul:whitespace-normal prose-ol:whitespace-normal prose-headings:my-2 prose-pre:my-2 prose-hr:my-2 grid max-w-full grid-cols-1 wrap-break-word whitespace-pre-wrap *:my-0 *:w-full *:whitespace-pre-wrap" />
+      <Text className="prose prose-headings:my-2 prose-pre:my-2 prose-hr:my-2 prose-table:my-2 prose-table:block prose-table:overflow-x-auto prose-th:w-screen prose-th:max-w-full prose-th:border prose-th:p-2 prose-td:border prose-td:p-2 prose-ol:whitespace-normal prose-ul:whitespace-normal overflow-y-auto wrap-break-word whitespace-pre-wrap *:my-0 *:whitespace-pre-wrap" />
     </div>
   );
 }

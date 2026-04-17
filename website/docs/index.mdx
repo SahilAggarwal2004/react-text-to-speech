@@ -1,5 +1,5 @@
-import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
 
 # Introduction
 
@@ -13,7 +13,7 @@ import TabItem from "@theme/TabItem";
 - **Multiple Speech Instances:** Supports multiple speech instances using [`useSpeech` hook](/docs/usage/useSpeech#multiple-instance-usage) or [`Speech` component](/docs/usage/speech#multiple-instance-usage).
 - **Customization:** Fully customizable through the [`useSpeech` hook](/docs/usage/useSpeech) or [`Speech` component](/docs/usage/speech#full-customization).
 - **Directives:** Control playback behavior inline through special text syntax using [Directives](/docs/usage/directives).
-- **Dynamic Controls:**  Programmatically adjust `pitch`, `rate`, `volume`, `lang`, and `voiceURI` during speech.
+- **Dynamic Controls:** Programmatically adjust `pitch`, `rate`, `volume`, `lang`, and `voiceURI` during speech.
 - **Unlimited Text Input:** Overcomes the [Web Speech API’s text length limit](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance/text) for continuous speech.
 - **Auto Cleanup:** Automatically stops speech when the component unmounts.
 
@@ -21,27 +21,28 @@ import TabItem from "@theme/TabItem";
 
 Install `react-text-to-speech` using:
 
+{/* prettier-ignore */}
 <Tabs>
-<TabItem value="npm" label="npm">
-```bash
-npm install react-text-to-speech --save
-```
-</TabItem>
-<TabItem value="yarn" label="yarn">
-```bash 
-yarn add react-text-to-speech
-```
-</TabItem>
-<TabItem value="pnpm" label="pnpm">
-```bash 
-pnpm add react-text-to-speech
-```
-</TabItem>
-<TabItem value="bun" label="bun">
-```bash 
-bun add react-text-to-speech
-```
-</TabItem>
+  <TabItem value="npm" label="npm">
+    ```bash
+    npm install react-text-to-speech --save
+    ```
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+    ```bash 
+    yarn add react-text-to-speech
+    ```
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+    ```bash 
+    pnpm add react-text-to-speech
+    ```
+  </TabItem>
+  <TabItem value="bun" label="bun">
+    ```bash 
+    bun add react-text-to-speech
+    ```
+  </TabItem>
 </Tabs>
 
 ## Usage
