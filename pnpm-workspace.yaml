@@ -1,13 +1,9 @@
 packages:
   - package
   - website
-onlyBuiltDependencies:
-  - core-js
-  - core-js-pure
-  - esbuild
-overrides:
-  basic-ftp@<=5.2.2: '>=5.3.0'
-  follow-redirects@<=1.15.11: '>=1.16.0'
-  serialize-javascript@<7.0.5: '>=7.0.5'
-  serialize-javascript@<=7.0.2: '>=7.0.3'
-  uuid@<14.0.0: '>=14.0.0'
+allowBuilds:
+  core-js: true
+minimumReleaseAgeExclude:
+  - serialize-javascript@7.0.3
+  - serialize-javascript@7.0.5
+  - uuid@11.1.1
