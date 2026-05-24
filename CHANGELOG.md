@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.1.10](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.9...v5.1.10) (2026-05-24)
+
+### Chores
+
+* **deps:** Pin dependency versions.  ([c50f562](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/c50f56231fcb0236b8af7d77fb1d5747798499cd))
+* **deps:** Update @release-it/conventional-changelog, tsdown, @tailwindcss/postcss, @types/node and tailwindcss.  ([ee4a53b](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/ee4a53b4b01c6c184dd2154d768216d1485c8075))
+* **deps:** Update prettier, tsdown, docusaurus, react and postcss.  ([21aaa84](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/21aaa845c17bb41245771c4fa3a04b99739c3449))
+* **deps:** Update release-it, prettier, typescript, tsdown, react-toastify and tailwindcss.  ([2e31345](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/2e313453bb8e71fa993aab3c2f8dd3d844fa4e91))
+* **deps:** Update tsdown and typescript.  ([f08dd7c](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/f08dd7cd3a0353e49c074c63c6a0c5ec4c4cfa3b))
+
+### Documentation
+
+* Update demo Text component styling and clean up prose class usage.  ([5a0b1eb](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/5a0b1eb974c57ca0e63a6f6c444166aa2a377aa0))
+
+### Styles
+
+* Improve prose classes for better markdown rendering.  ([811bfa3](https://github.com/SahilAggarwal2004/react-text-to-speech/commit/811bfa3fe02b5b104ccf8b09704be371a12e0092))
+
 ## [5.1.9](https://github.com/SahilAggarwal2004/react-text-to-speech/compare/v5.1.8...v5.1.9) (2026-03-09)
 
 ### Chores
