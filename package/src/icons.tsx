@@ -1,5 +1,4 @@
 import type { IconProps } from "@/types";
-import React from "react";
 
 export function HiMiniStop(props: IconProps) {
   return (

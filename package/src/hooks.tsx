@@ -21,7 +21,7 @@ import type {
   UseSpeechOptionsInternal,
   VoidFunction,
 } from "@/types";
-import React, { cloneElement, forwardRef, isValidElement, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { cloneElement, forwardRef, isValidElement, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 function useStableValue<T>(value: T, mode: UpdateMode, delay: number) {
   const [stableValue, setStableValue] = useState(value);

@@ -3,7 +3,7 @@ import { useSpeechInternal } from "@/hooks";
 import { HiMiniStop, HiVolumeOff, HiVolumeUp } from "@/icons";
 import { composeProps, hideElement, showElement } from "@/lib/dom";
 import type { HighlightedTextProps, SpeechProps } from "@/types";
-import React, { useLayoutEffect, useRef, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 export function HighlightedText({ id, children, ...props }: HighlightedTextProps) {
   const uniqueId = `${idPrefix}${id}`;
