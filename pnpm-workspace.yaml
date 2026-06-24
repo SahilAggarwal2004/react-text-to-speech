@@ -4,6 +4,20 @@ packages:
 allowBuilds:
   core-js: true
 minimumReleaseAgeExclude:
-  - serialize-javascript@7.0.3
-  - serialize-javascript@7.0.5
+  - serialize-javascript@7.0.3 || 7.0.5
   - uuid@11.1.1
+  - shell-quote@1.8.4
+  - joi@17.13.4
+  - launch-editor@2.14.1
+  - js-yaml@4.1.2
+  - '@babel/core@7.29.1'
+  - webpack-dev-server@5.2.5
+  - undici@7.28.0
+  - http-proxy-middleware@2.0.10
+overrides:
+  js-yaml@<=4.1.1: ^4.1.2
+  serialize-javascript@<=7.0.2: ^7.0.3
+  serialize-javascript@>=5.0.0 <7.0.5: ^7.0.5
+  undici@>=7.0.0 <7.28.0: ^7.28.0
+  undici@>=7.23.0 <7.28.0: ^7.28.0
+  uuid@<11.1.1: ^11.1.1
